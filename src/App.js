@@ -9,7 +9,7 @@ class App extends Component {
 
   componentDidMount() {
     axios
-      .get('http://localhost:5000/api/v1')
+      .get('https://labs15rvlife.herokuapp.com/api/v1')
       .then(({ data }) => {
         console.log(data);
         this.setState({ data });
