@@ -1,79 +1,78 @@
-import React, { Component } from "react";
-import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { withFormik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
 
-export default class Register extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-        username: '',
-        email: "",
-        name: '',
-        password: ""
-    };
-  }
-
-  validateForm() {
-    return this.state.username.length > 0 && this.state.password.length > 0;
-  }
-
-  handleChange = event => {
-    this.setState({
-      [event.target.id]: event.target.value
-    });
-  }
-
-  handleSubmit = event => {
-    event.preventDefault();
-  }
-
-  render() {
-    return (
-      <div className="Register">
-        <form onSubmit={this.handleSubmit}>
-          <FormGroup controlId="name">
-            <FormLabel>Name</FormLabel>
-            <FormControl
-              autoFocus
-              type="name"
-              value={this.state.name}
-              onChange={this.handleChange}
-            />
-          </FormGroup>
-          <FormGroup controlId="username">
-            <FormLabel>Username</FormLabel>
-            <FormControl
-              value={this.state.username}
-              onChange={this.handleChange}
-              type="username"
-            />
-          </FormGroup>
-          <FormGroup controlId="email">
-            <FormLabel>E-Mail</FormLabel>
-            <FormControl
-              value={this.state.email}
-              onChange={this.handleChange}
-              type="email"
-            />
-          </FormGroup>
-          <FormGroup controlId="password">
-            <FormLabel>Password</FormLabel>
-            <FormControl
-              value={this.state.password}
-              onChange={this.handleChange}
-              type="password"
-            />
-          </FormGroup>
-          <Button
-            block
-            
-            disabled={!this.validateForm()}
-            type="submit"
-          >
-            Login
-          </Button>
-        </form>
+function RegisterForm({ values, errors, touched, isSubmitting }) {
+  return (
+    <Form>
+      <div>
+        {touched.username && errors.username && <p>{errors.username}</p>}
+        <Field type = 'username' name = 'username' placeholder = 'Username' />
       </div>
-    );
-  }
+      <div>
+        {touched.password && errors.password && <p>{errors.password}</p>}
+        <Field type = 'password' name = 'password' placeholder = 'Password' />
+      </div>
+      <div>
+        {touched.name && errors.name && <p>{errors.name}</p>}
+        <Field type = 'name' name = 'name' placeholder = 'Name' />
+      </div>
+      <div>
+        {touched.email && errors.email && <p>{errors.email}</p>}
+        <Field type = 'email' name = 'email' placeholder = 'Email' />
+      </div>
+      <label>
+        <Field type = 'checkbox' name = 'tos' checked = {values.tos} />
+        Accept TOS
+      </label>
+      <button disabled = {isSubmitting}>Submit</button>
+    </Form>
+  );
 }
+
+const Register = withFormik({
+  mapPropsToValues({ email, password, name, username, tos }) {
+    return {
+      username: username || '',
+      password: password || '',
+      email: email || '',
+      name: name || '',
+      tos: tos || ''
+    };
+  },
+  validationSchema: Yup.object().shape({
+    username: Yup.string()
+      .username("Username not valid")
+      .required('Username is required'),
+    password: Yup.string()
+      .min(8, "Password must be 8 characters or longer")
+      .required('Password is required'),
+    name: Yup.string()
+      .name('Name not valid')
+      .required('Name is required'),
+    email: Yup.string()
+      .email('Email not valid')
+      .required('Email is required')
+  }),
+  handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
+    if (values.username === 'alreadytaken@atb.dev') {
+      setErrors({ username: 'That username is already taken' });
+    } else {
+      axios
+        .post("https://labs-rv-life-staging-1.herokuapp.com/users/register", values)
+        .then(res => {
+          console.log(res); // data was created successfully and logs to console
+          resetForm();
+          setSubmitting(false);
+        })
+        .catch(err => {
+          console.log(err);  // there was an error creating the data and logs to console
+          setSubmitting(false);
+        });
+    }
+  }
+})(RegisterForm);
+
+export default Register;
