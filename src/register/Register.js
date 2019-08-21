@@ -18,31 +18,31 @@ function RegisterForm({ values, errors, touched, isSubmitting }) {
         <Field type = 'password' name = 'password' placeholder = 'Password' />
       </div>
       <div>
-        {touched.firstname && errors.firstname && <p>{errors.firstname}</p>}
-        <Field type = 'firstname' name = 'firstname' placeholder = 'First Name' />
+        {touched.first_name && errors.first_name && <p>{errors.first_name}</p>}
+        <Field type = 'first_name' name = 'first_name' placeholder = 'First Name' />
       </div>
       {/* // need to change name to firstname and email to lastname and add either drop down or radial selectors for 3 types of rv  a, b, c */}
       <div>
-        {touched.lastname && errors.lastname && <p>{errors.lastname}</p>}
-        <Field type = 'lastname' name = 'lastname' placeholder = 'Last Name' />
+        {touched.last_name && errors.last_name && <p>{errors.last_name}</p>}
+        <Field type = 'last_name' name = 'last_name' placeholder = 'Last Name' />
       </div>
-      <label>
+      {/* <label>
         <Field type = 'checkbox' name = 'tos' checked = {values.tos} />
         Accept TOS
-      </label>
+      </label> */}
       <button disabled = {isSubmitting}>Submit</button>
     </Form>
   );
 }
 
 const Register = withFormik({
-  mapPropsToValues({ lastname, password, firstname, username, tos }) {
+  mapPropsToValues({ last_name, password, first_name, username }) {
     return {
       username: username || '',
       password: password || '',
-      lastname: lastname || '',
-      firstname: firstname || '',
-      tos: tos || ''
+      last_name: last_name || '',
+      first_name: first_name || '',
+      // tos: tos || ''
     };
   },
   // validationSchema: Yup.object().shape({
@@ -60,13 +60,14 @@ const Register = withFormik({
   //     .required('Email is required')
   // }),
   handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
+    console.log("VALUES: ", values)
     if (values.username === 'alreadytaken@atb.dev') {
       setErrors({ username: 'That username is already taken' });
     } else {
       axios
         .post("https://labs-rv-life-staging-1.herokuapp.com/users/register", values)
         .then(res => {
-          console.log(res); // data was created successfully and logs to console
+          console.log("Success!!"); // data was created successfully and logs to console
           resetForm();
           setSubmitting(false);
         })

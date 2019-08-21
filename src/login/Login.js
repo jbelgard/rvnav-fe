@@ -7,6 +7,8 @@ import login from "../actions"
 // import * as Yup from 'yup';
 import axios from 'axios';
 
+
+
 function LoginForm({ values, errors, touched, isSubmitting }) {
     return (
         <Form>
@@ -18,10 +20,10 @@ function LoginForm({ values, errors, touched, isSubmitting }) {
                 {touched.password && errors.password && <p>{errors.password}</p>}
                 <Field type = 'password' name = 'password' placeholder = 'Password' />
             </div>
-            <label>
+            {/* <label>
                 <Field type = 'checkbox' name = 'tos' checked = {values.tos} />
                 Accept TOS
-            </label>
+            </label> */}
             <button disabled = {isSubmitting}>Submit</button>
         </Form>
     );
@@ -32,7 +34,7 @@ const Login = withFormik({
         return {
             username: username || '',
             password: password || '',
-            tos: tos || false,
+            // tos: tos || false,
         };
     },
     // validationSchema: Yup.object().shape({
@@ -51,7 +53,7 @@ const Login = withFormik({
             axios
                 .post("https://labs-rv-life-staging-1.herokuapp.com/users/login", values)
                 .then(res => {
-                    console.log(res); // data was created successfully and logs to console
+                    console.log("Success!!!"); // data was created successfully and logs to console
                     resetForm();
                     setSubmitting(false);
                 })
