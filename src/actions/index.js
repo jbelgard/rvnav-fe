@@ -20,7 +20,7 @@ export const getData = () => {
    
 }
 
-export const login = () => {
+export const login = (values) => {
   return(dispatch) => {
     dispatch({type: LOADING})
     axios.post("https://labs-rv-life-staging-1.herokuapp.com/users/login", values)
@@ -28,7 +28,7 @@ export const login = () => {
         console.log(res); // data was created successfully and logs to console
         //resetForm();
         //setSubmitting(false);
-      dispatch({type: LOGIN, payload: response.data})        
+      dispatch({type: LOGIN, payload: res.data})        
 
     })
     .catch(err => {
