@@ -18,13 +18,13 @@ function RegisterForm({ values, errors, touched, isSubmitting }) {
         <Field type = 'password' name = 'password' placeholder = 'Password' />
       </div>
       <div>
-        {touched.name && errors.name && <p>{errors.name}</p>}
-        <Field type = 'name' name = 'name' placeholder = 'Name' />
+        {touched.firstname && errors.firstname && <p>{errors.firstname}</p>}
+        <Field type = 'firstname' name = 'firstname' placeholder = 'First Name' />
       </div>
       {/* // need to change name to firstname and email to lastname and add either drop down or radial selectors for 3 types of rv  a, b, c */}
       <div>
-        {touched.email && errors.email && <p>{errors.email}</p>}
-        <Field type = 'email' name = 'email' placeholder = 'Email' />
+        {touched.lastname && errors.lastname && <p>{errors.lastname}</p>}
+        <Field type = 'lastname' name = 'lastname' placeholder = 'Last Name' />
       </div>
       <label>
         <Field type = 'checkbox' name = 'tos' checked = {values.tos} />
@@ -36,12 +36,12 @@ function RegisterForm({ values, errors, touched, isSubmitting }) {
 }
 
 const Register = withFormik({
-  mapPropsToValues({ email, password, name, username, tos }) {
+  mapPropsToValues({ lastname, password, firstname, username, tos }) {
     return {
       username: username || '',
       password: password || '',
-      email: email || '',
-      name: name || '',
+      lastname: lastname || '',
+      firstname: firstname || '',
       tos: tos || ''
     };
   },

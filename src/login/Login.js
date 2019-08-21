@@ -47,7 +47,9 @@ const Login = withFormik({
         if (values.username === 'alreadytaken@atb.dev') {
             setErrors({ username: 'That username is already taken' });
         } else {
-            this.props.login(values)
+            // this.props.login(values)
+            axios
+                .post("https://labs-rv-life-staging-1.herokuapp.com/users/login", values)
                 .then(res => {
                     console.log(res); // data was created successfully and logs to console
                     resetForm();
