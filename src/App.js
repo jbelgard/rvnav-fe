@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { getData } from "./actions/index.js";
 import { connect } from "react-redux";
 import './App.css';
+
+import Login from './login/Login';
+import Register from './register/Register';
 //import axios from 'axios';
 
 class App extends Component {
@@ -27,6 +30,8 @@ class App extends Component {
             <p>{obj.value.message}</p>
           ))}
         </header>
+        <Login />
+        <Register />
       </div>
     );
   }

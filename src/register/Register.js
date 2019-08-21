@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { withFormik, Form, Field } from 'formik';
-import * as Yup from 'yup';
+import { connect } from "react-redux";
+
+// import * as Yup from 'yup';
 import axios from 'axios';
 
 function RegisterForm({ values, errors, touched, isSubmitting }) {
@@ -19,6 +21,7 @@ function RegisterForm({ values, errors, touched, isSubmitting }) {
         {touched.name && errors.name && <p>{errors.name}</p>}
         <Field type = 'name' name = 'name' placeholder = 'Name' />
       </div>
+      {/* // need to change name to firstname and email to lastname and add either drop down or radial selectors for 3 types of rv  a, b, c */}
       <div>
         {touched.email && errors.email && <p>{errors.email}</p>}
         <Field type = 'email' name = 'email' placeholder = 'Email' />
@@ -42,20 +45,20 @@ const Register = withFormik({
       tos: tos || ''
     };
   },
-  validationSchema: Yup.object().shape({
-    username: Yup.string()
-      .username("Username not valid")
-      .required('Username is required'),
-    password: Yup.string()
-      .min(8, "Password must be 8 characters or longer")
-      .required('Password is required'),
-    name: Yup.string()
-      .name('Name not valid')
-      .required('Name is required'),
-    email: Yup.string()
-      .email('Email not valid')
-      .required('Email is required')
-  }),
+  // validationSchema: Yup.object().shape({
+  //   username: Yup.string()
+  //     .username("Username not valid")
+  //     .required('Username is required'),
+  //   password: Yup.string()
+  //     .min(8, "Password must be 8 characters or longer")
+  //     .required('Password is required'),
+  //   name: Yup.string()
+  //     .name('Name not valid')
+  //     .required('Name is required'),
+  //   email: Yup.string()
+  //     .email('Email not valid')
+  //     .required('Email is required')
+  // }),
   handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
     if (values.username === 'alreadytaken@atb.dev') {
       setErrors({ username: 'That username is already taken' });

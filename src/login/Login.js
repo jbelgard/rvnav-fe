@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { withFormik, Form, Field } from 'formik';
-import * as Yup from 'yup';
+import { connect } from "react-redux";
+
+// import * as Yup from 'yup';
 import axios from 'axios';
 
 function LoginForm({ values, errors, touched, isSubmitting }) {
@@ -32,14 +34,14 @@ const Login = withFormik({
             tos: tos || false,
         };
     },
-    validationSchema: Yup.object().shape({
-        username: Yup.string()
-            .username('Username not valid')
-            .required('Username is required'),
-        password: Yup.string()
-            .min(8, 'Password must be 8 characters or longer')
-            .required('Password is required')
-    }),
+    // validationSchema: Yup.object().shape({
+    //     username: Yup.string()
+    //         .username('Username not valid')
+    //         .required('Username is required'),
+    //     password: Yup.string()
+    //         .min(8, 'Password must be 8 characters or longer')
+    //         .required('Password is required')
+    // }),
     handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
         if (values.username === 'alreadytaken@atb.dev') {
             setErrors({ username: 'That username is already taken' });
