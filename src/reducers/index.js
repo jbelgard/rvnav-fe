@@ -1,6 +1,7 @@
 import{
  LOADING,
- GET_DATA
+ GET_DATA,
+ LOGIN
 } from "../actions"
 
 const initialState = {
@@ -21,6 +22,13 @@ export const reducer = (state=initialState, action) => {
         error: "error",
         loading: false,
         data: [...state.data, {value: action.payload}]
+        }
+    case LOGIN:
+      return{
+           ...state,
+        error: "error",
+        loading: false,
+        //data: [...state.data, {value: action.payload}]
         }
     default:
       return state;
