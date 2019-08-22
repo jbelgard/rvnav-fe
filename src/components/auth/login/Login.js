@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { withFormik, Form, Field } from 'formik';
-import { connect } from 'react-redux';
-import login from '../../store/actions';
+import { withRouter } from 'react-router-dom';
+import login from '../../../store/actions';
 
 // import * as Yup from 'yup';
 import axios from 'axios';
 
-function LoginForm({ values, errors, touched, isSubmitting }) {
+function LoginForm({ values, errors, touched, isSubmitting, history }) {
   return (
     <Form>
       <div>
@@ -66,4 +66,4 @@ const Login = withFormik({
   }
 })(LoginForm);
 
-export default Login;
+export default withRouter(Login);

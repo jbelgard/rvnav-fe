@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { withFormik, Form, Field } from 'formik';
 import { connect } from 'react-redux';
-import login from '../../store/actions';
+import login from '../../../store/actions';
 
 // import * as Yup from 'yup';
 import axios from 'axios';
