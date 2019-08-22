@@ -8,6 +8,10 @@ import {Provider} from 'react-redux';
 import {reducer} from './reducers/index';
 import * as serviceWorker from './serviceWorker';
 
+//Sentry.io
+import * as Sentry from '@sentry/browser';
+Sentry.init({dsn: "https://760fe88e7d52460ab26a32f284a54343@sentry.io/1538830"});
+
 const store = createStore(reducer, applyMiddleware(thunk))
 
 
