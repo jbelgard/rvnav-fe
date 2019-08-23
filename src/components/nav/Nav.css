@@ -1,0 +1,19 @@
+.nav {
+  display: flex;
+  padding: 10px 15px;
+  justify-content: space-between;
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 0;
+  background: white;
+  height: auto;
+}
+
+.nav p {
+  margin-bottom: 0;
+}
+
+.nav a {
+  color: black;
+}
