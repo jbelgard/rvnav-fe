@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { getData } from "./actions/index.js";
 import { connect } from "react-redux";
 import './App.css';
+
+import Login from './login/Login';
+import Register from './register/Register';
 //import axios from 'axios';
 
 class App extends Component {
@@ -21,12 +24,14 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
+        {/* <header className="App-header">
           {console.log("data", this.props.data[0])}
           {this.props.data.map(obj => (
             <p>{obj.value.message}</p>
           ))}
-        </header>
+        </header> */}
+        <Login />
+        <Register />
       </div>
     );
   }
