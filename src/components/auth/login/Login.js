@@ -1,9 +1,10 @@
 import React from 'react';
 import { withFormik, Form, Field } from 'formik';
+import { withRouter } from 'react-router-dom';
 
 import axios from 'axios';
 
-function LoginForm({ errors, touched, isSubmitting }) {
+function LoginForm({ errors, touched, isSubmitting, history }) {
   return (
     <Form>
       <div>
@@ -48,4 +49,4 @@ const Login = withFormik({
   }
 })(LoginForm);
 
-export default Login;
+export default withRouter(Login);

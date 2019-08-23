@@ -3,7 +3,7 @@ import { withFormik, Form, Field } from 'formik';
 
 import axios from 'axios';
 
-function LoginForm({ errors, touched, isSubmitting }) {
+function RegisterForm({ errors, touched, isSubmitting }) {
   return (
     <Form>
       <div>
@@ -14,29 +14,40 @@ function LoginForm({ errors, touched, isSubmitting }) {
         {touched.password && errors.password && <p>{errors.password}</p>}
         <Field type="password" name="password" placeholder="Password" />
       </div>
+      <div>
+        {touched.first_name && errors.first_name && <p>{errors.first_name}</p>}
+        <Field type="first_name" name="first_name" placeholder="First Name" />
+      </div>
+      <div>
+        {touched.last_name && errors.last_name && <p>{errors.last_name}</p>}
+        <Field type="last_name" name="last_name" placeholder="Last Name" />
+      </div>
       <button disabled={isSubmitting}>Submit</button>
     </Form>
   );
 }
 
-const Login = withFormik({
-  mapPropsToValues({ username, password }) {
+const Register = withFormik({
+  mapPropsToValues({ last_name, password, first_name, username }) {
     return {
       username: username || '',
-      password: password || ''
+      password: password || '',
+      last_name: last_name || '',
+      first_name: first_name || ''
     };
   },
   handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
+    console.log('VALUES: ', values);
     if (values.username === 'alreadytaken@atb.dev') {
       setErrors({ username: 'That username is already taken' });
     } else {
       axios
         .post(
-          'https://labs-rv-life-staging-1.herokuapp.com/users/login',
+          'https://labs-rv-life-staging-1.herokuapp.com/users/register',
           values
         )
         .then(res => {
-          console.log('Success!!!'); // data was created successfully and logs to console
+          console.log('Success!!'); // data was created successfully and logs to console
           resetForm();
           setSubmitting(false);
         })
@@ -46,6 +57,6 @@ const Login = withFormik({
         });
     }
   }
-})(LoginForm);
+})(RegisterForm);
 
-export default Login;
+export default Register;
