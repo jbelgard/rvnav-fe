@@ -1,0 +1,23 @@
+.landing-page-wrapper {
+  width: 100vw;
+  height: 100vh;
+  background: #fff url('../../assets/img/rv-bg.jpg') no-repeat center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+h1 {
+  color: white;
+  font-weight: bold;
+  letter-spacing: 4px;
+  font-size: 48px;
+  margin-bottom: 20px;
+  white-space: nowrap;
+}
+
+.landing-page-wrapper button {
+  margin-bottom: 20px;
+  width: 200px;
+}

@@ -1,7 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { withFormik, Form, Field } from 'formik';
-import { connect } from 'react-redux';
 
 // import * as Yup from 'yup';
 import axios from 'axios';
@@ -25,10 +23,6 @@ function RegisterForm({ values, errors, touched, isSubmitting }) {
         {touched.last_name && errors.last_name && <p>{errors.last_name}</p>}
         <Field type="last_name" name="last_name" placeholder="Last Name" />
       </div>
-      {/* <label>
-        <Field type = 'checkbox' name = 'tos' checked = {values.tos} />
-        Accept TOS
-      </label> */}
       <button disabled={isSubmitting}>Submit</button>
     </Form>
   );
@@ -41,23 +35,8 @@ const Register = withFormik({
       password: password || '',
       last_name: last_name || '',
       first_name: first_name || ''
-      // tos: tos || ''
     };
   },
-  // validationSchema: Yup.object().shape({
-  //   username: Yup.string()
-  //     .username("Username not valid")
-  //     .required('Username is required'),
-  //   password: Yup.string()
-  //     .min(8, "Password must be 8 characters or longer")
-  //     .required('Password is required'),
-  //   name: Yup.string()
-  //     .name('Name not valid')
-  //     .required('Name is required'),
-  //   email: Yup.string()
-  //     .email('Email not valid')
-  //     .required('Email is required')
-  // }),
   handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
     console.log('VALUES: ', values);
     if (values.username === 'alreadytaken@atb.dev') {
