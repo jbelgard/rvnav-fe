@@ -1,15 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import './Nav.css';
 
 function Nav() {
   return (
-    <nav
-      style={{
-        display: 'flex',
-        padding: '15px',
-        justifyContent: 'space-between'
-      }}
-    >
+    <nav className="nav">
       <p style={{ fontWeight: 'bold' }}>
         RV<span style={{ fontWeight: 'normal' }}>Nav</span>
       </p>

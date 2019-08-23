@@ -1,10 +1,9 @@
 import React from 'react';
 import { withFormik, Form, Field } from 'formik';
 
-// import * as Yup from 'yup';
 import axios from 'axios';
 
-function RegisterForm({ values, errors, touched, isSubmitting }) {
+function RegisterForm({ errors, touched, isSubmitting }) {
   return (
     <Form>
       <div>
