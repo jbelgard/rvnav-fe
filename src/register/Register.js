@@ -14,9 +14,8 @@ class RegisterForm extends React.Component {
     this.state = {
       credentials: {
         username: '',
-        firstName: '',
-        lastName: '',
-        emailAddress: '',
+        first_name: '',
+        last_name: '',
         password: ''
       }
     }
@@ -41,11 +40,11 @@ class RegisterForm extends React.Component {
     this.setState({
       username: '',
       passord: '',
-      firstName: '',
-      lastName: '',
-      emailAddress: ''
+      first_name: '',
+      last_name: '',
+
     })
-    this.props.history.push("/login")
+    //this.props.history.push("/login")
     console.log("state", this.state);
   }
   
@@ -62,28 +61,19 @@ class RegisterForm extends React.Component {
             required
           ></input>
            <input
-              name='firstName'
+              name='first_name'
               placeholder="first name"
               type="string"
-              value={this.state.credentials.firstName}
+              value={this.state.credentials.first_name}
               onChange={this.handleChange}
               required>
           </input>
           <input
         
-              name='lastName'
+              name='last_name'
               placeholder="last name"
               type="string"
-              value={this.state.credentials.lastName}
-              onChange={this.handleChange}
-              required>
-          </input>
-          <input
-  
-              type="string"
-              name='emailAddress'
-              placeholder="email address"
-              value={this.state.credentials.emailAddress}
+              value={this.state.credentials.last_name}
               onChange={this.handleChange}
               required>
           </input>
