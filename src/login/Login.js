@@ -2,15 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { withFormik, Form, Field } from 'formik';
 import { connect } from "react-redux";
-import login from "../actions"
+import { login } from "../actions"
 
 // import * as Yup from 'yup';
 import axios from 'axios';
 
-function LoginForm({ values, errors, touched, isSubmitting }) {
+function LoginForm({ values, errors, touched, isSubmitting}) {
     return (
         <Form>
             <div>
+                {/*console.log("props", props)*/}
                 {touched.username && errors.username && <p>{errors.username}</p>}
                 <Field type = 'username' name = 'username' placeholder = 'Username' />
             </div>
@@ -48,8 +49,7 @@ const Login = withFormik({
             setErrors({ username: 'That username is already taken' });
         } else {
             // this.props.login(values)
-            axios
-                .post("https://labs-rv-life-staging-1.herokuapp.com/users/login", values)
+            axios.post("https://labs-rv-life-staging-1.herokuapp.com/users/login", values)
                 .then(res => {
                     console.log(res); // data was created successfully and logs to console
                     resetForm();
