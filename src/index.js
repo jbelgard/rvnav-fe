@@ -9,6 +9,12 @@ import { reducer } from './store/reducers/index';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router } from 'react-router-dom';
 
+//Sentry.io
+import * as Sentry from '@sentry/browser';
+Sentry.init({
+  dsn: 'https://760fe88e7d52460ab26a32f284a54343@sentry.io/1538830'
+});
+
 const store = createStore(reducer, applyMiddleware(thunk));
 
 ReactDOM.render(
