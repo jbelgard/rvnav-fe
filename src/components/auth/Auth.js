@@ -3,6 +3,7 @@ import Login from './login/Login';
 import Register from './register/Register';
 import './Auth.css';
 import Nav from '../nav/Nav';
+import Button from 'react-bootstrap/Button';
 
 export default class Auth extends Component {
   state = {
@@ -20,9 +21,17 @@ export default class Auth extends Component {
       <>
         <Nav />
         <div className="auth-wrapper">
-          <button onClick={this.toggleLogin}>login</button>
-          <button onClick={this.toggleRegister}>register</button>
+          <div className="form-wrapper">
+          <div className="top-buttons">
+          <Button
+          variant={this.state.login ?  "warning" : "outline-warning"}
+          onClick={this.toggleLogin}>Login</Button>
+          <Button 
+          variant={this.state.login ?  "outline-warning" : "warning"}
+          onClick={this.toggleRegister}>Register</Button>
+          </div>
           {this.state.login ? <Login /> : <Register />}
+          </div>
         </div>
       </>
     );

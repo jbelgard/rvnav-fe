@@ -8,3 +8,46 @@
   align-items: center;
   flex-direction: column;
 }
+.form-wrapper{
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+.top-buttons{
+  display: flex;
+  flex-direction: row;
+  background-color: rgba(0,0,0,.4);
+  box-shadow: 0px 0px 16px -3px #faad14c0;
+  justify-content: space-around;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  padding: 8px;
+}
+label{
+  color: white;
+  align-self: flex-start;
+  margin-left: 0;
+}
+
+form{
+  background-color: rgba(0,0,0,.4);
+  box-shadow: 0px 0px 16px -3px #faad14c0;
+  text-align: left;
+  padding: 16px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+input{
+  margin-bottom: 7px;
+}
+form button{
+  margin-left: 50%;
+  width: 50%;
+  margin-bottom: -10px;
+  margin-top: 18px;
+}
+
+button{
+  margin: 12px;
+  width: 40%;
+}
