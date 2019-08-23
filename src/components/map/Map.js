@@ -1,28 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Nav from '../nav/Nav';
-import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
-
-const Map = ReactMapboxGl({
-  accessToken:
-    'pk.eyJ1Ijoia2V2aW5zaW1zMSIsImEiOiJjanpvYWU2cXMwY3YyM25tbW50OXI4ODNjIn0.ku-5j7VMYr1LTh4G_X2-Bw'
-});
+import ReactMapGl, { GeolocateControl } from 'react-map-gl';
 
 function MapPage() {
+  const [viewport, setViewport] = useState({
+    latitude: 38.438332,
+    longitude: -121.381943,
+    width: '100vw',
+    height: '100vh',
+    zoom: 10
+  });
   return (
-    <>
+    <div>
       <Nav />
-      <Map
-        style="mapbox://styles/mapbox/streets-v9"
-        containerStyle={{
-          height: '100vh',
-          width: '100vw'
+      <ReactMapGl
+        {...viewport}
+        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+        mapStyle="mapbox://styles/kevinsims1/cjzof7xo12lyz1crr9igdtiib"
+        onViewportChange={viewport => {
+          setViewport(viewport);
         }}
       >
-        <Layer type="symbol" id="marker" layout={{ 'icon-image': 'marker-15' }}>
-          <Feature coordinates={[-0.481747846041145, 51.3233379650232]} />
-        </Layer>
-      </Map>
-    </>
+        <GeolocateControl
+          positionOptions={{ enableHighAccuracy: true }}
+          trackUserLocation={true}
+        />
+      </ReactMapGl>
+    </div>
   );
 }
 
