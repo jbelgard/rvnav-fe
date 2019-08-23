@@ -2,7 +2,9 @@ import React from 'react';
 //import ReactDOM from 'react-dom';
 //import { withFormik, Form, Field } from 'formik';
 import { connect } from "react-redux";
-import { register } from "../actions"
+import { register } from "../actions";
+//import { withRouter } from 'react-router-dom';
+//import { NavLink } from 'react-router-dom';
 
 // import * as Yup from 'yup';
 //import axios from 'axios';
@@ -44,7 +46,7 @@ class RegisterForm extends React.Component {
       last_name: '',
 
     })
-    //this.props.history.push("/login")
+    this.props.history.push("/App")
     console.log("state", this.state);
   }
   
@@ -100,10 +102,10 @@ const mapStateToProps = state => ({
   //isLoggingIn:state.isLoggingIn
 })
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
    { register } 
-)(RegisterForm)
+)(RegisterForm))
 
 
 // function RegisterForm({ values, errors, touched, isSubmitting }, props) {
