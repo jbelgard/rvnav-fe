@@ -15,6 +15,8 @@ Sentry.init({
   dsn: 'https://760fe88e7d52460ab26a32f284a54343@sentry.io/1538830'
 });
 
+require('dotenv').config()
+
 const store = createStore(reducer, applyMiddleware(thunk));
 
 ReactDOM.render(
