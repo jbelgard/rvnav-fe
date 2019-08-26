@@ -12,20 +12,18 @@ class VehicleForm extends React.Component {
   constructor() {
     super()
     this.state = {
-      //these inputs are in their own object so that specifications can be sent direvtly to the BE
-      inputs: {
-        heightFeet: '', // value that stores the user entry of height in feet
-        heightInches: '', // value that stores the user entry of height in inches
-        widthFeet: '',
-        widthInches: '',
-        lengthFeet: '', 
-        lengthInches: '',
-      },
+      //these specifications are in their own object so that specifications can be sent direvtly to the BE
       //this is the object that will be sent to the BE
       specifications: {
        height: 0, // value that gets sent to the backend, after combinining heightFeet and heightInches into one unit
+       heightFeet: 0, // value that stores the user entry of height in feet
+       heightInches: 0, // value that stores the user entry of height in inches
        width: 0, // these 3 width values follow the same structure as height
+       widthFeet: 0,
+       widthInches: 0,
        length: 0, // these 3 length values follow the same structure as height
+       lengthFeet: 0, 
+       lengthInches: 0,
        weight: '',  //this will be sent in pounds? check BE docs
        axle_count: '', //integer, unit implied
        class: '', //controlled input of one letter
@@ -48,10 +46,6 @@ class VehicleForm extends React.Component {
   
   handleChange = (event) => {
     this.setState({
-        inputs: {
-            ...this.state.inputs,
-            [event.target.name]: event.target.value
-        }, 
         specifications: {
           ...this.state.specifications,
           [event.target.name]: event.target.value          
@@ -61,11 +55,13 @@ class VehicleForm extends React.Component {
   
   vehicleSubmit = (event) => {
     event.preventDefault();
+    console.log("spec object", this.state.specifications);
     this.setState({
       specifications: {
-        height: this.combineDistanceUnits(this.state.inputs.heightInches, this.state.inputs.heightFeet),
-        width: this.combineDistanceUnits(this.state.inputs.widthInches, this.state.inputs.widthFeet),
-        length: this.combineDistanceUnits(this.state.inputs.lengthInches, this.state.inputs.lengthFeet)
+        ...this.state.specifications,
+        height: this.combineDistanceUnits(this.state.specifications.heightInches, this.state.specifications.heightFeet),
+        width: this.combineDistanceUnits(this.state.specifications.widthInches, this.state.specifications.widthFeet),
+        length: this.combineDistanceUnits(this.state.specifications.lengthInches, this.state.specifications.lengthFeet)
    
       }
         })
@@ -73,7 +69,7 @@ class VehicleForm extends React.Component {
     // this.state.specifications.
     // this.state.specifications.
       
-      console.log("spec object", this.state.specifications);
+
   }
 
   inputCheck = (input) => {
@@ -83,8 +79,8 @@ class VehicleForm extends React.Component {
   }
 
   combineDistanceUnits = (inchesEntry, feetEntry) => {
-    parseInt(inchesEntry);
-    parseInt(feetEntry);
+    // parseInt(inchesEntry);
+    // parseInt(feetEntry);
     const inchesCombined = inchesEntry + (feetEntry*12);
     return inchesCombined;
   }
@@ -111,10 +107,10 @@ class VehicleForm extends React.Component {
         <Form.Group>
         <Form.Label>Feet</Form.Label>
           <Form.Control        
-            type="string"
+            type="number"
             name='heightFeet'
             placeholder="13"
-            value={this.state.inputs.heightFeet}
+            value={ this.state.specifications.heightFeet === 0 ? undefined : this.state.specifications.heightFeet}
             onChange={this.handleChange}
             required>
         </Form.Control>
@@ -123,10 +119,10 @@ class VehicleForm extends React.Component {
         <Form.Group>
         <Form.Label>Inches</Form.Label>
           <Form.Control        
-            type="string"
+            type="number"
             name='heightInches'
             placeholder="7"
-            value={this.state.inputs.heightInches}
+            value={this.state.specifications.heighInches === 0 ? undefined : this.state.specifications.heightInches}
             onChange={this.handleChange}
             required>
         </Form.Control>
@@ -139,10 +135,10 @@ class VehicleForm extends React.Component {
         <Form.Group>
           <Form.Label>Feet</Form.Label>
           <Form.Control        
-            type="string"
+            type="number"
             name='widthFeet'
             placeholder="8"
-            value={this.state.inputs.widthFeet}
+            value={this.state.specifications.widthFeet}
             onChange={this.handleChange}
             required>
         </Form.Control>
@@ -151,10 +147,10 @@ class VehicleForm extends React.Component {
         <Form.Group>
         <Form.Label>Inches</Form.Label>
           <Form.Control        
-            type="string"
+            type="number"
             name='widthInches'
             placeholder="11"
-            value={this.state.inputs.widthInches}
+            value={this.state.specifications.widthInches}
             onChange={this.handleChange}
             required>
         </Form.Control>
@@ -167,10 +163,10 @@ class VehicleForm extends React.Component {
         <Form.Group>
           <Form.Label>Feet</Form.Label>
           <Form.Control        
-            type="string"
+            type="number"
             name='lengthFeet'
             placeholder="25"
-            value={this.state.inputs.lengthFeet}
+            value={this.state.specifications.lengthFeet}
             onChange={this.handleChange}
             required>
         </Form.Control>
@@ -179,10 +175,10 @@ class VehicleForm extends React.Component {
         <Form.Group>
         <Form.Label>Inches</Form.Label>
           <Form.Control        
-            type="string"
+            type="number"
             name='lengthInches'
             placeholder="8"
-            value={this.state.inputs.lengthInches}
+            value={this.state.specifications.lengthInches}
             onChange={this.handleChange}
             required>
         </Form.Control>
@@ -232,7 +228,7 @@ class VehicleForm extends React.Component {
       <p className="vehicle-spec">Tires</p>
       <Form.Check name="dual_tires" label="I have a dual wheel vehicle"  id={`inline-text-2`} />
 
-      <Button variant="warning" onClick={this.vehicleSubmit}>Submit</Button>
+      <Button type="submit" variant="warning" onClick={this.vehicleSubmit}>Submit</Button>
         </Form>
 {/*         
       </div> */}

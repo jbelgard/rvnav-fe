@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom';
 import Auth from './components/auth/Auth';
 import Map from './components/map/Map';
 import LandingPage from './components/landingPage/LandingPage';
+import VehicleForm from './components/vehicleForm/VehicleForm';
 
 const App = () => {
   return (
