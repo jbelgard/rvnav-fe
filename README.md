@@ -96,7 +96,7 @@ This is the way you take out your flustrations. Get away from those little Chris
 
 🚫Replace text below with a description of the API
 
-You can do anything your heart can imagine. In life you need colors. This is where you take out all your hostilities and frustrations. It's better than kicking the puppy dog around and all that so. I'm sort of a softy, I couldn't shoot Bambi except with a camera. Trees get lonely too, so we'll give him a little friend. We'll lay all these little funky little things in there.
+Using google analytics for analytics tracking. Dashboard for google analytics account - https://analytics.google.com/analytics/web/#/a146265608w208349968p200888715/admin. Script tag for site tracking is located in index.html on line 41-53. Different events are tracked using window.gtag(...).
 
 ## 3️⃣ Misc API here
 
