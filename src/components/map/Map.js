@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Nav from '../nav/Nav';
-import ReactMapGl, { GeolocateControl } from 'react-map-gl';
+import ReactMapGl, { GeolocateControl, NavigationControl } from 'react-map-gl';
+import DeckGL, { GeoJsonLayer } from "deck.gl";
+import Geocoder from "react-map-gl-geocoder";
 
 function MapPage() {
   const [viewport, setViewport] = useState({
@@ -25,6 +27,10 @@ function MapPage() {
           positionOptions={{ enableHighAccuracy: true }}
           trackUserLocation={true}
         />
+
+        <div style={{position: 'absolute', right: 0}}>
+          <NavigationControl />
+        </div>
       </ReactMapGl>
     </div>
   );
