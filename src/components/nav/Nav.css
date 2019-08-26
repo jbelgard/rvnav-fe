@@ -8,6 +8,8 @@
   top: 0;
   background: white;
   height: auto;
+
+  opacity: 0.6;
 }
 
 .nav p {

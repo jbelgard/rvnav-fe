@@ -46,7 +46,7 @@ class RegisterForm extends React.Component {
                 username: '',
                 passord: '',
                 first_name: '',
-                last_name: '',
+                last_name: ''
               })
               if (res){
                 this.props.history.push("/map")
