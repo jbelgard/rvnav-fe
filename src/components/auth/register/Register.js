@@ -35,6 +35,10 @@ class RegisterForm extends React.Component {
 
   registerSubmit = (e) => {
     e.preventDefault();
+    window.gtag("event", "register", {
+      event_category: "access",
+      event_label: "register"
+    });
     console.log("creds", this.state.credentials);
     this.props.register(this.state.credentials)
       .then(res => {

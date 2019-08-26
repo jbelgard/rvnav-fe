@@ -36,6 +36,10 @@ class LoginForm extends React.Component {
 
   loginSubmit = (event) => {
     event.preventDefault()
+    window.gtag("event", "login", {
+      event_category: "access",
+      event_label: "login"
+    });
     console.log("login", this.props.login);
     console.log("creds", this.state.credentials);
     console.log("", this.props.login(this.state.credentials));
