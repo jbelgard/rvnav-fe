@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Nav from '../nav/Nav';
+import Sidebar from '../sidebar/Sidebar';
 
 
 class MapPage extends Component {
@@ -7,12 +8,16 @@ class MapPage extends Component {
     super()
     this.state = {
       start: '',
-      end: ''
+      end: '',
+      sidebarOpen: false
     }
   }
 
   componentDidMount() {
     this.renderMap()
+  }
+  toggleSidebar = ()=> {
+    this.setState({ sidebarOpen: !this.state.sidebarOpen }) 
   }
 
   renderMap = () => {
@@ -69,7 +74,10 @@ class MapPage extends Component {
   render(){
   return (
     <div>
-      <Nav />
+      {/* <Nav /> */}
+      <button className = 'openbtn' onClick = {this.toggleSidebar}>Options</button>
+      <Sidebar toggleSidebar = {this.toggleSidebar} sidebarOpen = {this.state.sidebarOpen} />
+      
       <div className="floatingPanel" 
       style={{
         position: 'absolute',
