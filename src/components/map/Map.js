@@ -1,39 +1,41 @@
 import React, { useState } from 'react';
 import Nav from '../nav/Nav';
-import ReactMapGl, { GeolocateControl, NavigationControl } from 'react-map-gl';
-import DeckGL, { GeoJsonLayer } from "deck.gl";
-import Geocoder from "react-map-gl-geocoder";
 
-function MapPage() {
-  const [viewport, setViewport] = useState({
-    latitude: 38.438332,
-    longitude: -121.381943,
-    width: '100vw',
-    height: '100vh',
-    zoom: 10
-  });
+class MapPage extends React.Component {
+  
+
+  componentDidMount() {
+    this.renderMap()
+  }
+
+  renderMap = () => {
+    loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyCntOT_h7ofl_l1NqJEnTt8az4eUdxPP0E&callback=initMap")
+    window.initMap = this.initMap
+  }
+  initMap = () => {
+    var map = new window.google.maps.Map(document.getElementById('map'), {
+      center: {lat: -34.397, lng: 150.644},
+      zoom: 8
+    });
+  }
+  render(){
   return (
     <div>
       <Nav />
-      <ReactMapGl
-        {...viewport}
-        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-        mapStyle="mapbox://styles/kevinsims1/cjzof7xo12lyz1crr9igdtiib"
-        onViewportChange={viewport => {
-          setViewport(viewport);
-        }}
-      >
-        <GeolocateControl
-          positionOptions={{ enableHighAccuracy: true }}
-          trackUserLocation={true}
-        />
-
-        <div style={{position: 'absolute', right: 0}}>
-          <NavigationControl />
-        </div>
-      </ReactMapGl>
+      <div id="map" style={{height: "100vh"}}></div>
     </div>
   );
+  }
+}
+
+function loadScript(url){
+  var index = window.document.getElementsByTagName("script")[0]
+  var script = window.document.createElement("script")
+  script.src = url
+  script.async = true
+  script.defer = true
+  index.parentNode.insertBefore(script, index)
+
 }
 
 export default MapPage;
