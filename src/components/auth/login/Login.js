@@ -34,25 +34,28 @@ class LoginForm extends React.Component {
 
   loginSubmit = (event) => {
     event.preventDefault();
-    console.log("props", this.props);
-    return this.props.login(this.state.credentials)
-        .then(res => { 
-          this.setState({
-            username: '',
-            password: ''
-          })
-            if(res){
-              //reset the state!!!!!
-              this.props.history.push('/map')
-            }    
-        })
-        .catch(err => {
-            console.log(err)
-        })
-  }
-  
-  render(){
-    return(
+    window.gtag("event", "login", {
+      event_category: "access",
+      event_label: "login"
+    });
+    return this.props
+    .login(this.state.credentials)
+      .then(res => {
+        this.setState({
+          username: '',
+          password: ''
+        });
+        if (res) {
+          this.props.history.push('/map');
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  render() {
+    return (
       <div>
         <Form onSubmit={this.loginSubmit}>
           <Form.Group>
