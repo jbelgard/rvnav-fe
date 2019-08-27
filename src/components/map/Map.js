@@ -24,9 +24,8 @@ class MapPage extends React.Component {
           lat: position.coords.latitude,
           lng: position.coords.longitude
         };
-
-        infoWindow.setPosition(pos);
-        infoWindow.setContent('Location found.');
+        //marker for users location
+        var marker = new window.google.maps.Marker({map:map, position: pos});
         infoWindow.open(map);
         map.setCenter(pos);
       }, function() {
