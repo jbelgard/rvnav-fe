@@ -1,0 +1,42 @@
+.vehicle-form-wrap{
+  margin-top: ;
+  padding-top: 20px;
+  border: ;
+}
+
+
+.form-group{
+  display: flex;
+  flex-direction: column;
+  margin-right: 16px;
+}
+.form-section{
+  display: flex;
+  justify-content: flex-start;
+}
+.vehicle-spec{
+  font-size: 1.2rem;
+  margin-top: 4px;
+  margin-bottom: 1px;
+}
+.plus{
+  margin-top: 34px;
+  margin-right: 16px;
+  font-size: 1.3rem;
+}
+.radio-label{
+  margin-right: 80x;
+  padding-bottom: 42px;
+}
+.class-radios{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 6px;
+}
+.vehicle-form{
+  margin-top: 42px;
+  color: white;
+  width: 400px;
+  background: #0f0f0f;
+}
