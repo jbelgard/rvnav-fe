@@ -1,22 +1,28 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import Nav from '../nav/Nav';
 
 
-class MapPage extends React.Component {
-  
+class MapPage extends Component {
+  constructor(){
+    super()
+    this.state = {
+      start: '',
+      end: ''
+    }
+  }
 
   componentDidMount() {
     this.renderMap()
   }
 
   renderMap = () => {
-    loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyCntOT_h7ofl_l1NqJEnTt8az4eUdxPP0E&callback=initMap")
+    loadScript(`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLEMAP}&callback=initMap`)
     window.initMap = this.initMap
   }
   calculateAndDisplayRoute = (directionsService, directionsDisplay) => {
          directionsService.route({
-           origin: document.getElementById('start').value,
-           destination: document.getElementById('end').value,
+           origin: this.state.start,
+           destination: this.state.end,
            travelMode: 'DRIVING'
          }, function(response, status) {
            if(status === 'OK') {
@@ -27,8 +33,8 @@ class MapPage extends React.Component {
          })
        }
   initMap = () => {
-    var directionsService = new window.google.maps.DirectionsService;
-    var directionsDisplay = new window.google.maps.DirectionsRenderer
+    var directionsService = new window.google.maps.DirectionsService();
+    var directionsDisplay = new window.google.maps.DirectionsRenderer();
     var map = new window.google.maps.Map(document.getElementById('map'), {
       center: {lat: -34.397, lng: 150.644},
       zoom: 8
@@ -41,7 +47,7 @@ class MapPage extends React.Component {
           lng: position.coords.longitude
         };
         //marker for users location
-        var marker = new window.google.maps.Marker({map:map, position: pos});
+        new window.google.maps.Marker({map:map, position: pos});
         map.setCenter(pos);
       });
     } else {
@@ -52,8 +58,12 @@ class MapPage extends React.Component {
       e.preventDefault()
       this.calculateAndDisplayRoute(directionsService, directionsDisplay)
     }
-    document.getElementById('start').addEventListener('change', onChangeHandler)
-    document.getElementById('end').addEventListener('change', onChangeHandler)
+    document.querySelector('form').addEventListener('submit', onChangeHandler)
+  }
+  routeChangeHandler = (e) => {
+   this.setState({
+     [e.target.name]: e.target.value
+    })
   }
 
   render(){
@@ -73,21 +83,16 @@ class MapPage extends React.Component {
         lineHeight: '2rem',
         paddingLeft: '10px'
       }}>
-        <b>Start: </b>
-        <select id="start">
-          <option value="chicago, il">Chicago</option>
-          <option value="los angles, ca">los angeles</option>
-        </select>
-        <b>End: </b>
-        <select id="end">
-          <option value="los angles, ca">LA </option>
-          <option value="chicago, il">Chicago</option>
-        </select>
+        <form ref={this.formRef}>
+        <input id="start" type="text" placeholder="Start" name="start" value={this.state.start} onChange={this.routeChangeHandler}/> 
+        <input id="end" type="text" placeholder="end" name="end" value={this.state.end} onChange={this.routeChangeHandler}/> 
+        <button type="submit"> Plot Course</button>
+        </form>
       </div>
       <div id="map" style={{height: "100vh"}}></div>
     </div>
   );
-  }
+}
 }
 
 function loadScript(url){
@@ -97,7 +102,7 @@ function loadScript(url){
   script.async = true
   script.defer = true
   index.parentNode.insertBefore(script, index)
-
+  
 }
 
 export default MapPage;
