@@ -15,28 +15,28 @@ class VehicleForm extends React.Component {
       //these specifications are in their own object so that specifications can be sent direvtly to the BE
       //this is the object that will be sent to the BE
       specifications: {
-       height: 0, // value that gets sent to the backend, after combinining heightFeet and heightInches into one unit
-       heightFeet: 0, // value that stores the user entry of height in feet
-       heightInches: 0, // value that stores the user entry of height in inches
-       width: 0, // these 3 width values follow the same structure as height
-       widthFeet: 0,
-       widthInches: 0,
-       length: 0, // these 3 length values follow the same structure as height
-       lengthFeet: 0, 
-       lengthInches: 0,
+      // height: 0, // value that gets sent to the backend, after combinining heightFeet and heightInches into one unit
+       heightFeet: '', // value that stores the user entry of height in feet
+       heightInches: '', // value that stores the user entry of height in inches
+     //  width: 0, // these 3 width values follow the same structure as height
+       widthFeet: '',
+       widthInches: '',
+    //   length: 0, // these 3 length values follow the same structure as height
+       lengthFeet: '', 
+       lengthInches: '',
        weight: '',  //this will be sent in pounds? check BE docs
        axle_count: '', //integer, unit implied
        class: '', //controlled input of one letter
        //created_at: '', //check BE for format, generate date with js
        dual_tires: false, //Bool, checkbox
        trailer: false,  //Bool, checkbox
-      },
-      messages: {
-        message: '',
-        distanceMessage: '',
-        widthMessage: '',
-        lengthMessage: '',
       }
+      // messages: {
+      //   message: '',
+      //   distanceMessage: '',
+      //   widthMessage: '',
+      //   lengthMessage: '',
+      // }
     }
   }
 
@@ -48,29 +48,68 @@ class VehicleForm extends React.Component {
     this.setState({
         specifications: {
           ...this.state.specifications,
-          [event.target.name]: event.target.value          
+          [event.target.name]: parseInt(event.target.value)         
         }
     })
   }
-  
-  vehicleSubmit = (event) => {
-    event.preventDefault();
-    console.log("spec object", this.state.specifications);
+  handleCheck = (event) => {
+    //const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
     this.setState({
-      specifications: {
-        ...this.state.specifications,
-        height: this.combineDistanceUnits(this.state.specifications.heightInches, this.state.specifications.heightFeet),
-        width: this.combineDistanceUnits(this.state.specifications.widthInches, this.state.specifications.widthFeet),
-        length: this.combineDistanceUnits(this.state.specifications.lengthInches, this.state.specifications.lengthFeet)
-   
-      }
-        })
-    // this.state.specifications.
-    // this.state.specifications.
-    // this.state.specifications.
-      
-
+     specifications: {
+      ...this.state.specifications,       
+      [event.target.name]: event.target.checked
+     }
+    }) 
   }
+  handleRadio = (event) => {
+    //const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+    this.setState({
+     specifications: {
+      ...this.state.specifications,       
+      class: event.target.value
+     }
+    }) 
+  }
+  vehicleSubmit = (event) => {
+    
+    event.preventDefault();
+    console.log("ahh");
+    let height = this.combineDistanceUnits(this.state.specifications.heightInches, this.state.specifications.heightFeet);
+    let width = this.combineDistanceUnits(this.state.specifications.widthInches, this.state.specifications.widthFeet);
+    let length = this.combineDistanceUnits(this.state.specifications.lengthInches, this.state.specifications.lengthFeet);
+    let weight = this.state.specifications.weight;
+    let axle_count = this.state.specifications.axle_count;
+    let vehicle_class = this.state.specifications.class;
+    let trailer = this.state.specifications.trailer;
+    if(vehicle_class === "Trailer"){
+      vehicle_class = "";
+      trailer = true;
+    }
+    console.log("h", height);
+    console.log("w", width);
+    console.log("l", length);
+ 
+    parseFloat(height);
+    parseFloat(length);
+    parseFloat(width);
+    parseFloat(weight);
+    parseInt(axle_count);
+    let send = {
+      height: height,
+      width: width,
+      length: length,
+      weight: weight,
+      axle_count: axle_count,
+      vehicle_class: vehicle_class,
+      trailer: trailer,
+      dual_tires: this.state.specifications.dual_tires
+    }
+    console.log("send object", send);
+
+    return this.props.vehicleData()
+  }
+
+
 
   inputCheck = (input) => {
 
@@ -78,10 +117,27 @@ class VehicleForm extends React.Component {
 
   }
 
-  combineDistanceUnits = (inchesEntry, feetEntry) => {
-    // parseInt(inchesEntry);
-    // parseInt(feetEntry);
-    const inchesCombined = inchesEntry + (feetEntry*12);
+  stateDoer = () => {
+    
+    this.setState({
+      specifications: {
+        ...this.state.specifications,
+        
+   
+      }
+      })
+ 
+  }
+
+  combineDistanceUnits = (inchesIn, feetIn) => {
+    let inches = inchesIn;
+    let feet = feetIn;
+    if(feet === ""){
+      feet = 0;
+    } if (inches === ""){
+      inches = 0;
+    }
+    const inchesCombined = feet + (inches / 12);
     return inchesCombined;
   }
 
@@ -101,7 +157,7 @@ class VehicleForm extends React.Component {
       <div>
         <Nav />
       {/* <div className="vehicle-form-wrap"> */}
-      <Form className="vehicle-form">
+      <Form className="vehicle-form" onSubmit={this.vehicleSubmit}>
       <p className="vehicle-spec">Height</p>
         <div className="form-section">
         <Form.Group>
@@ -109,8 +165,9 @@ class VehicleForm extends React.Component {
           <Form.Control        
             type="number"
             name='heightFeet'
-            placeholder="13"
-            value={ this.state.specifications.heightFeet === 0 ? undefined : this.state.specifications.heightFeet}
+            
+            // this.state.specifications.heightFeet === 0 ? undefined : 
+            value={this.state.specifications.heightFeet}
             onChange={this.handleChange}
             required>
         </Form.Control>
@@ -121,8 +178,9 @@ class VehicleForm extends React.Component {
           <Form.Control        
             type="number"
             name='heightInches'
-            placeholder="7"
-            value={this.state.specifications.heighInches === 0 ? undefined : this.state.specifications.heightInches}
+            
+            // this.state.specifications.heighInches === 0 ? undefined :
+            value={ this.state.specifications.heightInches}
             onChange={this.handleChange}
             required>
         </Form.Control>
@@ -191,7 +249,7 @@ class VehicleForm extends React.Component {
         <Form.Group>
           <Form.Label>Pounds</Form.Label>
           <Form.Control        
-            type="string"
+            type="number"
             name='weight'
             placeholder="5000"
             value={this.state.specifications.weight}
@@ -205,7 +263,7 @@ class VehicleForm extends React.Component {
         <Form.Group>
           <Form.Label>Axles</Form.Label>
           <Form.Control        
-            type="string"
+            type="number"
             name='axle_count'
             placeholder="2"
             value={this.state.specifications.axle_count}
@@ -218,15 +276,35 @@ class VehicleForm extends React.Component {
 
         <p className="vehicle-spec">Class</p>
       <Form.Group className="class-radios">
-      <Form.Check name="class"inline label="A" type="radio" id={`inline-text-1`} />
-      <Form.Check name="class" inline label="B" type="radio" id={`inline-text-2`} />
-      <Form.Check name="class"inline label="C" type="radio" id={`inline-text-2`} />
-      <Form.Check name="class" inline label="Trailer" type="radio" id={`inline-text-2`} />
+      <Form.Check name="class"inline label="A" type="radio" id={`inline-text-1`} 
+      value="A"
+      checked={this.state.specifications.class === "A"} onChange={this.handleRadio}
+      />
+      <Form.Check name="class" inline label="B" type="radio" id={`inline-text-2`} 
+      value="B"
+      checked={this.state.specifications.class === "B"} onChange={this.handleRadio}
+      />
+      <Form.Check name="class" inline label="C" type="radio" id={`inline-text-2`} 
+      value="C"
+      checked={this.state.specifications.class === "C"} onChange={this.handleRadio}
+      />
+      <Form.Check name="class" inline label="Trailer" type="radio" 
+            value="Trailer"
+            checked={this.state.specifications.class === "Trailer"}
+            onChange={this.handleRadio}
+      id={`inline-text-2`} />
       </Form.Group>
       <a target="_blank" rel="noopener noreferrer" href="https://rvs.autotrader.com/articles/buying-a-recreational-vehicle-rv-classes-explained">What class of vehicle do I have?</a>
 
       <p className="vehicle-spec">Tires</p>
-      <Form.Check name="dual_tires" label="I have a dual wheel vehicle"  id={`inline-text-2`} />
+      <Form.Check 
+      name="dual_tires" 
+      type="checkbox"
+      checked={this.state.specifications.dual_tires}
+      onChange={this.handleCheck}
+      label="I have a dual wheel vehicle" 
+      id={`inline-text-2`} 
+      />
 
       <Button type="submit" variant="warning" onClick={this.vehicleSubmit}>Submit</Button>
         </Form>

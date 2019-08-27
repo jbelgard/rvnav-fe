@@ -43,3 +43,21 @@ export const login = values => {
       });
   };
 };
+
+export const vehicleData = values => {
+  return dispatch => {
+    dispatch({ type: LOADING });
+    return axios
+      .post('https://labs-rv-life-staging-1.herokuapp.com/vehicle', values)
+      .then(res => {
+        console.log(res); // data was created successfully and logs to console
+       
+        dispatch({ type: LOGIN, payload: res.data });
+        return true;
+      })
+      .catch(err => {
+        console.log(err); // there was an error creating the data and logs to console
+        dispatch({ type: ERROR_MESSAGE, errorMessage: 'request failed' });
+      });
+  };
+};
