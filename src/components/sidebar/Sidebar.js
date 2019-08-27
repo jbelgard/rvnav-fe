@@ -1,7 +1,19 @@
 import React, { Component } from 'react'
+import { Route } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import VehicleForm from '../vehicleForm/VehicleForm';
 import './sidebar.css';
 
 export class Sidebar extends Component {
+    state = {
+        vehicleFormOpen: false,
+
+    }
+    toggleVehicleForm = () => {
+        this.setState({
+            vehicleFormOpen: !this.state.vehicleFormOpen
+        })
+    }
     render() {
         console.log(this.props);
         return (
@@ -10,6 +22,12 @@ export class Sidebar extends Component {
                 <div className = 'overlay-content'>
                     <div>
                         <p>Hello World!</p>
+                        <button onClick={this.toggleVehicleForm}>vehicle form</button>
+                        {this.state.vehicleFormOpen && <VehicleForm/>}
+                        {/* <Route path="/vehicle-form" component={VehicleForm} /> */}
+                        <NavLink exact to="/vehicle-form" style={{ marginRight: 10 }}>
+                        Vehicle Form
+                        </NavLink>
                     </div>
                 </div>    
                 <div id = 'mainsidebar'>

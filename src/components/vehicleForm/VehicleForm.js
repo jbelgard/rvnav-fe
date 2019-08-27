@@ -123,7 +123,7 @@ class VehicleForm extends React.Component {
   render(){
     return(
       <div>
-        <Nav />
+        
       <Form className="vehicle-form" onSubmit={this.vehicleSubmit}>
       <p className="vehicle-spec">Height</p>
         <div className="form-section">
