@@ -13,6 +13,7 @@ class RegisterForm extends React.Component {
     this.state = {
       credentials: {
         username: '',
+        email: '',
         first_name: '',
         last_name: '',
         password: ''
@@ -91,6 +92,15 @@ class RegisterForm extends React.Component {
               onChange={this.handleChange}
               required
             ></Form.Control>
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              name="email"
+              placeholder="smith@rvlife.com"
+              type="email"
+              value={this.state.credentials.email}
+              onChange={this.handleChange}
+              required
+            ></Form.Control>
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
@@ -114,7 +124,9 @@ class RegisterForm extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => (
+  console.log("state", state)
+);
 
 export default withRouter(
   connect(

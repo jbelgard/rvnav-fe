@@ -34,6 +34,7 @@ class LoginForm extends React.Component {
 
   loginSubmit = (event) => {
     event.preventDefault();
+    console.log("props", this.props);
     return this.props.login(this.state.credentials)
         .then(res => { 
           this.setState({

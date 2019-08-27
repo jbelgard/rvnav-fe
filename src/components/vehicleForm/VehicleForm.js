@@ -2,7 +2,7 @@ import React from 'react';
 
 import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
-import { vehicleData } from "../../store/actions";
+import { addVehicle } from "../../store/actions";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Nav from '../nav/Nav';
@@ -25,7 +25,7 @@ class VehicleForm extends React.Component {
        lengthFeet: '', 
        lengthInches: '',
        weight: '',  //this will be sent in pounds? check BE docs
-       axle_count: '', //integer, unit implied
+       axel_count: '', //integer, unit implied
        class: '', //controlled input of one letter
        //created_at: '', //check BE for format, generate date with js
        dual_tires: false, //Bool, checkbox
@@ -77,36 +77,41 @@ class VehicleForm extends React.Component {
     let height = this.combineDistanceUnits(this.state.specifications.heightInches, this.state.specifications.heightFeet);
     let width = this.combineDistanceUnits(this.state.specifications.widthInches, this.state.specifications.widthFeet);
     let length = this.combineDistanceUnits(this.state.specifications.lengthInches, this.state.specifications.lengthFeet);
-    let weight = this.state.specifications.weight;
-    let axle_count = this.state.specifications.axle_count;
+    let weight =  this.state.specifications.weight;
+    let axel_count = this.state.specifications.axel_count;
     let vehicle_class = this.state.specifications.class;
     let trailer = this.state.specifications.trailer;
     if(vehicle_class === "Trailer"){
       vehicle_class = "";
       trailer = true;
     }
-    console.log("h", height);
-    console.log("w", width);
-    console.log("l", length);
- 
+    if(weight === ""){
+      weight = 0;
+    } 
+    if(axel_count === ""){
+      axel_count = 0;
+    } 
+    // console.log("h", height);
+    // console.log("w", width);
+    // console.log("l", length);
     parseFloat(height);
     parseFloat(length);
     parseFloat(width);
     parseFloat(weight);
-    parseInt(axle_count);
+    parseInt(axel_count);
     let send = {
       height: height,
       width: width,
       length: length,
       weight: weight,
-      axle_count: axle_count,
+      axel_count: axel_count,
       vehicle_class: vehicle_class,
       trailer: trailer,
       dual_tires: this.state.specifications.dual_tires
     }
     console.log("send object", send);
-
-    return this.props.vehicleData()
+    console.log("props", this.props);
+    return this.props.addVehicle(send);
   }
 
 
@@ -164,8 +169,10 @@ class VehicleForm extends React.Component {
         <Form.Label>Feet</Form.Label>
           <Form.Control        
             type="number"
+            min="0"
+            max="100"
             name='heightFeet'
-            
+            placeholder="0"
             // this.state.specifications.heightFeet === 0 ? undefined : 
             value={this.state.specifications.heightFeet}
             onChange={this.handleChange}
@@ -177,7 +184,10 @@ class VehicleForm extends React.Component {
         <Form.Label>Inches</Form.Label>
           <Form.Control        
             type="number"
+            min="0"
+            max="11"
             name='heightInches'
+            placeholder="0"
             
             // this.state.specifications.heighInches === 0 ? undefined :
             value={ this.state.specifications.heightInches}
@@ -194,8 +204,10 @@ class VehicleForm extends React.Component {
           <Form.Label>Feet</Form.Label>
           <Form.Control        
             type="number"
+            min="0"
+            max="100"
             name='widthFeet'
-            placeholder="8"
+            placeholder="0"
             value={this.state.specifications.widthFeet}
             onChange={this.handleChange}
             required>
@@ -206,8 +218,10 @@ class VehicleForm extends React.Component {
         <Form.Label>Inches</Form.Label>
           <Form.Control        
             type="number"
+            min="0"
+            max="11"
             name='widthInches'
-            placeholder="11"
+            placeholder="0"
             value={this.state.specifications.widthInches}
             onChange={this.handleChange}
             required>
@@ -222,8 +236,10 @@ class VehicleForm extends React.Component {
           <Form.Label>Feet</Form.Label>
           <Form.Control        
             type="number"
+            min="0"
+            max="100"
             name='lengthFeet'
-            placeholder="25"
+            placeholder="0"
             value={this.state.specifications.lengthFeet}
             onChange={this.handleChange}
             required>
@@ -234,8 +250,10 @@ class VehicleForm extends React.Component {
         <Form.Label>Inches</Form.Label>
           <Form.Control        
             type="number"
+            min="0"
+            max="11"
             name='lengthInches'
-            placeholder="8"
+            placeholder="0"
             value={this.state.specifications.lengthInches}
             onChange={this.handleChange}
             required>
@@ -250,23 +268,27 @@ class VehicleForm extends React.Component {
           <Form.Label>Pounds</Form.Label>
           <Form.Control        
             type="number"
+            min="0"
+            max="99000"
             name='weight'
-            placeholder="5000"
+            placeholder="0"
             value={this.state.specifications.weight}
             onChange={this.handleChange}
             required>
         </Form.Control>
         </Form.Group>
         </div>
-        <p className="vehicle-spec">Axle Count</p>
+        <p className="vehicle-spec">Axel Count</p>
         <div className="form-section">
         <Form.Group>
-          <Form.Label>Axles</Form.Label>
+          <Form.Label>axels</Form.Label>
           <Form.Control        
             type="number"
-            name='axle_count'
-            placeholder="2"
-            value={this.state.specifications.axle_count}
+            min="0"
+            max="10"
+            name='axel_count'
+            placeholder="0"
+            value={this.state.specifications.axel_count}
             onChange={this.handleChange}
             required>
         </Form.Control>
@@ -322,5 +344,5 @@ const mapStateToProps = state => ({
 })
 
 export default withRouter(connect(
-  mapStateToProps, {  }
+  mapStateToProps, { addVehicle }
 )(VehicleForm))
