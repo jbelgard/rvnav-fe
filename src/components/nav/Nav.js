@@ -21,6 +21,9 @@ function Nav() {
         <NavLink to="/vehicle-form" style={{ marginRight: 10 }}>
           Vehicle Form
         </NavLink>
+        <NavLink to="/vehicles" style={{ marginRight: 10 }}>
+          Vehicles
+        </NavLink>
       </div>
     </nav>
   );

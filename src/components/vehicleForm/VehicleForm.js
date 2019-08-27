@@ -39,10 +39,6 @@ class VehicleForm extends React.Component {
       // }
     }
   }
-
-  componentDidMount(){
-
-  }
   
   handleChange = (event) => {
     this.setState({
@@ -91,9 +87,6 @@ class VehicleForm extends React.Component {
     if(axel_count === ""){
       axel_count = 0;
     } 
-    // console.log("h", height);
-    // console.log("w", width);
-    // console.log("l", length);
     parseFloat(height);
     parseFloat(length);
     parseFloat(width);
@@ -109,30 +102,11 @@ class VehicleForm extends React.Component {
       trailer: trailer,
       dual_tires: this.state.specifications.dual_tires
     }
-    console.log("send object", send);
-    console.log("props", this.props);
+
     return this.props.addVehicle(send);
   }
 
 
-
-  inputCheck = (input) => {
-
-    this.feetCheck(input);
-
-  }
-
-  stateDoer = () => {
-    
-    this.setState({
-      specifications: {
-        ...this.state.specifications,
-        
-   
-      }
-      })
- 
-  }
 
   combineDistanceUnits = (inchesIn, feetIn) => {
     let inches = inchesIn;
@@ -146,22 +120,10 @@ class VehicleForm extends React.Component {
     return inchesCombined;
   }
 
-  feetCheck = (input) => {
-    const inputNumerical = parseInt(input);
-    if(isNaN(input) === true){
-      return false;
-    } else if(inputNumerical < 0 || inputNumerical > 255) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   render(){
     return(
       <div>
         <Nav />
-      {/* <div className="vehicle-form-wrap"> */}
       <Form className="vehicle-form" onSubmit={this.vehicleSubmit}>
       <p className="vehicle-spec">Height</p>
         <div className="form-section">
@@ -173,7 +135,6 @@ class VehicleForm extends React.Component {
             max="100"
             name='heightFeet'
             placeholder="0"
-            // this.state.specifications.heightFeet === 0 ? undefined : 
             value={this.state.specifications.heightFeet}
             onChange={this.handleChange}
             required>
@@ -330,8 +291,6 @@ class VehicleForm extends React.Component {
 
       <Button type="submit" variant="warning" onClick={this.vehicleSubmit}>Submit</Button>
         </Form>
-{/*         
-      </div> */}
 
       </div>
     )
@@ -339,9 +298,7 @@ class VehicleForm extends React.Component {
 
 }
 
-const mapStateToProps = state => ({
-  //isLoggingIn:state.isLoggingIn
-})
+const mapStateToProps = state => ({})
 
 export default withRouter(connect(
   mapStateToProps, { addVehicle }
