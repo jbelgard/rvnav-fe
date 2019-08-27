@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Nav from '../nav/Nav';
 import ReactMapGl, { GeolocateControl } from 'react-map-gl';
+import Sidebar from '../sidebar/Sidebar';
 
 function MapPage() {
   const [viewport, setViewport] = useState({
@@ -13,6 +14,7 @@ function MapPage() {
   return (
     <div>
       <Nav />
+      <Sidebar />
       <ReactMapGl
         {...viewport}
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
