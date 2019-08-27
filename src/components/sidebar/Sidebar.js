@@ -3,24 +3,21 @@ import './sidebar.css';
 
 export class Sidebar extends Component {
     render() {
+        console.log(this.props);
         return (
-            <div id = 'overlayNav' class = 'overlay'>
-                <a href = 'javascript:void(0)' class = 'closebtn' onclick = 'closeNav()'>&times;</a>
-                <div class = 'overlay-content'>
-                    {/* // here goes the form from blake */}
+            <div id = 'overlayNav' className = {`overlay ${this.props.sidebarOpen ? 'open': 'close'}`}>
+                <button className = 'closebtn' onClick = {this.props.toggleSidebar}>&times;</button>
+                <div className = 'overlay-content'>
+                    <div>
+                        <p>Hello World!</p>
+                    </div>
                 </div>    
                 <div id = 'mainsidebar'>
-                    <button class = 'openbtn' onclick = 'openNav()'>Options</button>
+                    {/* <button className = 'openbtn' onClick = {this.props.toggleSidebar}>Options</button> */}
                     {/* // button to bring out sidebar */}
                 </div>            
             </div>            
         )        
-        function openNav() {
-            document.getElementById('overlayNav').style.width = '25%';
-        }
-        function closeNav() {
-            document.getElementById('overlayNav').style.width = '0%';
-        }
     }
 }
 
