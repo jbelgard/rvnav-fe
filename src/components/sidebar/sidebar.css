@@ -10,12 +10,12 @@
     transition: 0.5s;
 }
 .open{
-    width: 100%;
+    width: 25%;
 }
 .overlay-content {
     position: relative;
     top: 25%;
-    width: 100%;
+    width: 25%;
     text-align: center;
     margin-top: 30px;
 }

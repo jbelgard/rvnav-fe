@@ -23,12 +23,13 @@ export default class Auth extends Component {
         <div className="auth-wrapper">
           <div className="form-wrapper">
           <div className="top-buttons">
-          <Button
-          variant={this.state.login ?  "warning" : "outline-warning"}
-          onClick={this.toggleLogin}>Login</Button>
-          <Button 
-          variant={this.state.login ?  "outline-warning" : "warning"}
-          onClick={this.toggleRegister}>Register</Button>
+          <p
+          className={`form-toggle ${this.state.login && "active-tab"}`}
+          onClick={this.toggleLogin}>Login</p>
+          <p 
+          className={`form-toggle ${!this.state.login && "active-tab"}`}
+          
+          onClick={this.toggleRegister}>Register</p>
           </div>
           {this.state.login ? <Login /> : <Register />}
           </div>
