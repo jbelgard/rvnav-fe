@@ -2,32 +2,82 @@ import React, { Component } from 'react'
 import { Route } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import VehicleForm from '../vehicleForm/VehicleForm';
+import RoutingForm from '../map/routingForm';
 import './sidebar.css';
 
 export class Sidebar extends Component {
     state = {
-        vehicleFormOpen: false,
-
+            vehicleForm: "off",
+            routing: "off"     
     }
-    toggleVehicleForm = () => {
+
+    componentDidMount(){
         this.setState({
-            vehicleFormOpen: !this.state.vehicleFormOpen
+            ...this.state,
+            routing: "on"
         })
+    }
+
+    buttonSelect = (event) => {
+        console.log("event", event.target);
+        this.setState({
+            vehicleForm: "off",
+            routing: "off",
+            [event.target.id]: "on"
+        })
+
+   
     }
     render() {
         console.log(this.props);
         return (
             <div id = 'overlayNav' className = {`overlay ${this.props.sidebarOpen ? 'open': 'close'}`}>
-                <button className = 'closebtn' onClick = {this.props.toggleSidebar}>&times;</button>
+                <div >
+                    <i className="fas fa-arrow-circle-left" onClick = {this.props.toggleSidebar}></i>
+                    </div>
+                
+                
                 <div className = 'overlay-content'>
-                    <div>
-                        <p>Hello World!</p>
-                        <button onClick={this.toggleVehicleForm}>vehicle form</button>
-                        {this.state.vehicleFormOpen && <VehicleForm/>}
-                        {/* <Route path="/vehicle-form" component={VehicleForm} /> */}
-                        <NavLink exact to="/vehicle-form" style={{ marginRight: 10 }}>
-                        Vehicle Form
-                        </NavLink>
+                    
+                    <div >
+
+                        <div className="sidebar-tabs">
+
+                        <p  
+                        
+                        className={` route-tab ${this.state.routing === `on` ? `selected` : `sidebar-tab`} `}
+                        id="routing"
+                        
+                        onClick={this.buttonSelect}>Route</p>
+
+                        <p className={`${this.state.vehicleForm === `on` ? `selected` : `sidebar-tab`}   `}
+                        id="vehicleForm"
+                        onClick={this.buttonSelect}>Add a Vehicle</p>
+
+                        </div>
+
+
+                        
+
+                        
+                        <div className={`${this.state.routing}`}>
+                        <RoutingForm   
+                        onChangeHandler={this.props.onChangeHandler}
+                        initMap={this.props.initMap}
+                        routeChangeHandler={this.props.routeChangeHandler}
+                        start={this.props.start}
+                        end={this.props.end}
+                        />
+                        </div>
+
+                        {localStorage.token ? <div className={`${this.state.vehicleForm}`}>
+                        <VehicleForm/>
+                        </div> : 
+                        <div className={`login-to-add ${this.state.vehicleForm}`}>
+                        <NavLink to="/auth" style={{ marginRight: 10 }}>
+                        Login or create an account to add information about your vehicle.
+                        </NavLink></div>}
+                        
                     </div>
                 </div>    
                 <div id = 'mainsidebar'>

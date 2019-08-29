@@ -19,7 +19,7 @@ export default class Auth extends Component {
   render() {
     return (
       <>
-        <Nav />
+        {/* <Nav /> */}
         <div className="auth-wrapper">
           <div className="form-wrapper">
           <div className="top-buttons">

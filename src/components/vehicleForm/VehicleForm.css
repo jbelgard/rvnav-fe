@@ -1,7 +1,6 @@
 .vehicle-form-wrap{
-  margin-top: ;
+  width: 100%;
   padding-top: 20px;
-  border: ;
 }
 
 
@@ -35,8 +34,8 @@
   margin-bottom: 6px;
 }
 .vehicle-form{
-  margin-top: 42px;
+  margin-top: -10px;
   color: white;
-  width: 400px;
+  width: 100%;
   background: #0f0f0f;
 }
