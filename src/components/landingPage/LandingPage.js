@@ -11,13 +11,13 @@ const LandingPage = () => {
           <Button variant="light">Use as guest</Button>
         </Link>
         <Link to="/auth">
-          <Button variant="warning">Log in / Sign up</Button>
+          <Button variant="warning">Login / Register</Button>
         </Link>
       </div>
       <div className="intro">
         <h1>RV Life</h1>
         <p>
-          Welcome to RV Life. The app that helps you travel safely in you RV. We
+          Welcome to RV Life. The app that helps you travel safely in your RV. We
           take into account factors like vehicle size and weight to give you the
           best route! And show points of interest along the way. Try our app
           today to get the best navigation for you and your vehicle.
