@@ -17,6 +17,12 @@
   float: right;
 }
 
+.intro-logo {
+  width: 30%;
+  border-radius: 50%;
+  margin-bottom: 10%;
+}
+
 h1 {
   color: #ffc107;
   font-weight: bold;
@@ -36,6 +42,7 @@ h1 {
   flex-direction: column;
   align-items: center;
   width: 35%;
+  margin-bottom: 10%;
 }
 
 p {

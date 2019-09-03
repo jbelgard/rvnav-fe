@@ -2,12 +2,21 @@
   width: 100vw;
   height: 100vh;
   background: #000 url("../../assets/img/rv-bg.jpg") no-repeat bottom right;
-
   background-size: cover;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   flex-direction: column;
+}
+
+.image-link {
+  width: 100%;
+}
+
+.logo-image {
+  width: 4%;
+  margin: 1% 92% 0 0;
+  border-radius: 50%;
 }
 .form-wrapper {
   width: 400px;
@@ -66,6 +75,3 @@ form button {
   padding: 20px 0;
 }
 
-.logo-image {
-  border: 2px solid red;
-}

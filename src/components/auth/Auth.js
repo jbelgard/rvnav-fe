@@ -3,6 +3,7 @@ import Login from "./login/Login";
 import Register from "./register/Register";
 import "./Auth.css";
 import { Link } from "react-router-dom";
+import icon from "../../assets/img/icon.png"
 import Nav from "../nav/Nav";
 import Button from "react-bootstrap/Button";
 
@@ -22,8 +23,8 @@ export default class Auth extends Component {
       <>
         {/* <Nav /> */}
         <div className="auth-wrapper">
-          <Link to="/">
-            <img className="logo-image" src="../../assets/img/icon.png" alt="logo" />
+          <Link to="/" className="image-link">
+              <img className="logo-image" src={icon} alt="logo" />
           </Link>
           <div className="form-wrapper">
             <div className="top-buttons">
