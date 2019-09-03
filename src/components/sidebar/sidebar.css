@@ -20,7 +20,12 @@
     text-align: center;
     margin-top: 30px;
 }
-
+.overlay.close .overlay-content{
+    opacity: 0;
+}
+.overlay.open .overlay-content{
+    
+}
 .overlay .closebtn, .overlay .openbtn {
     position: absolute;
     top: 20px;
@@ -47,7 +52,7 @@
     background-color: grey;
     margin: 1px;
     padding: 8px;
-
+    white-space: nowrap;
 }
 .sidebar-tabs{
     display: flex;
@@ -81,8 +86,8 @@
     padding: 10px;
 }
 #route-button{
-    width: 15%;
-    margin-left: 10%;
+    width: 120px;
+    margin-left: 100px;
     border-radius: 4px;
 }
 .login-to-add{
@@ -97,9 +102,15 @@
     .open{
         width: 240px;
     }
+    #route-button{
+       margin-left: 60px; 
+    }
 }
 @media (max-width: 600px){
     .open{
-        width: 90%;
+        width: 400px;
     }
+    #route-button{
+        margin-left: 180px; 
+     }
 }
