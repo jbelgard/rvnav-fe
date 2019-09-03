@@ -22,14 +22,14 @@ class Vehicles extends React.Component {
     this. setState({
       ok: "hahahah"
     })
-    this.props.getWalmarts();
+    
   }
 
   render() {
     return(
       <div>
       {this.state.ok}
-      {console.log("get", this.props.vehicles)}
+      {console.log("get", this.props.getVehicles())}
       </div>
     )
   }
