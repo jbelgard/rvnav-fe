@@ -15,6 +15,7 @@ class VehicleForm extends React.Component {
       //these specifications are in their own object so that specifications can be sent direvtly to the BE
       //this is the object that will be sent to the BE
       specifications: {
+        name: '',
       // height: 0, // value that gets sent to the backend, after combinining heightFeet and heightInches into one unit
        heightFeet: '', // value that stores the user entry of height in feet
        heightInches: '', // value that stores the user entry of height in inches
@@ -48,6 +49,14 @@ class VehicleForm extends React.Component {
         }
     })
   }
+  handleText = (event) => {
+    this.setState({
+        specifications: {
+          ...this.state.specifications,
+          [event.target.name]: event.target.value      
+        }
+    })
+  }
   handleCheck = (event) => {
     //const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
     this.setState({
@@ -69,7 +78,7 @@ class VehicleForm extends React.Component {
   vehicleSubmit = (event) => {
     
     event.preventDefault();
-    console.log("ahh");
+    
     let height = this.combineDistanceUnits(this.state.specifications.heightInches, this.state.specifications.heightFeet);
     let width = this.combineDistanceUnits(this.state.specifications.widthInches, this.state.specifications.widthFeet);
     let length = this.combineDistanceUnits(this.state.specifications.lengthInches, this.state.specifications.lengthFeet);
@@ -92,7 +101,9 @@ class VehicleForm extends React.Component {
     parseFloat(width);
     parseFloat(weight);
     parseInt(axel_count);
+    
     let send = {
+      name: this.state.name,
       height: height,
       width: width,
       length: length,
@@ -102,7 +113,7 @@ class VehicleForm extends React.Component {
       trailer: trailer,
       dual_tires: this.state.specifications.dual_tires
     }
-
+    console.log(this.state.specifications.name);
     return this.props.addVehicle(send);
   }
 
@@ -125,8 +136,21 @@ class VehicleForm extends React.Component {
       <div>
         
       <Form className="vehicle-form" onSubmit={this.vehicleSubmit}>
+      <p className="vehicle-spec">Name</p>
+      <Form.Group>
+        <Form.Label>(required)</Form.Label>
+          <Form.Control        
+            type="string"
+            required
+            name='name'
+            placeholder="The Mystery Machine"
+            value={this.state.specifications.name}
+            onChange={this.handleText}
+            >
+        </Form.Control>
+        </Form.Group>
       <p className="vehicle-spec">Height</p>
-        <div className="form-section">
+        <div className="form-section">  
         <Form.Group>
         <Form.Label>Feet</Form.Label>
           <Form.Control        
@@ -137,7 +161,7 @@ class VehicleForm extends React.Component {
             placeholder="0"
             value={this.state.specifications.heightFeet}
             onChange={this.handleChange}
-            required>
+            >
         </Form.Control>
         </Form.Group>
         <p className="plus">+</p>
@@ -153,7 +177,7 @@ class VehicleForm extends React.Component {
             // this.state.specifications.heighInches === 0 ? undefined :
             value={ this.state.specifications.heightInches}
             onChange={this.handleChange}
-            required>
+            >
         </Form.Control>
         </Form.Group>
         </div>
@@ -171,7 +195,7 @@ class VehicleForm extends React.Component {
             placeholder="0"
             value={this.state.specifications.widthFeet}
             onChange={this.handleChange}
-            required>
+            >
         </Form.Control>
         </Form.Group>
         <p className="plus">+</p>
@@ -185,7 +209,7 @@ class VehicleForm extends React.Component {
             placeholder="0"
             value={this.state.specifications.widthInches}
             onChange={this.handleChange}
-            required>
+            >
         </Form.Control>
         </Form.Group>
         </div>
@@ -203,7 +227,7 @@ class VehicleForm extends React.Component {
             placeholder="0"
             value={this.state.specifications.lengthFeet}
             onChange={this.handleChange}
-            required>
+            >
         </Form.Control>
         </Form.Group>
         <p className="plus">+</p>
@@ -217,7 +241,7 @@ class VehicleForm extends React.Component {
             placeholder="0"
             value={this.state.specifications.lengthInches}
             onChange={this.handleChange}
-            required>
+            >
         </Form.Control>
         </Form.Group>
         </div>
@@ -235,14 +259,14 @@ class VehicleForm extends React.Component {
             placeholder="0"
             value={this.state.specifications.weight}
             onChange={this.handleChange}
-            required>
+            >
         </Form.Control>
         </Form.Group>
         </div>
         <p className="vehicle-spec">Axel Count</p>
         <div className="form-section">
         <Form.Group>
-          <Form.Label>axels</Form.Label>
+          <Form.Label>Axels</Form.Label>
           <Form.Control        
             type="number"
             min="0"
@@ -251,7 +275,7 @@ class VehicleForm extends React.Component {
             placeholder="0"
             value={this.state.specifications.axel_count}
             onChange={this.handleChange}
-            required>
+            >
         </Form.Control>
         </Form.Group>
         </div>

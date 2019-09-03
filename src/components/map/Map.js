@@ -136,26 +136,8 @@ class MapPage extends Component {
       end={this.state.end}
       toggleSidebar = {this.toggleSidebar} sidebarOpen = {this.state.sidebarOpen} />
       
-      <div className="floatingPanel" 
-      style={{
-        position: 'absolute',
-        top: '10px',
-        left: '25%',
-        zIndex: '5',
-        backgroundColor: '#fff',
-        paddinf: '1rem',
-        border: '1px solid #999',
-        textAlign: 'center',
-        lineHeight: '2rem',
-        paddingLeft: '10px'
-      }}>
-        {/* <form ref={this.formRef}>
-        <input id="start" type="text" placeholder="Start" name="start" value={this.state.start} onChange={this.routeChangeHandler}/> 
-        <input id="end" type="text" placeholder="end" name="end" value={this.state.end} onChange={this.routeChangeHandler}/> 
-        <button type="submit"> Plot Course</button>
-        </form> */}
-      </div>
-      <div id="map" style={{height: "100vh"}}></div>
+
+      <div id="map" ></div>
     </div>
   );
 }
