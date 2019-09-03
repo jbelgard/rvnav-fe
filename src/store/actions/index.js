@@ -5,6 +5,8 @@ export const ERROR_MESSAGE = 'ERROR_MESSAGE';
 export const REGISTER = 'REGISTER';
 export const LOGIN = 'LOGIN';
 export const ADD_VEHICLE = 'ADD_VEHICLE';
+export const GET_VEHICLE = 'GET_VEHICLE';
+export const GET_WALMARTS = 'GET_WALMARTS';
 
 export const register = creds => {
   return dispatch => {
@@ -55,6 +57,43 @@ export const addVehicle = value => {
         console.log(res); // data was created successfully and logs to console
         
         dispatch({ type: ADD_VEHICLE, payload: res.data });
+        return true;
+      })
+      .catch(err => {
+        console.log(err); // there was an error creating the data and logs to console
+        dispatch({ type: ERROR_MESSAGE, errorMessage: 'request failed' });
+      });
+  };
+};
+
+export const getVehicles = () => {
+  return dispatch => {
+    dispatch({ type: LOADING });
+    return axios
+      .get('https://labs-rv-life-staging-1.herokuapp.com/vehicle',
+      {headers: { Authorization: localStorage.getItem("token") }, 'Content-Type': 'application/json'})
+      .then(res => {
+        console.log("get res", res); // data was created successfully and logs to console
+        
+        dispatch({ type: GET_VEHICLE, payload: res.data });
+        return true;
+      })
+      .catch(err => {
+        console.log(err); // there was an error creating the data and logs to console
+        dispatch({ type: ERROR_MESSAGE, errorMessage: 'request failed' });
+      });
+  };
+};
+
+export const getWalmarts = () => {
+  return dispatch => {
+    dispatch({ type: LOADING });
+    return axios
+      .get('http://eb-flask-rv-dev.us-east-1.elasticbeanstalk.com/fetch_walmart')
+      .then(res => {
+        console.log("get res", res); // data was created successfully and logs to console
+        
+        dispatch({ type: GET_WALMARTS, payload: res.data });
         return true;
       })
       .catch(err => {
