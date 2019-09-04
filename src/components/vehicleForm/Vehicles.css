@@ -1,0 +1,16 @@
+.vehicle-tabs{
+  color: white;
+  background-color: grey;
+  margin: 20px;
+  padding: 10px 0;
+  border-radius: 8px;
+  display: flex;
+  width: 260px;
+}
+.vehicle-name{
+  margin: 0 auto;
+}
+.expand-vehicle-icon{
+  color: darkgrey;
+  margin: 0 20px;
+}

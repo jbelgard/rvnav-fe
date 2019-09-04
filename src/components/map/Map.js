@@ -124,7 +124,7 @@ class MapPage extends Component {
       {/* <Nav /> */}
       <div className="open-button-wrap">
       <i className="fas fa-arrow-circle-right" onClick = {this.toggleSidebar}   ></i>
-      <NavLink className="logout-btn" to="/auth">{localStorage.token ? `Log Out` : `Login / Signup`}</NavLink>
+      <NavLink className="logout-btn" to="/">{localStorage.token ? `Log Out` : `Login / Signup`}</NavLink>
       
      
       </div>
