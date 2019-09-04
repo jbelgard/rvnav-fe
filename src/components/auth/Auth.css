@@ -1,54 +1,63 @@
 .auth-wrapper {
   width: 100vw;
   height: 100vh;
-  background: #000 url('../../assets/img/rv-bg.jpg') no-repeat bottom right;
-
+  background: #000 url("../../assets/img/rv-bg.jpg") no-repeat bottom right;
   background-size: cover;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   flex-direction: column;
 }
-.form-wrapper{
+
+.image-link {
+  width: 100%;
+}
+
+.logo-image {
+  width: 4%;
+  margin: 1% 92% 0 0;
+  border-radius: 50%;
+}
+.form-wrapper {
   width: 400px;
   display: flex;
   flex-direction: column;
 }
-.top-buttons{
+.top-buttons {
   display: flex;
   flex-direction: row;
-  
+
   justify-content: space-around;
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
   margin: 0;
 }
-.top-buttons button{
+.top-buttons button {
   width: 50%;
 }
-label{
+label {
   color: white;
   align-self: flex-start;
   margin-left: 0;
 }
 
-form{
+form {
   background: rgb(10, 10, 10, 0.6);
   text-align: left;
   padding: 16px;
 
   border-top: 0;
 }
-input{
+input {
   margin-bottom: 7px;
 }
-form button{
+form button {
   margin-left: 50%;
   width: 50%;
   margin-bottom: -10px;
   margin-top: 18px;
 }
-.form-toggle{
+.form-toggle {
   font-size: 1.2rem;
   letter-spacing: 1.25px;
   cursor: pointer;
@@ -58,12 +67,11 @@ form button{
   margin: 0;
   padding: 20px 0 17.5px;
   border-bottom: 0.5px grey solid;
-
 }
 
-.active-tab{
+.active-tab {
   border-bottom: 2px solid #ffc107;
   background: rgb(10, 10, 10, 0.6);
   padding: 20px 0;
-
 }
+

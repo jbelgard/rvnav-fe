@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
+import icon from "../../assets/img/icon.png"
 import './LandingPage.css';
 
 class LandingPage extends Component {
@@ -13,13 +14,26 @@ class LandingPage extends Component {
   render(){
     return (
       <div className="landing-page-wrapper">
-        <h1>RV Life</h1>
-        <Link to="/auth">
-          <Button variant="warning">Log in / Sign up</Button>
-        </Link>
+        <div className="button-container">
         <Link to="/map">
-          <Button variant="light">Pick Route</Button>
+          <Button variant="light">Use as guest</Button>
         </Link>
+        <Link to="/auth">
+          <Button variant="warning">Login / Register</Button>
+        </Link>
+      </div>
+      <div className="intro">
+        <img className="intro-logo" src={icon} alt="logo" />
+          <p>
+            Welcome to RV Nav. The app that helps you travel safely in your RV. We
+            take into account factors like vehicle size and weight to give you the
+            best route! And show points of interest along the way. Try our app
+            today to get the best navigation for you and your vehicle.
+          </p>
+      </div>
+      <Link to="/" className="about">
+        <a>About the team</a>
+      </Link>
       </div>
     );
   }
