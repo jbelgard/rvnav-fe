@@ -1,13 +1,20 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import "./LandingPage.css";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 import icon from "../../assets/img/icon.png"
+import './LandingPage.css';
 
-const LandingPage = () => {
-  return (
-    <div className="landing-page-wrapper">
-      <div className="button-container">
+class LandingPage extends Component {
+  
+  componentDidMount(){
+    localStorage.removeItem('token');
+    localStorage.removeItem('id');
+  }
+
+  render(){
+    return (
+      <div className="landing-page-wrapper">
+        <div className="button-container">
         <Link to="/map">
           <Button variant="light">Use as guest</Button>
         </Link>
@@ -27,8 +34,10 @@ const LandingPage = () => {
       <Link to="/" className="about">
         <a>About the team</a>
       </Link>
-    </div>
-  );
+      </div>
+    );
+  }
+
 };
 
 export default LandingPage;

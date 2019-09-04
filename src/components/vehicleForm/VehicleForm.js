@@ -103,7 +103,7 @@ class VehicleForm extends React.Component {
     parseInt(axel_count);
     
     let send = {
-      name: this.state.name,
+      name: this.state.specifications.name,
       height: height,
       width: width,
       length: length,
@@ -113,7 +113,7 @@ class VehicleForm extends React.Component {
       trailer: trailer,
       dual_tires: this.state.specifications.dual_tires
     }
-    console.log(this.state.specifications.name);
+    console.log("sent", send);
     return this.props.addVehicle(send);
   }
 

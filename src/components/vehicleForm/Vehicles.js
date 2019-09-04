@@ -7,29 +7,27 @@ import { getVehicles } from "../../store/actions";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Nav from '../nav/Nav';
-import "./VehicleForm.css"
+import "./Vehicles.css"
 
 
 class Vehicles extends React.Component {
-  constructor(){
-    super()
-    this.state = {
-      ok: ''
-    }
-  }
 
   componentDidMount(){
-    this. setState({
-      ok: "hahahah"
-    })
-    this.props.getWalmarts();
+    this.props.getVehicles();
   }
 
   render() {
+    console.log("get", this.props.vehicles[0] && this.props.vehicles[0].vehicles[0].name)
     return(
       <div>
-      {this.state.ok}
-      {console.log("get", this.props.vehicles)}
+      {this.props.vehicles[0] && this.props.vehicles[0].vehicles.map( e => (
+        <div className="vehicle-tabs">
+        <p className="vehicle-name">{e.name}</p>
+        <p className="expand-vehicle-icon">+</p>
+        </div>
+      ))}
+      {}
+      
       </div>
     )
   }
