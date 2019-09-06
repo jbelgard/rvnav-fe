@@ -104,40 +104,60 @@ class MapPage extends Component {
     this.onChangeHandler();
     
     document.querySelector('form').addEventListener('submit', this.onChangeHandler)
-
-    var Coordinates = [
-      {lat: -33.868303208030476, lng: 151.19651825636993},
-      {lat: -33.868286399999995, lng: 151.1964951},
-      {lat: -33.868286399999995, lng: 151.1964951},
-      {lat: -33.868225699999996, lng: 151.19641629999998},
-      {lat: -33.8681414, lng: 151.1963152},
-      {lat: -33.86807969999999, lng: 151.19625019999998},
-      {lat: -33.8678652, lng: 151.1960533},
-      {lat: -33.8677709, lng: 151.1959887},
-      {lat: -33.867654900000005, lng: 151.1959164},
-      {lat: -33.8674835, lng: 151.195817},
-      {lat: -33.867342699999995, lng: 151.19573219999998},
-      {lat: -33.8671457, lng: 151.1956274},
-      {lat: -33.866996799999995, lng: 151.1955593},
-      {lat: -33.8667006, lng: 151.1953711},
-      {lat: -33.866626100000005, lng: 151.195321},
-      {lat: -33.86660189999999, lng: 151.19527739999998},
-      {lat: -33.866583, lng: 151.19525099999998},
-      {lat: -33.8665662, lng: 151.1952325},
-      {lat: -33.8665395, lng: 151.1951841},
-      {lat: -33.866529770928025, lng: 151.19515915183553}
+let Coordinates = [
+      // {lat: -33.868303208030476, lng: 151.19651825636993},
+      // {lat: -33.868286399999995, lng: 151.1964951},
+      // {lat: -33.868286399999995, lng: 151.1964951},
+      // {lat: -33.868225699999996, lng: 151.19641629999998},
+      // {lat: -33.8681414, lng: 151.1963152},
+      // {lat: -33.86807969999999, lng: 151.19625019999998},
+      // {lat: -33.8678652, lng: 151.1960533},
+      // {lat: -33.8677709, lng: 151.1959887},
+      // {lat: -33.867654900000005, lng: 151.1959164},
+      // {lat: -33.8674835, lng: 151.195817},
+      // {lat: -33.867342699999995, lng: 151.19573219999998},
+      // {lat: -33.8671457, lng: 151.1956274},
+      // {lat: -33.866996799999995, lng: 151.1955593},
+      // {lat: -33.8667006, lng: 151.1953711},
+      // {lat: -33.866626100000005, lng: 151.195321},
+      // {lat: -33.86660189999999, lng: 151.19527739999998},
+      // {lat: -33.866583, lng: 151.19525099999998},
+      // {lat: -33.8665662, lng: 151.1952325},
+      // {lat: -33.8665395, lng: 151.1951841},
+      // {lat: -33.866529770928025, lng: 151.19515915183553}
     ];
+
+  axios
+    .get('https://roads.googleapis.com/v1/snapToRoads?path=-35.27801,149.12958%7C-35.28032,149.12907%7C-35.28099,149.12929%7C-35.28144,149.12984%7C-35.28194,149.13003%7C-35.28282,149.12956%7C-35.28302,149.12881%7C-35.28473,149.12836&interpolate=true&key=AIzaSyC9SzPSjzdJI1IFN6VgeOMHH_ay0ePBTqM')
+    .then(res => {
+      // console.log('variable Coordinates',Coordinates)
+      // console.log('res', res.data.snappedPoints.length)
+    for(let i = 0; i < res.data.snappedPoints.length; i++ ) {
+    // console.log('snapped lat',res.data.snappedPoints[i].location.latitude)
+    // console.log('snapped lng',res.data.snappedPoints[i].location.longitude)
+    let Coordinate = {lat: null, lng: null}
+    Coordinate.lat = res.data.snappedPoints[i].location.latitude
+    Coordinate.lng = res.data.snappedPoints[i].location.longitude
+    // console.log('Coordinate', Coordinate)
+    Coordinates[i] = Coordinate
+    // console.log('Var Coordinates',Coordinates[i])
+   }  
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
+    console.log('Var Coordinates', Coordinates)
 
     var polyPath = new window.google.maps.Polyline({
       path: Coordinates,
       geodesic: true,
       strokeColor: '#FF0000',
       strokeOpacity: 1.0,
-      strokeWeight: 2
+      strokeWeight: 4
     });
-
+    console.log(polyPath)
     polyPath.setMap(map);
-  
   }
   routeChangeHandler = (e) => {
    this.setState({
