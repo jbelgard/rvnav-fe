@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 
 import { connect } from 'react-redux';
 import { register, login } from '../../../store/actions';
@@ -7,61 +7,136 @@ import '../Auth.css';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-class RegisterForm extends React.Component {
-  constructor() {
-    super();
+const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+const validateForm = (errors) => {
+  let valid = true;
+  Object.values(errors).forEach(
+    (val) => val.length > 0 && (valid = false)
+  );
+  return valid;
+}
+
+class RegisterForm extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
       credentials: {
-        username: '',
-        email: '',
-        first_name: '',
-        last_name: '',
-        password: ''
+        username: null,
+        email: null,
+        first_name: null,
+        last_name: null,
+        password: null,
+        errors: {
+          username:'',
+          first_name: '',
+          last_name: '',
+          password: '',
+          email: '',
+        }
       }
     };
   }
 
-  handleChange = e => {
-    this.setState({
-      credentials: {
-        ...this.state.credentials,
-        [e.target.name]: e.target.value
-      }
-    });
-  };
+  // handleChange = e => {
+  //   this.setState({
+  //     credentials: {
+  //       ...this.state.credentials,
+  //       [e.target.name]: e.target.value
+  //     }
+  //   });
+  // };
+
+
+
+  handleChange = (event) => {
+    event.preventDefault();
+    const { name, value } = event.target;
+    let errors = this.state.credentials.errors;
+
+    switch (name) {
+      case 'username':
+        errors.username = 
+          value.length < 5
+            ? 'Username must be 5 characters long!'
+            : '';
+        break;
+      
+      case 'email':
+        errors.email = 
+          validEmailRegex.test(value)
+            ? ''
+            : 'Email is not valid!';
+        break;
+
+      case 'first_name':
+        errors.first_name = 
+          value.length < 2
+            ? 'First name must be 2 characters long!'
+            : '';
+        break;
+
+      case 'last_name':
+        errors.last_name = 
+          value.length < 2
+            ? 'Last name must be 2 characters long!'
+            : '';
+        break;
+
+      case 'password':
+        errors.password = 
+          value.length < 8
+            ? 'Password must be 8 characters long!'
+            : '';
+        break;
+      default:
+        break;
+    }
+
+    this.setState({errors, [name]: value});
+  }
+
+  // registerSubmit = e => {
+  //   e.preventDefault();
+  //   window.gtag("event", "register", {
+  //     event_category: "access",
+  //     event_label: "register"
+  //   });
+  //   console.log("creds", this.state.credentials);
+  //   this.props.register(this.state.credentials)
+  //     .then(res => {
+  //       if (res) {
+  //         this.props
+  //           .login({
+  //             username: this.state.credentials.username,
+  //             password: this.state.credentials.password
+  //           })
+  //           .then(res => {
+  //             this.setState({
+  //               username: '',
+  //               password: '',
+  //               first_name: '',
+  //               last_name: ''
+  //             });
+  //             if (res) {
+  //               this.props.history.push('/map');
+  //             }
+  //           });
+  //       }
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // };
 
   registerSubmit = e => {
     e.preventDefault();
-    window.gtag("event", "register", {
-      event_category: "access",
-      event_label: "register"
-    });
-    console.log("creds", this.state.credentials);
-    this.props.register(this.state.credentials)
-      .then(res => {
-        if (res) {
-          this.props
-            .login({
-              username: this.state.credentials.username,
-              password: this.state.credentials.password
-            })
-            .then(res => {
-              this.setState({
-                username: '',
-                password: '',
-                first_name: '',
-                last_name: ''
-              });
-              if (res) {
-                this.props.history.push('/map');
-              }
-            });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
+    if (validateForm(this.state.credentials.errors)) {
+      console.info('Valid Form')
+    } else {
+      console.error('Invalid Form')
+    }
+}
+
   render() {
     return (
       <div>
@@ -70,7 +145,7 @@ class RegisterForm extends React.Component {
             <Form.Label>Username</Form.Label>
             <Form.Control
               name="username"
-              placeholder="RVman4000"
+              placeholder="Username"
               type="string"
               value={this.state.credentials.username}
               onChange={this.handleChange}
@@ -80,26 +155,24 @@ class RegisterForm extends React.Component {
 
             <Form.Control
               name="first_name"
-              placeholder="Jim"
+              placeholder="First name"
               type="string"
               value={this.state.credentials.first_name}
               onChange={this.handleChange}
-              required
             ></Form.Control>
             <Form.Label>Last Name</Form.Label>
 
             <Form.Control
               name="last_name"
-              placeholder="Smith"
+              placeholder="Last name"
               type="string"
               value={this.state.credentials.last_name}
               onChange={this.handleChange}
-              required
             ></Form.Control>
             <Form.Label>Email</Form.Label>
             <Form.Control
               name="email"
-              placeholder="smith@rvlife.com"
+              placeholder="Email"
               type="email"
               value={this.state.credentials.email}
               onChange={this.handleChange}
@@ -109,7 +182,7 @@ class RegisterForm extends React.Component {
             <Form.Control
               type="password"
               name="password"
-              placeholder="1egdhuy!!%^kjhd"
+              placeholder="Password"
               value={this.state.credentials.password}
               onChange={this.handleChange}
               required
@@ -129,6 +202,8 @@ class RegisterForm extends React.Component {
 }
 
 const mapStateToProps = state => ({});
+
+
 
 export default withRouter(
   connect(
