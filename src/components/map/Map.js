@@ -1,5 +1,4 @@
-import React, { Component } from 'react'
-import Location from '../location/location.js'
+import React, { Component } from 'react';
 import Nav from '../nav/Nav';
 import Sidebar from '../sidebar/Sidebar';
 import RoutingForm from './routingForm';
@@ -9,49 +8,150 @@ import "./Map.css"
 
 
 class MapPage extends Component {
-    constructor(props) {
-      super(props);
-
-      this.platform = null;
-      this.map = null;
-
-      this.state = {
-          app_id: 'arvginqRfleoK8308SvJ',
-          app_code: 'sFz75OkwERmUxkBGeUjepg',
-          center: {
-              lat: 33.150673,
-              lng: -96.823608,
-          },
-          zoom: 7,
-          theme: props.theme,
-          style: props.style,
-      }
+  constructor(){
+    super()
+    this.state = {
+      start: '',
+      end: '',
+      sidebarOpen: false,
+      directionsService: {},
+      directionsDisplay: {}
+    }
   }
 
+  componentDidMount() {
+    console.log("local storage token", localStorage);
+    this.setState({ sidebarOpen: !this.state.sidebarOpen }) 
+    this.renderMap()
+    this.walmart()
+  }
 
+  walmart = () => {
+    var coords = {
+      latitude: 41.839344, 
+      longitude: -87.65784,
+      distance: 6
+    }
+    return axios.post("http://eb-flask-rv-dev.us-east-1.elasticbeanstalk.com/fetch_walmart", coords)
+      .then(res => {
+        
+        let mart = {
+          lat: res.data[0].Latitude,
+          lng: res.data[0].Longitude
+        }
+  
+        this.initMap(mart)
+      })
+      .catch(err => {
+        console.log(err);
+      })
+
+  }
   toggleSidebar = ()=> {
     this.setState({ sidebarOpen: !this.state.sidebarOpen }) 
   }
 
-  
-  componentDidMount() {
-    this.platform = new window.H.service.Platform(this.state);
+  renderMap = () => {
+    loadScript(`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLEMAP}&callback=initMap`)
+    window.initMap = this.initMap
+  }
 
-    var layer = this.platform.createDefaultLayers();
-    var container = document.getElementById('here-map');
+  calculateAndDisplayRoute = (directionsS, directionsD) => {
+    directionsS.route({
+      origin: this.state.start,
+      destination: this.state.end,
+      travelMode: 'DRIVING'
+    }, function(response, status) {
+        if(status === 'OK') {
+          directionsD.setDirections(response)
+        } else {
+          window.alert('Directions request failed due to' + status)
+        }
 
-    this.map = new window.H.Map(container, layer.normal.map, {
-        center: this.state.center,
-        zoom: this.state.zoom,
+    })
+  }
+
+  initMap = (mart) => {
+    var directionsService = new window.google.maps.DirectionsService();
+    var directionsDisplay = new window.google.maps.DirectionsRenderer();
+    var map = new window.google.maps.Map(document.getElementById('map'), {
+      center: {lat: -34.397, lng: 150.644},
+      zoom: 8
+    });
+
+      this.setState({
+        directionsService,
+        directionsDisplay 
       })
 
-    var events = new window.H.mapevents.MapEvents(this.map);
-    // eslint-disable-next-line
-    var behavior = new window.H.mapevents.Behavior(events);
-    // eslint-disable-next-line
-    var ui = new window.H.ui.UI.createDefault(this.map, layer)
-}    
 
+    directionsDisplay.setMap(map)
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        //marker for users location
+        new window.google.maps.Marker({map:map, position: pos});
+        //new window.google.maps.Marker({map:map, position: mart});
+        map.setCenter(pos);
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      console.log("Error finding location")
+    }
+    this.onChangeHandler();
+    
+    document.querySelector('form').addEventListener('submit', this.onChangeHandler)
+
+    var Coordinates = [
+      {lat: -33.868303208030476, lng: 151.19651825636993},
+      {lat: -33.868286399999995, lng: 151.1964951},
+      {lat: -33.868286399999995, lng: 151.1964951},
+      {lat: -33.868225699999996, lng: 151.19641629999998},
+      {lat: -33.8681414, lng: 151.1963152},
+      {lat: -33.86807969999999, lng: 151.19625019999998},
+      {lat: -33.8678652, lng: 151.1960533},
+      {lat: -33.8677709, lng: 151.1959887},
+      {lat: -33.867654900000005, lng: 151.1959164},
+      {lat: -33.8674835, lng: 151.195817},
+      {lat: -33.867342699999995, lng: 151.19573219999998},
+      {lat: -33.8671457, lng: 151.1956274},
+      {lat: -33.866996799999995, lng: 151.1955593},
+      {lat: -33.8667006, lng: 151.1953711},
+      {lat: -33.866626100000005, lng: 151.195321},
+      {lat: -33.86660189999999, lng: 151.19527739999998},
+      {lat: -33.866583, lng: 151.19525099999998},
+      {lat: -33.8665662, lng: 151.1952325},
+      {lat: -33.8665395, lng: 151.1951841},
+      {lat: -33.866529770928025, lng: 151.19515915183553}
+    ];
+
+    var polyPath = new window.google.maps.Polyline({
+      path: Coordinates,
+      geodesic: true,
+      strokeColor: '#FF0000',
+      strokeOpacity: 1.0,
+      strokeWeight: 2
+    });
+
+    polyPath.setMap(map);
+  
+  }
+  routeChangeHandler = (e) => {
+   this.setState({
+     [e.target.name]: e.target.value
+    })
+  }
+
+  onChangeHandler = () => {
+    // e.preventDefault()
+    if(this.state.start.length > 0){
+      this.calculateAndDisplayRoute(this.state.directionsService, this.state.directionsDisplay)
+    }
+    
+  }
   render(){
   return (
     <div>
@@ -69,13 +169,22 @@ class MapPage extends Component {
       start={this.state.start}
       end={this.state.end}
       toggleSidebar = {this.toggleSidebar} sidebarOpen = {this.state.sidebarOpen} />
+      
 
-      <div id="here-map" location={this.Location} style={{width: '100%', height: '400px', background: 'grey' }} />
-      {/* <div id="map" ></div> */}
+      <div id="map" ></div>
     </div>
   );
 }
 }
 
+function loadScript(url){
+  var index = window.document.getElementsByTagName("script")[0]
+  var script = window.document.createElement("script")
+  script.src = url
+  script.async = true
+  script.defer = true
+  index.parentNode.insertBefore(script, index)
+  
+}
 
 export default MapPage;
