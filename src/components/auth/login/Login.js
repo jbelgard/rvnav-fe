@@ -48,11 +48,26 @@ class LoginForm extends React.Component {
         if (res) {
           this.props.history.push('/map');
         }
+        // if (this.state.username.value == '') {
+        //   window.alert('Please enter your username');
+        //   this.state.username.focus();
+        //   return false;
+        // }
+      
+        // if (this.state.password.value == '') {
+        //   window.alert('Please enter a valid password');
+        //   this.state.password.focus();
+        //   return false;
+        // }
       })
       .catch(err => {
         console.log(err);
       });
+
+
   };
+
+  
 
   render() {
     return (
@@ -64,7 +79,7 @@ class LoginForm extends React.Component {
             <Form.Control
               type="string"
               name="username"
-              placeholder="RVman4000"
+              placeholder="Username"
               value={this.state.credentials.username}
               onChange={this.handleChange}
               required
@@ -74,7 +89,7 @@ class LoginForm extends React.Component {
             <Form.Control
               type="password"
               name="password"
-              placeholder="1egdhuy!!%^kjhd"
+              placeholder="Password"
               value={this.state.credentials.password}
               onChange={this.handleChange}
               required
