@@ -15,7 +15,8 @@ class MapPage extends Component {
       end: '',
       sidebarOpen: false,
       directionsService: {},
-      directionsDisplay: {}
+      directionsDisplay: {},
+      Coordinates: []
     }
   }
 
@@ -104,7 +105,32 @@ class MapPage extends Component {
     this.onChangeHandler();
     
     document.querySelector('form').addEventListener('submit', this.onChangeHandler)
+
+  return axios.get('https://roads.googleapis.com/v1/snapToRoads?path=-35.27801,149.12958%7C-35.28032,149.12907%7C-35.28099,149.12929%7C-35.28144,149.12984%7C-35.28194,149.13003%7C-35.28282,149.12956%7C-35.28302,149.12881%7C-35.28473,149.12836&interpolate=true&key=AIzaSyC9SzPSjzdJI1IFN6VgeOMHH_ay0ePBTqM')
+    .then(res => {
+    for(let i = 0; i < res.data.snappedPoints.length; i++ ) {
+    // console.log('snapped lat',res.data.snappedPoints[i].location.latitude)
+    // console.log('snapped lng',res.data.snappedPoints[i].location.longitude)
+    let Coordinate = {lat: null, lng: null}
+    Coordinate.lat = res.data.snappedPoints[i].location.latitude
+    Coordinate.lng = res.data.snappedPoints[i].location.longitude
+    this.state.Coordinates[i] = Coordinate
+   } 
+   var polyPath = new window.google.maps.Polyline({
+      path: this.state.Coordinates,
+      geodesic: true,
+      strokeColor: '#FF0000',
+      strokeOpacity: 1.0,
+      strokeWeight: 4
+    });
+   
+    polyPath.setMap(map); 
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
+  //Hello 
   routeChangeHandler = (e) => {
    this.setState({
      [e.target.name]: e.target.value
