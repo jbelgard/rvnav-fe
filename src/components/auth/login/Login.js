@@ -101,6 +101,7 @@ class LoginForm extends React.Component {
 
   render() {
     const { errors } = this.state.credentials;
+    const isEnabled = this.state.credentials.username.length > 0 && this.state.credentials.password.length > 8;
     return (
       <div>
         <Form onSubmit={this.loginSubmit}>
@@ -129,7 +130,7 @@ class LoginForm extends React.Component {
             {errors.password.length > 0 &&
                 <p className = 'error'>{errors.password}</p>}
             
-            <Button variant="warning" type="submit">
+            <Button variant="warning" type="submit" disabled = {!isEnabled}>
               Submit
             </Button>
           </Form.Group>
