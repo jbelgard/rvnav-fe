@@ -3,7 +3,7 @@ import Login from "./login/Login";
 import Register from "./register/Register";
 import "./Auth.css";
 import { Link } from "react-router-dom";
-import icon from "../../assets/img/icon.png"
+import icon from "../../assets/img/rvnav.png"
 import Nav from "../nav/Nav";
 import Button from "react-bootstrap/Button";
 

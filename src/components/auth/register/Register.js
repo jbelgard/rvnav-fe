@@ -1,88 +1,83 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 
-import { connect } from 'react-redux';
-import { register, login } from '../../../store/actions';
-import { withRouter } from 'react-router-dom';
-import '../Auth.css';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import { connect } from "react-redux";
+import { register, login } from "../../../store/actions";
+import { withRouter } from "react-router-dom";
+import "../Auth.css";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
-const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
-const validateForm = (errors) => {
+const validEmailRegex = RegExp(
+  /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+);
+const validateForm = errors => {
   let valid = true;
-  Object.values(errors).forEach(
-    (val) => val.length > 0 && (valid = false)
-  );
+  Object.values(errors).forEach(val => val.length > 0 && (valid = false));
   return valid;
-}
+};
 
 class RegisterForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       credentials: {
-        username: '',
-        email: '',
-        first_name: '',
-        last_name: '',
-        password: '',
+        username: "",
+        email: "",
+        first_name: "",
+        last_name: "",
+        password: "",
         errors: {
-          username:'',
-          first_name: '',
-          last_name: '',
-          password: '',
-          email: '',
+          username: "",
+          first_name: "",
+          last_name: "",
+          password: "",
+          email: ""
         }
       }
     };
   }
 
-  handleChange = (event) => {
+  handleChange = event => {
     event.preventDefault();
     const { name, value } = event.target;
     let errors = this.state.credentials.errors;
 
     switch (name) {
-      case 'username':
-        errors.username = 
+      case "username":
+        errors.username =
           value.length < 5
-            ? 'Username must be at least 5 characters long!'
-            : '';
-        break;
-      
-      case 'email':
-        errors.email = 
-          validEmailRegex.test(value)
-            ? ''
-            : 'Email is not valid!';
+            ? "Username must be at least 5 characters long!"
+            : "";
         break;
 
-      case 'first_name':
-        errors.first_name = 
-          value.length < 0
-            ? 'First name must be 2 characters long!'
-            : '';
+      case "email":
+        errors.email = validEmailRegex.test(value) ? "" : "Email is not valid!";
         break;
 
-      case 'last_name':
-        errors.last_name = 
-          value.length < 0
-            ? 'Last name must be 2 characters long!'
-            : '';
+      case "first_name":
+        errors.first_name =
+          value.length < 0 ? "First name must be 2 characters long!" : "";
         break;
 
-      case 'password':
-        errors.password = 
+      case "last_name":
+        errors.last_name =
+          value.length < 0 ? "Last name must be 2 characters long!" : "";
+        break;
+
+      case "password":
+        errors.password =
           value.length < 8
-            ? 'Password must be at least 8 characters long!'
-            : '';
+            ? "Password must be at least 8 characters long!"
+            : "";
         break;
       default:
         break;
     }
 
-    this.setState({credentials: {...this.state.credentials, errors, [name]: value}});
-  }
+    this.setState({
+      credentials: { ...this.state.credentials, errors, [name]: value }
+    });
+  };
 
   registerSubmit = e => {
     e.preventDefault();
@@ -91,12 +86,19 @@ class RegisterForm extends Component {
       event_label: "register"
     });
     if (validateForm(this.state.credentials.errors)) {
-      console.info('Valid Form')
+      console.info("Valid Form");
     } else {
-      console.error('Invalid Form')
+      console.error("Invalid Form");
     }
     console.log("creds", this.state.credentials);
-    this.props.register(this.state.credentials)
+    this.props
+      .register({
+        username: this.state.credentials.username,
+        password: this.state.credentials.password,
+        email: this.state.credentials.email,
+        first_name: this.state.credentials.first_name,
+        last_name: this.state.credentials.last_name
+      })
       .then(res => {
         if (res) {
           this.props
@@ -106,13 +108,15 @@ class RegisterForm extends Component {
             })
             .then(res => {
               this.setState({
-                username: '',
-                password: '',
-                first_name: '',
-                last_name: ''
+                credentials: {
+                  username: "",
+                  password: "",
+                  first_name: "",
+                  last_name: ""
+                }
               });
               if (res) {
-                this.props.history.push('/map');
+                this.props.history.push("/map");
               }
             });
         }
@@ -122,14 +126,14 @@ class RegisterForm extends Component {
       });
   };
 
-//   registerSubmit = e => {
-//     e.preventDefault();
-//     if (validateForm(this.state.credentials.errors)) {
-//       console.info('Valid Form')
-//     } else {
-//       console.error('Invalid Form')
-//     }
-// }
+  //   registerSubmit = e => {
+  //     e.preventDefault();
+  //     if (validateForm(this.state.credentials.errors)) {
+  //       console.info('Valid Form')
+  //     } else {
+  //       console.error('Invalid Form')
+  //     }
+  // }
 
   render() {
     const { errors } = this.state.credentials;
@@ -145,10 +149,10 @@ class RegisterForm extends Component {
               value={this.state.credentials.username}
               onChange={this.handleChange}
               noValidate
-            >
-            </Form.Control>
-            {errors.username.length > 0 &&
-                <p className = 'error'>{errors.username}</p>}
+            ></Form.Control>
+            {errors.username.length > 0 && (
+              <p className="error">{errors.username}</p>
+            )}
 
             <Form.Label>First Name (Optional)</Form.Label>
             <Form.Control
@@ -176,10 +180,8 @@ class RegisterForm extends Component {
               value={this.state.credentials.email}
               onChange={this.handleChange}
               noValidate
-            >              
-            </Form.Control>
-            {errors.email.length > 0 &&
-              <p className = 'error'>{errors.email}</p>}
+            ></Form.Control>
+            {errors.email.length > 0 && <p className="error">{errors.email}</p>}
 
             <Form.Label>Password*</Form.Label>
             <Form.Control
@@ -188,19 +190,21 @@ class RegisterForm extends Component {
               placeholder="Password"
               value={this.state.credentials.password}
               onChange={this.handleChange}
-              noValidate>
-            </Form.Control>
-            {errors.password.length > 0 &&
-                <p className = 'error'>{errors.password}</p>}
-            
-            <div className = 'info'>
+              noValidate
+            ></Form.Control>
+            {errors.password.length > 0 && (
+              <p className="error">{errors.password}</p>
+            )}
+
+            <div className="info">
               <small>* Required</small>
             </div>
 
             <Button
               variant="warning"
               onClick={this.registerSubmit}
-              type="submit">
+              type="submit"
+            >
               Submit
             </Button>
           </Form.Group>
@@ -211,8 +215,6 @@ class RegisterForm extends Component {
 }
 
 const mapStateToProps = state => ({});
-
-
 
 export default withRouter(
   connect(
