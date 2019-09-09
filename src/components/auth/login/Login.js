@@ -13,7 +13,11 @@ class LoginForm extends React.Component {
     this.state = {
       credentials: {
         username: '',
-        password: ''
+        password: '',
+        errors: {
+          username: '',
+          password: '',
+        }
       }
     };
   }
@@ -23,14 +27,40 @@ class LoginForm extends React.Component {
     localStorage.removeItem('id');
   }
 
-  handleChange = event => {
-    this.setState({
-      credentials: {
-        ...this.state.credentials,
-        [event.target.name]: event.target.value
+    handleChange = (event) => {
+      event.preventDefault();
+      const {
+        name,
+        value
+      } = event.target;
+      let errors = this.state.credentials.errors;
+
+      switch (name) {
+        case 'username':
+          errors.username =
+            value.length < 5 ?
+            'Username must be at least 5 characters long!' :
+            '';
+          break;
+
+        case 'password':
+          errors.password =
+            value.length < 8 ?
+            'Password must be at least 8 characters long!' :
+            '';
+          break;
+        default:
+          break;
       }
-    });
-  };
+
+      this.setState({
+        credentials: {
+          ...this.state.credentials,
+          errors,
+          [name]: value
+        }
+      });
+    }
 
   loginSubmit = (event) => {
     event.preventDefault();
@@ -70,12 +100,12 @@ class LoginForm extends React.Component {
   
 
   render() {
+    const { errors } = this.state.credentials;
     return (
       <div>
         <Form onSubmit={this.loginSubmit}>
           <Form.Group>
             <Form.Label>Username</Form.Label>
-
             <Form.Control
               type="string"
               name="username"
@@ -84,8 +114,10 @@ class LoginForm extends React.Component {
               onChange={this.handleChange}
               required
             ></Form.Control>
-            <Form.Label>Password</Form.Label>
+            {errors.username.length > 0 &&
+                <p className = 'error'>{errors.username}</p>}
 
+            <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
               name="password"
@@ -94,6 +126,9 @@ class LoginForm extends React.Component {
               onChange={this.handleChange}
               required
             ></Form.Control>
+            {errors.password.length > 0 &&
+                <p className = 'error'>{errors.password}</p>}
+            
             <Button variant="warning" type="submit">
               Submit
             </Button>

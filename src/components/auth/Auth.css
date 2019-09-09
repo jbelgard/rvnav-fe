@@ -75,3 +75,11 @@ form button {
   padding: 20px 0;
 }
 
+.error {
+  font-size: 0.8rem;
+  color: rgb(255, 159, 159);
+}
+
+.info {
+  color: #ffc107;
+}
