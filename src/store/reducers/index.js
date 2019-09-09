@@ -1,8 +1,9 @@
-import { LOADING, REGISTER, LOGIN, ADD_VEHICLE, GET_VEHICLE } from '../actions';
+import { LOADING, REGISTER, LOGIN, ADD_VEHICLE, GET_VEHICLE, GET_HERE } from '../actions';
 
 const initialState = {
   data: [],
-  vehicles: []
+  vehicles: [],
+  here: {}
 };
 
 export const reducer = (state = initialState, action) => {
@@ -40,6 +41,13 @@ export const reducer = (state = initialState, action) => {
           error: 'error',
           loading: false,
           vehicles: [...state.vehicles, { vehicles: action.payload }]        
+        };
+        case GET_HERE:
+        return {
+          ...state,
+          error: 'error',
+          loading: false,
+          here: [...state.here, { here: action.payload }]        
         };
     default:
       return state;

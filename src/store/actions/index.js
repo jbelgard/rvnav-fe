@@ -7,6 +7,7 @@ export const LOGIN = 'LOGIN';
 export const ADD_VEHICLE = 'ADD_VEHICLE';
 export const GET_VEHICLE = 'GET_VEHICLE';
 export const GET_WALMARTS = 'GET_WALMARTS';
+export const GET_HERE = "GET_HERE";
 
 export const register = creds => {
   return dispatch => {
@@ -94,6 +95,24 @@ export const getWalmarts = () => {
         console.log("get res", res); // data was created successfully and logs to console
         
         dispatch({ type: GET_WALMARTS, payload: res.data });
+        return true;
+      })
+      .catch(err => {
+        console.log(err); // there was an error creating the data and logs to console
+        dispatch({ type: ERROR_MESSAGE, errorMessage: 'request failed' });
+      });
+  };
+};
+
+export const getHere = (send) => {
+  return dispatch => {
+    dispatch({ type: LOADING });
+    return axios
+      .get('https://route.api.here.com/routing/7.2/calculateroute.json?waypoint0=50.0522%2C8.2180&waypoint1=50.0957%2C8.5280&mode=fastest%3Btruck&avoidareas=50.1062%2C8.2811%3B50.0180%2C8.4253&app_id=arvginqRfleoK8308SvJ&app_code=sFz75OkwERmUxkBGeUjepg&departure=now', send)
+      .then(res => {
+        console.log("here res", res); // data was created successfully and logs to console
+        
+        dispatch({ type: GET_HERE, payload: res.data });
         return true;
       })
       .catch(err => {
