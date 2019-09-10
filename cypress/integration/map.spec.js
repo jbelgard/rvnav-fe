@@ -6,7 +6,6 @@ describe('Start Input', () => {
     })
     
     it('focuses start input on load', () => {
-
         cy.focused()
             .should('have.id', 'start')
     })
