@@ -122,7 +122,7 @@ class RegisterForm extends Component {
         }
       })
       .catch(err => {
-        console.log(err);
+        console.log("submit error ->", err);
       });
   };
 
@@ -137,7 +137,10 @@ class RegisterForm extends Component {
 
   render() {
     const { errors } = this.state.credentials;
-    const isEnabled = this.state.credentials.username.length >= 5 && this.state.credentials.email.length > 2 && this.state.credentials.password.length >= 8;
+    const isEnabled =
+      this.state.credentials.username.length >= 5 &&
+      this.state.credentials.email.length > 2 &&
+      this.state.credentials.password.length >= 8;
     return (
       <div>
         <Form>
@@ -154,6 +157,7 @@ class RegisterForm extends Component {
             {errors.username.length > 0 && (
               <p className="error">{errors.username}</p>
             )}
+            <p>{this.props.error}</p>
 
             <Form.Label>First Name (Optional)</Form.Label>
             <Form.Control
@@ -205,7 +209,7 @@ class RegisterForm extends Component {
               variant="warning"
               onClick={this.registerSubmit}
               type="submit"
-              disabled = {!isEnabled}
+              disabled={!isEnabled}
             >
               Submit
             </Button>
@@ -216,7 +220,10 @@ class RegisterForm extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => {
+  console.log(state)
+  return { error: state.error }
+};
 
 export default withRouter(
   connect(

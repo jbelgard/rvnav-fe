@@ -7,6 +7,7 @@ export const LOGIN = 'LOGIN';
 export const ADD_VEHICLE = 'ADD_VEHICLE';
 export const GET_VEHICLE = 'GET_VEHICLE';
 export const GET_WALMARTS = 'GET_WALMARTS';
+export const DUPLICATE_USER = 'DUPLICATE_USER';
 
 export const register = creds => {
   return dispatch => {
@@ -17,14 +18,20 @@ export const register = creds => {
         creds
       )
       .then(response => {
+        console.log('response ->', response)
+
         dispatch({ type: REGISTER, payload: response.data });
         return true;
       })
       .catch(err => {
-        dispatch({
-          type: ERROR_MESSAGE,
-          errorMessage: 'User was unable to be createed.'
-        });
+        console.log('error ->', err);
+        if (err.data.code === '23505') {
+          dispatch({ type: DUPLICATE_USER })
+        }
+        // dispatch({
+        //   type: ERROR_MESSAGE,
+        //   errorMessage: 'User was unable to be created.',
+        // });
       });
   };
 };
