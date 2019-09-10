@@ -55,6 +55,7 @@ class MapPage extends Component {
   renderMap = () => {
     loadScript(`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLEMAP}&callback=initMap`)
     window.initMap = this.initMap
+  
   }
 
   calculateAndDisplayRoute = (directionsS, directionsD) => {
@@ -72,41 +73,41 @@ class MapPage extends Component {
     })
   }
 
-  // initMap = (mart) => {
-  //   var directionsService = new window.google.maps.DirectionsService();
-  //   var directionsDisplay = new window.google.maps.DirectionsRenderer();
-  //   var map = new window.google.maps.Map(document.getElementById('map'), {
-  //     center: { lat: -34.397, lng: 150.644 },
-  //     zoom: 8
-  //   });
+  initMap = (mart) => {
+    var directionsService = new window.google.maps.DirectionsService();
+    var directionsDisplay = new window.google.maps.DirectionsRenderer();
+    var map = new window.google.maps.Map(document.getElementById('map'), {
+      center: { lat: 34.0522, lng: -118.2437 },
+      zoom: 8
+    });
 
-  //   this.setState({
-  //     directionsService,
-  //     directionsDisplay
-  //   })
+    this.setState({
+      directionsService,
+      directionsDisplay
+    })
 
 
-  //   directionsDisplay.setMap(map)
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(function (position) {
-  //       var pos = {
-  //         lat: position.coords.latitude,
-  //         lng: position.coords.longitude
-  //       };
-  //       //marker for users location
-  //       new window.google.maps.Marker({ map: map, position: pos });
-  //       //new window.google.maps.Marker({map:map, position: mart});
-  //       map.setCenter(pos);
-  //     });
-  //   } else {
-  //     // Browser doesn't support Geolocation
-  //     console.log("Error finding location")
-  //   }
-  //   this.onChangeHandler();
+    directionsDisplay.setMap(map)
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        //marker for users location
+        new window.google.maps.Marker({ map: map, position: pos });
+        //new window.google.maps.Marker({map:map, position: mart});
+        map.setCenter(pos);
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      console.log("Error finding location")
+    }
+    this.onChangeHandler();
 
-  //   document.querySelector('form').addEventListener('submit', this.onChangeHandler)
+    document.querySelector('form').addEventListener('submit', this.onChangeHandler)
    
-  // }
+  }
 
   initRoute = () => {
     let barriersArray = [[
