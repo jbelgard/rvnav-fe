@@ -137,7 +137,7 @@ class RegisterForm extends Component {
 
   render() {
     const { errors } = this.state.credentials;
-    const isEnabled = this.state.credentials.username.length > 5 && this.state.credentials.email.length > 2 && this.state.credentials.password.length > 8;
+    const isEnabled = this.state.credentials.username.length >= 5 && this.state.credentials.email.length > 2 && this.state.credentials.password.length >= 8;
     return (
       <div>
         <Form>
