@@ -72,41 +72,41 @@ class MapPage extends Component {
     })
   }
 
-  initMap = (mart) => {
-    var directionsService = new window.google.maps.DirectionsService();
-    var directionsDisplay = new window.google.maps.DirectionsRenderer();
-    var map = new window.google.maps.Map(document.getElementById('map'), {
-      center: { lat: -34.397, lng: 150.644 },
-      zoom: 8
-    });
+  // initMap = (mart) => {
+  //   var directionsService = new window.google.maps.DirectionsService();
+  //   var directionsDisplay = new window.google.maps.DirectionsRenderer();
+  //   var map = new window.google.maps.Map(document.getElementById('map'), {
+  //     center: { lat: -34.397, lng: 150.644 },
+  //     zoom: 8
+  //   });
 
-    this.setState({
-      directionsService,
-      directionsDisplay
-    })
+  //   this.setState({
+  //     directionsService,
+  //     directionsDisplay
+  //   })
 
 
-    directionsDisplay.setMap(map)
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        var pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        //marker for users location
-        new window.google.maps.Marker({ map: map, position: pos });
-        //new window.google.maps.Marker({map:map, position: mart});
-        map.setCenter(pos);
-      });
-    } else {
-      // Browser doesn't support Geolocation
-      console.log("Error finding location")
-    }
-    this.onChangeHandler();
+  //   directionsDisplay.setMap(map)
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(function (position) {
+  //       var pos = {
+  //         lat: position.coords.latitude,
+  //         lng: position.coords.longitude
+  //       };
+  //       //marker for users location
+  //       new window.google.maps.Marker({ map: map, position: pos });
+  //       //new window.google.maps.Marker({map:map, position: mart});
+  //       map.setCenter(pos);
+  //     });
+  //   } else {
+  //     // Browser doesn't support Geolocation
+  //     console.log("Error finding location")
+  //   }
+  //   this.onChangeHandler();
 
-    document.querySelector('form').addEventListener('submit', this.onChangeHandler)
+  //   document.querySelector('form').addEventListener('submit', this.onChangeHandler)
    
-  }
+  // }
 
   initRoute = () => {
     let barriersArray = [[
@@ -184,7 +184,7 @@ class MapPage extends Component {
       "distance": 5 //miles
     }
   var map = new window.google.maps.Map(document.getElementById('map'), {
-            center: { lat: -34.397, lng: 150.644 },
+            center: { lat: 34.0522, lng: -118.2437},
             zoom: 8
           });
     axios.post("https://rv-nav-clearance.com/fetch_low_clearance", bridgePost)
