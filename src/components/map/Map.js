@@ -177,7 +177,18 @@ let placesSend = { //send places of interest for a point
 
 axios.post("https://rv-nav-clearance.com/fetch_low_clearance", bridgePost)
 .then(res => {
-  console.log("bridge res", res)
+  // console.log("bridge res", res.data[0].latitude)
+  // console.log("bridge res", res.data[0].longitude)
+  navigator.geolocation.getCurrentPosition(function(position){
+    let exclusion = {lat: null, lng: null}
+    exclusion.lat = res.data[0].latitude;
+    exclusion.lng = res.data[0].longitude;
+    console.log("exclusioon point", exclusion)
+    new window.google.maps.Marker({
+      map: map,
+    position: exclusion
+  })
+  });
 
 })
 .catch(err => {
