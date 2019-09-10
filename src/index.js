@@ -19,6 +19,7 @@ require('dotenv').config()
 
 const store = createStore(reducer, applyMiddleware(thunk));
 
+
 ReactDOM.render(
   <Router>
     <Provider store={store}>

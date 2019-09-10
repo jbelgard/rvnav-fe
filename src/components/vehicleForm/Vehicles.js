@@ -17,7 +17,7 @@ class Vehicles extends React.Component {
   }
 
   render() {
-    console.log("get", this.props.vehicles[0] && this.props.vehicles[0].vehicles[0].name)
+    // console.log("get", this.props.vehicles[0] && this.props.vehicles[0].vehicles[0].name)
     return(
       <div>
       {this.props.vehicles[0] && this.props.vehicles[0].vehicles.map( e => (

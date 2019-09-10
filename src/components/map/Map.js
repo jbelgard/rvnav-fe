@@ -177,8 +177,6 @@ let placesSend = { //send places of interest for a point
 
 axios.post("https://rv-nav-clearance.com/fetch_low_clearance", bridgePost)
 .then(res => {
-  // console.log("bridge res", res.data[0].latitude)
-  // console.log("bridge res", res.data[0].longitude)
   navigator.geolocation.getCurrentPosition(function(position){
     let exclusion = {lat: null, lng: null}
     exclusion.lat = res.data[0].latitude;
@@ -199,31 +197,18 @@ axios.post("https://rv-nav-clearance.com/fetch_low_clearance", bridgePost)
       .then(res => {
         console.log("arc res", res.data)
         var hereCoord = "";
-        console.log("length 139", res.data.routes.features[0].geometry.paths[0].length);
-        console.log("length 2", res.data.routes.features[0].geometry.paths[0][0].length);
-//res.data.routes.features[0].geometry.paths[0].length
         for(let i = 0; i < 95; i++){
-          // console.log("at i", res.data.routes.features[0].geometry.paths[0][i]);
           var lng = res.data.routes.features[0].geometry.paths[0][i][0];
           var lat = res.data.routes.features[0].geometry.paths[0][i][1];
 
           parseFloat(lat);
           parseFloat(lng);
-          // console.log("lat var", lat);
-          // console.log("lng var", lng);
-
-          // lat.toString();
-          // lng.toString();
-          // hereCoord =  hereCoord + lat + "," + lng + "|"
 
           let Coordinate = {lat: null, lng: null}
           Coordinate.lat = lat;
           Coordinate.lng = lng;
-          // console.log("coord obj", Coordinate);
+
           this.state.Coordinates[i] = Coordinate;
-          // console.log("coords array", this.state.Coordinates);
-
-
         }
         console.log("coords array after loop", this.state.Coordinates);
 
@@ -237,19 +222,12 @@ axios.post("https://rv-nav-clearance.com/fetch_low_clearance", bridgePost)
         });
        
         polyPath.setMap(map); 
-
-
-        // hereCoord = hereCoord.substring(0, hereCoord.length-1);
-        // console.log("q string", hereCoord)
       })
       .catch(err => {
         console.log(err);
       })
-    
-
-  
 }
-  //Hello 
+
 
   routeChangeHandler = (e) => {
    this.setState({
