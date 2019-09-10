@@ -66,6 +66,7 @@ export class Sidebar extends Component {
                         
                         <div className={`${this.state.routing}`}>
                         <RoutingForm   
+                        arcRoute={this.props.arcRoute}
                         onChangeHandler={this.props.onChangeHandler}
                         initMap={this.props.initMap}
                         routeChangeHandler={this.props.routeChangeHandler}

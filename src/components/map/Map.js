@@ -106,7 +106,59 @@ class MapPage extends Component {
     this.onChangeHandler();
     
     document.querySelector('form').addEventListener('submit', this.onChangeHandler)
+  
+   let bridgePost = { //sends low bridges a long a route
+    "height": 13,
+    "start_lon": -80.8431,
+    "start_lat": 35.2271,
+    "end_lon": -84.3880,
+    "end_lat": 33.7490
+}
+let placesSend = { //send places of interest for a point
+    "latitude":  35.2271,
+    "longitude": -80.8431,
+    "distance": 5 //miles
+}
+
+axios.post("https://rv-nav-clearance.com/fetch_low_clearance", bridgePost)
+.then(res => {
+  // console.log("bridge res", res.data[0].latitude)
+  // console.log("bridge res", res.data[0].longitude)
+  navigator.geolocation.getCurrentPosition(function(position){
+    // let poly = 
+    let exclusion = {lat: null, lng: null}
+    exclusion.lat = res.data[0].latitude;
+    exclusion.lng = res.data[0].longitude;
+
+    console.log("exclusioon point", exclusion)
+    new window.google.maps.Marker({
+      map: map,
+    position: exclusion
+  })
+  });
+
+})
+.catch(err => {
+  console.log(err);
+})
     
+}
+  //Hello 
+
+  arcRoute = () => {
+    let barriersArray =  
+    [
+      [
+        [-96.382,42.49],
+        [-96.391,42.471],
+        [-96.414,42.475],
+        [-96.421,42.491],
+        [-96.401,42.505],
+        [-96.382,42.49]
+      ],
+      []
+    ] 
+
     let formData = new FormData();
     formData.append('f', 'json'); 
     formData.append('token', process.env.REACT_APP_ARC_KEY); 
@@ -143,14 +195,9 @@ class MapPage extends Component {
       ]
     })); 
     formData.append("polygonBarriers", JSON.stringify(
-      {"features":[{"geometry":{"rings":[[
-        [-96.382,42.49],
-        [-96.391,42.471],
-        [-96.414,42.475],
-        [-96.421,42.491],
-        [-96.401,42.505],
-        [-96.382,42.49]
-      ]]},
+      {"features":[{"geometry":{"rings":
+      barriersArray
+  },
       "attributes":{
         "Name":"Bridge",
         "BarrierType":0
@@ -162,94 +209,55 @@ class MapPage extends Component {
     const config = {
       headers: { 'content-type': 'multipart/form-data' }
    }
-   let bridgePost = { //sends low bridges a long a route
-    "height": 13,
-    "start_lon": -80.8431,
-    "start_lat": 35.2271,
-    "end_lon": -84.3880,
-    "end_lat": 33.7490
-}
-let placesSend = { //send places of interest for a point
-    "latitude":  35.2271,
-    "longitude": -80.8431,
-    "distance": 5 //miles
-}
-
-axios.post("https://rv-nav-clearance.com/fetch_low_clearance", bridgePost)
-.then(res => {
-  // console.log("bridge res", res.data[0].latitude)
-  // console.log("bridge res", res.data[0].longitude)
-  navigator.geolocation.getCurrentPosition(function(position){
-    let exclusion = {lat: null, lng: null}
-    exclusion.lat = res.data[0].latitude;
-    exclusion.lng = res.data[0].longitude;
-    console.log("exclusioon point", exclusion)
-    new window.google.maps.Marker({
-      map: map,
-    position: exclusion
-  })
-  });
-
-})
-.catch(err => {
-  console.log(err);
-})
+   axios.post("https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve", formData, config)
+   .then(res => {
+     console.log("arc res", res.data)
+     var hereCoord = "";
+     console.log("length 139", res.data.routes.features[0].geometry.paths[0].length);
+     console.log("length 2", res.data.routes.features[0].geometry.paths[0][0].length);
+ //res.data.routes.features[0].geometry.paths[0].length
+     for(let i = 0; i < 95; i++){
+       // console.log("at i", res.data.routes.features[0].geometry.paths[0][i]);
+       var lng = res.data.routes.features[0].geometry.paths[0][i][0];
+       var lat = res.data.routes.features[0].geometry.paths[0][i][1];
  
-    axios.post("https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve", formData, config)
-      .then(res => {
-        console.log("arc res", res.data)
-        var hereCoord = "";
-        console.log("length 139", res.data.routes.features[0].geometry.paths[0].length);
-        console.log("length 2", res.data.routes.features[0].geometry.paths[0][0].length);
-//res.data.routes.features[0].geometry.paths[0].length
-        for(let i = 0; i < 95; i++){
-          // console.log("at i", res.data.routes.features[0].geometry.paths[0][i]);
-          var lng = res.data.routes.features[0].geometry.paths[0][i][0];
-          var lat = res.data.routes.features[0].geometry.paths[0][i][1];
-
-          parseFloat(lat);
-          parseFloat(lng);
-          // console.log("lat var", lat);
-          // console.log("lng var", lng);
-
-          // lat.toString();
-          // lng.toString();
-          // hereCoord =  hereCoord + lat + "," + lng + "|"
-
-          let Coordinate = {lat: null, lng: null}
-          Coordinate.lat = lat;
-          Coordinate.lng = lng;
-          // console.log("coord obj", Coordinate);
-          this.state.Coordinates[i] = Coordinate;
-          // console.log("coords array", this.state.Coordinates);
-
-
-        }
-        console.log("coords array after loop", this.state.Coordinates);
-
-
-        var polyPath = new window.google.maps.Polyline({
-          path: this.state.Coordinates,
-          geodesic: true,
-          strokeColor: '#FF0000',
-          strokeOpacity: 1.0,
-          strokeWeight: 4
-        });
-       
-        polyPath.setMap(map); 
-
-
-        // hereCoord = hereCoord.substring(0, hereCoord.length-1);
-        // console.log("q string", hereCoord)
-      })
-      .catch(err => {
-        console.log(err);
-      })
+       parseFloat(lat);
+       parseFloat(lng);
+       // console.log("lat var", lat);
+       // console.log("lng var", lng);
+ 
+       // lat.toString();
+       // lng.toString();
+       // hereCoord =  hereCoord + lat + "," + lng + "|"
+ 
+       let Coordinate = {lat: null, lng: null}
+       Coordinate.lat = lat;
+       Coordinate.lng = lng;
+       // console.log("coord obj", Coordinate);
+       this.state.Coordinates[i] = Coordinate;
+       // console.log("coords array", this.state.Coordinates);
+ 
+ 
+     }
+     console.log("coords array after loop", this.state.Coordinates);
+ 
+    var polyPath = new window.google.maps.Polyline({
+       path: this.state.Coordinates,
+       geodesic: true,
+       strokeColor: '#FF0000',
+       strokeOpacity: 1.0,
+       strokeWeight: 4
+     });
     
-
-  
-}
-  //Hello 
+     polyPath.setMap(this.map); 
+ 
+     // hereCoord = hereCoord.substring(0, hereCoord.length-1);
+     // console.log("q string", hereCoord)
+   })
+   .catch(err => {
+     console.log(err);
+   })
+  }
 
   routeChangeHandler = (e) => {
    this.setState({
@@ -260,7 +268,8 @@ axios.post("https://rv-nav-clearance.com/fetch_low_clearance", bridgePost)
   onChangeHandler = () => {
     // e.preventDefault()
     if(this.state.start.length > 0){
-      this.calculateAndDisplayRoute(this.state.directionsService, this.state.directionsDisplay)
+      this.arcRoute();
+      //his.calculateAndDisplayRoute(this.state.directionsService, this.state.directionsDisplay)
     }
     
   }
@@ -275,6 +284,7 @@ axios.post("https://rv-nav-clearance.com/fetch_low_clearance", bridgePost)
      
       </div>
       <Sidebar 
+      arcRoute={this.arcRoute}
       routeChangeHandler={this.routeChangeHandler} 
       onChangeHandler={this.onChangeHandler}
       initMap={this.initMap}
