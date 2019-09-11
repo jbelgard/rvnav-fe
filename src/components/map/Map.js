@@ -4,6 +4,10 @@ import Sidebar from '../sidebar/Sidebar';
 import RoutingForm from './routingForm';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
+import { getVehicles } from "../../store/actions";
+import { withRouter } from 'react-router-dom';
+import { connect } from "react-redux";
+
 import "./Map.css"
 class MapPage extends Component {
   constructor() {
@@ -24,6 +28,7 @@ class MapPage extends Component {
     console.log("local storage token", localStorage);
     this.setState({ sidebarOpen: !this.state.sidebarOpen })
     this.renderMap()
+    this.props.getVehicles()
   }
 
   toggleSidebar = () => {
@@ -102,9 +107,9 @@ class MapPage extends Component {
     const config = {
       headers: { 'content-type': 'multipart/form-data' }
     }
-    console.log('START COORD',this.state.startCoord.geometry.x.toFixed(4))
+    console.log('HEIGHT',this.props.vehicles[0].vehicles[0].height)
     let bridgePost = { //sends low bridges a long a route
-      "height": 13,
+      "height": this.props.vehicles[0].vehicles[0].height,
       "start_lon": parseFloat(this.state.startCoord.geometry.x.toFixed(4)),
       "start_lat": parseFloat(this.state.startCoord.geometry.y.toFixed(4)),
       "end_lon": parseFloat(this.state.endCoord.geometry.x.toFixed(4)),
@@ -280,5 +285,11 @@ function loadScript(url) {
   script.defer = true
   index.parentNode.insertBefore(script, index)
 }
-export default MapPage;
+const mapStateToProps = state => ({
+  vehicles: state.vehicles
+})
+
+export default withRouter(connect(
+  mapStateToProps, { getVehicles }
+)(MapPage))
 

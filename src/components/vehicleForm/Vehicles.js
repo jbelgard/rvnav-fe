@@ -17,12 +17,13 @@ class Vehicles extends React.Component {
   }
 
   render() {
-    // console.log("get", this.props.vehicles[0] && this.props.vehicles[0].vehicles[0].name)
+    console.log("get", this.props.vehicles[0] && this.props.vehicles[0].vehicles[0].name)
     return(
       <div>
       {this.props.vehicles[0] && this.props.vehicles[0].vehicles.map( e => (
         <div className="vehicle-tabs">
         <p className="vehicle-name">{e.name}</p>
+        <p className="vehicle-name">{e.height}</p>
         <p className="expand-vehicle-icon">+</p>
         </div>
       ))}
