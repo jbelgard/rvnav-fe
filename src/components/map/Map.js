@@ -25,25 +25,6 @@ class MapPage extends Component {
     this.setState({ sidebarOpen: !this.state.sidebarOpen })
     this.renderMap()
   }
-  
-  // walmart = () => {
-  //   var coords = {
-  //     latitude: 41.839344,
-  //     longitude: -87.65784,
-  //     distance: 6
-  //   }
-  //   return axios.post("http://eb-flask-rv-dev.us-east-1.elasticbeanstalk.com/fetch_walmart", coords)
-  //     .then(res => {
-  //       let mart = {
-  //         lat: res.data[0].Latitude,
-  //         lng: res.data[0].Longitude
-  //       }
-  //       this.initMap(mart)
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     })
-  // }
 
   toggleSidebar = () => {
     this.setState({ sidebarOpen: !this.state.sidebarOpen })
@@ -54,38 +35,12 @@ class MapPage extends Component {
     window.initMap = this.initMap
   }
 
-  calculateAndDisplayRoute = () => {
-
-    // directionsS.route({
-    //   origin: this.state.start,
-    //   destination: this.state.end,
-    //   travelMode: 'DRIVING'
-    // }, function (response, status) {
-    //   if (status === 'OK') {
-    //     // directionsD.setDirections(response)
-    //     console.log('google directions response',response.routes[0].legs[0])
-
-    //   } else {
-    //     window.alert('Directions request failed due to' + status)
-    //   }
-    // })
-    // window.google.maps.geocoder
-    // return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=${process.env.REACT_APP_GOOGLEMAP}`)
-    // .then(res => {
-    //   console.log('res',res.data.results[0].geometry.location)
-    //   this.setState({startCoord: res.data.results[0].geometry.location})
-    // })
-    // .catch(err => {
-    //   console.log(err)
-    // })
-  }
-
   initMap = (mart) => {
     var directionsService = new window.google.maps.DirectionsService();
     var directionsDisplay = new window.google.maps.DirectionsRenderer();
    
     var map = new window.google.maps.Map(document.getElementById('map'), {
-      center: { lat: 34.0522, lng: -118.2437 },
+      center: { lat: 34.0522, lng: -118.2437},
       zoom: 8
     });
     
@@ -162,8 +117,8 @@ class MapPage extends Component {
     }
     
     var map = new window.google.maps.Map(document.getElementById('map'), {
-      center: { lat: 34.0522, lng: -118.2437},
-      zoom: 8
+      center: {lat: parseFloat(this.state.startCoord.geometry.y.toFixed(4)), lng: parseFloat(this.state.startCoord.geometry.x.toFixed(4)) },
+      zoom: 5
     });
 
       let makePolygon = (latitude, longitude) => {
@@ -171,18 +126,8 @@ class MapPage extends Component {
       displayPoly[0] = {lat: latitude + .0002, lng: longitude};
       displayPoly[1] = {lat: latitude - .0002, lng: longitude};
       displayPoly[2] = {lat: latitude, lng: longitude + .0002};
-      
-      
-        // let polygon = [];
-        // let exclusion = { lat: null, lng: null }
-        // exclusion.lat = latitude;
-        // exclusion.lng = longitude;
-        // polygon[i] = exclusion;
-        var marker = new  window.google.maps.Marker;
-        marker.setMap(null);
+     
         for(let i = 0; i < 3; i++){
-          // console.log(i, typeof polygon[i].lat);
-          // console.log("polgon pts", polygon[i]);
           new window.google.maps.Marker({
             map: map,
             position: displayPoly[i]
