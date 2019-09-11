@@ -10,9 +10,7 @@
   padding: 0 10px;
   overflow-y: hidden;
 }
-.route-form{
-  width: 300%;
-}
+
 .logout-btn{
   background-color: #ffc107;
   color: black;
