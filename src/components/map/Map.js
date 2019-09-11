@@ -178,7 +178,7 @@ class MapPage extends Component {
 
       let makePolygon = (latitude, longitude) => {
       let polygon = [];
-      polygon[0] = {lat: latitude + .0002, lng: longitude};
+      polygon[0] = {lat: latitude + .0004, lng: longitude};
       polygon[1] = {lat: latitude - .0002, lng: longitude};
       polygon[2] = {lat: latitude, lng: longitude + .0002};
       
@@ -211,6 +211,7 @@ class MapPage extends Component {
           for(let j = 0; j < res.data.length; j++){
             polygonsArray[j] = makePolygon(res.data[j].latitude, res.data[j].longitude);
           }
+          console.log("polygons array", polygonsArray);
      
          
         });
