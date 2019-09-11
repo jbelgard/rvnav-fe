@@ -152,8 +152,8 @@ class MapPage extends Component {
       "height": 13,
       "start_lon": parseFloat(this.state.startCoord.geometry.x.toFixed(4)),
       "start_lat": parseFloat(this.state.startCoord.geometry.y.toFixed(4)),
-      "end_lon": -84.3880,
-      "end_lat": 33.7490
+      "end_lon": parseFloat(this.state.endCoord.geometry.x.toFixed(4)),
+      "end_lat": parseFloat(this.state.endCoord.geometry.y.toFixed(4))
     }
     let placesSend = { //send places of interest for a point
       "latitude": 35.2271,
