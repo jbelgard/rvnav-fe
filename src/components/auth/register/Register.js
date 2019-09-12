@@ -1,32 +1,81 @@
-import React from 'react';
+import React, { Component } from "react";
 
-import { connect } from 'react-redux';
-import { register, login } from '../../../store/actions';
-import { withRouter } from 'react-router-dom';
-import '../Auth.css';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import { connect } from "react-redux";
+import { register, login } from "../../../store/actions";
+import { withRouter } from "react-router-dom";
+import "../Auth.css";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
-class RegisterForm extends React.Component {
-  constructor() {
-    super();
+const validEmailRegex = RegExp(
+  /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+);
+const validateForm = errors => {
+  let valid = true;
+  Object.values(errors).forEach(val => val.length > 0 && (valid = false));
+  return valid;
+};
+
+class RegisterForm extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
       credentials: {
-        username: '',
-        email: '',
-        first_name: '',
-        last_name: '',
-        password: ''
+        username: "",
+        email: "",
+        first_name: "",
+        last_name: "",
+        password: "",
+        errors: {
+          username: "",
+          first_name: "",
+          last_name: "",
+          password: "",
+          email: ""
+        }
       }
     };
   }
 
-  handleChange = e => {
+  handleChange = event => {
+    event.preventDefault();
+    const { name, value } = event.target;
+    let errors = this.state.credentials.errors;
+
+    switch (name) {
+      case "username":
+        errors.username =
+          value.length < 5
+            ? "Username must be at least 5 characters long!"
+            : "";
+        break;
+
+      case "email":
+        errors.email = validEmailRegex.test(value) ? "" : "Email is not valid!";
+        break;
+
+      case "first_name":
+        errors.first_name =
+          value.length < 0 ? "First name must be 2 characters long!" : "";
+        break;
+
+      case "last_name":
+        errors.last_name =
+          value.length < 0 ? "Last name must be 2 characters long!" : "";
+        break;
+
+      case "password":
+        errors.password =
+          value.length < 8
+            ? "Password must be at least 8 characters long!"
+            : "";
+        break;
+      default:
+        break;
+    }
+
     this.setState({
-      credentials: {
-        ...this.state.credentials,
-        [e.target.name]: e.target.value
-      }
+      credentials: { ...this.state.credentials, errors, [name]: value }
     });
   };
 
@@ -36,8 +85,20 @@ class RegisterForm extends React.Component {
       event_category: "access",
       event_label: "register"
     });
+    if (validateForm(this.state.credentials.errors)) {
+      console.info("Valid Form");
+    } else {
+      console.error("Invalid Form");
+    }
     console.log("creds", this.state.credentials);
-    this.props.register(this.state.credentials)
+    this.props
+      .register({
+        username: this.state.credentials.username,
+        password: this.state.credentials.password,
+        email: this.state.credentials.email,
+        first_name: this.state.credentials.first_name,
+        last_name: this.state.credentials.last_name
+      })
       .then(res => {
         if (res) {
           this.props
@@ -47,13 +108,15 @@ class RegisterForm extends React.Component {
             })
             .then(res => {
               this.setState({
-                username: '',
-                password: '',
-                first_name: '',
-                last_name: ''
+                credentials: {
+                  username: "",
+                  password: "",
+                  first_name: "",
+                  last_name: ""
+                }
               });
               if (res) {
-                this.props.history.push('/map');
+                this.props.history.push("/map");
               }
             });
         }
@@ -62,62 +125,87 @@ class RegisterForm extends React.Component {
         console.log(err);
       });
   };
+
+  //   registerSubmit = e => {
+  //     e.preventDefault();
+  //     if (validateForm(this.state.credentials.errors)) {
+  //       console.info('Valid Form')
+  //     } else {
+  //       console.error('Invalid Form')
+  //     }
+  // }
+
   render() {
+    const { errors } = this.state.credentials;
+    const isEnabled = this.state.credentials.username.length >= 5 && this.state.credentials.email.length > 2 && this.state.credentials.password.length >= 8;
     return (
       <div>
         <Form>
           <Form.Group>
-            <Form.Label>Username</Form.Label>
+            <Form.Label>Username*</Form.Label>
             <Form.Control
               name="username"
-              placeholder="RVman4000"
+              placeholder="Username"
               type="string"
               value={this.state.credentials.username}
               onChange={this.handleChange}
-              required
+              noValidate
             ></Form.Control>
-            <Form.Label>First Name</Form.Label>
+            {errors.username.length > 0 && (
+              <p className="error">{errors.username}</p>
+            )}
 
+            <Form.Label>First Name (Optional)</Form.Label>
             <Form.Control
               name="first_name"
-              placeholder="Jim"
+              placeholder="First name"
               type="string"
               value={this.state.credentials.first_name}
               onChange={this.handleChange}
-              required
             ></Form.Control>
-            <Form.Label>Last Name</Form.Label>
 
+            <Form.Label>Last Name (Optional)</Form.Label>
             <Form.Control
               name="last_name"
-              placeholder="Smith"
+              placeholder="Last name"
               type="string"
               value={this.state.credentials.last_name}
               onChange={this.handleChange}
-              required
             ></Form.Control>
-            <Form.Label>Email</Form.Label>
+
+            <Form.Label>Email*</Form.Label>
             <Form.Control
               name="email"
-              placeholder="smith@rvlife.com"
+              placeholder="Email"
               type="email"
               value={this.state.credentials.email}
               onChange={this.handleChange}
-              required
+              noValidate
             ></Form.Control>
-            <Form.Label>Password</Form.Label>
+            {errors.email.length > 0 && <p className="error">{errors.email}</p>}
+
+            <Form.Label>Password*</Form.Label>
             <Form.Control
               type="password"
               name="password"
-              placeholder="1egdhuy!!%^kjhd"
+              placeholder="Password"
               value={this.state.credentials.password}
               onChange={this.handleChange}
-              required
+              noValidate
             ></Form.Control>
+            {errors.password.length > 0 && (
+              <p className="error">{errors.password}</p>
+            )}
+
+            <div className="info">
+              <small>* Required</small>
+            </div>
+
             <Button
               variant="warning"
               onClick={this.registerSubmit}
               type="submit"
+              disabled = {!isEnabled}
             >
               Submit
             </Button>

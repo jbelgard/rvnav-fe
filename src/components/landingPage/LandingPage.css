@@ -1,7 +1,8 @@
 .landing-page-wrapper {
-  width: 100vw;
-  height: 100vh;
-  background: #000 url("../../assets/img/rv-bg.jpg") no-repeat center;
+  width: 100%;
+  min-height: 100vh;
+  background: #000 url("../../assets/img/rv-bg.jpg") no-repeat bottom right
+    fixed;
   background-size: cover;
   display: flex;
   justify-content: space-between;
@@ -10,11 +11,16 @@
 }
 
 .button-container {
-  width: 30%;
+  width: 100%;
   display: flex;
   justify-content: space-around;
-  margin: 2% 0 0 65%;
-  float: right;
+  margin-top: 2%;
+  justify-content: flex-end;
+}
+
+.button-container button {
+  margin-right: 25px;
+  width: 10%;
 }
 
 .intro-logo {
@@ -42,15 +48,35 @@ h1 {
   flex-direction: column;
   align-items: center;
   width: 35%;
-  margin-bottom: 10%;
 }
 
-p {
+.intro p {
   font-size: 1.6rem;
   color: white;
+  background: rgb(10, 10, 10, 0.6);
+  padding: 20px;
+  border-radius: 0.5rem;
 }
 
 .about {
   color: white;
   font-size: 1.2rem;
+}
+
+@media (max-width: 1000px) {
+
+  .button-container {
+    width: 75%;
+    margin: 5% auto;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .button-container button {
+    width: 100%;
+  }
+
+  .intro {
+    width: 90%;
+  }
 }

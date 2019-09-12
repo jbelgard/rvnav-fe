@@ -20,6 +20,7 @@ class MapPage extends Component {
       endCoord: null
     }
   }
+  
   componentDidMount() {
     console.log("local storage token", localStorage);
     this.setState({ sidebarOpen: !this.state.sidebarOpen })

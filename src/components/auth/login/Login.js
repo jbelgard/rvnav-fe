@@ -13,7 +13,11 @@ class LoginForm extends React.Component {
     this.state = {
       credentials: {
         username: '',
-        password: ''
+        password: '',
+        errors: {
+          username: '',
+          password: '',
+        }
       }
     };
   }
@@ -23,14 +27,40 @@ class LoginForm extends React.Component {
     localStorage.removeItem('id');
   }
 
-  handleChange = event => {
-    this.setState({
-      credentials: {
-        ...this.state.credentials,
-        [event.target.name]: event.target.value
+    handleChange = (event) => {
+      event.preventDefault();
+      const {
+        name,
+        value
+      } = event.target;
+      let errors = this.state.credentials.errors;
+
+      switch (name) {
+        case 'username':
+          errors.username =
+            value.length < 5 ?
+            'Username must be at least 5 characters long!' :
+            '';
+          break;
+
+        case 'password':
+          errors.password =
+            value.length < 8 ?
+            'Password must be at least 8 characters long!' :
+            '';
+          break;
+        default:
+          break;
       }
-    });
-  };
+
+      this.setState({
+        credentials: {
+          ...this.state.credentials,
+          errors,
+          [name]: value
+        }
+      });
+    }
 
   loginSubmit = (event) => {
     event.preventDefault();
@@ -48,38 +78,59 @@ class LoginForm extends React.Component {
         if (res) {
           this.props.history.push('/map');
         }
+        // if (this.state.username.value == '') {
+        //   window.alert('Please enter your username');
+        //   this.state.username.focus();
+        //   return false;
+        // }
+      
+        // if (this.state.password.value == '') {
+        //   window.alert('Please enter a valid password');
+        //   this.state.password.focus();
+        //   return false;
+        // }
       })
       .catch(err => {
         console.log(err);
       });
+
+
   };
 
+  
+
   render() {
+    const { errors } = this.state.credentials;
+    const isEnabled = this.state.credentials.username.length >= 5 && this.state.credentials.password.length >= 8;
     return (
       <div>
         <Form onSubmit={this.loginSubmit}>
           <Form.Group>
             <Form.Label>Username</Form.Label>
-
             <Form.Control
               type="string"
               name="username"
-              placeholder="RVman4000"
+              placeholder="Username"
               value={this.state.credentials.username}
               onChange={this.handleChange}
               required
             ></Form.Control>
-            <Form.Label>Password</Form.Label>
+            {errors.username.length > 0 &&
+                <p className = 'error'>{errors.username}</p>}
 
+            <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
               name="password"
-              placeholder="1egdhuy!!%^kjhd"
+              placeholder="Password"
               value={this.state.credentials.password}
               onChange={this.handleChange}
               required
             ></Form.Control>
-            <Button variant="warning" type="submit">
+            {errors.password.length > 0 &&
+                <p className = 'error'>{errors.password}</p>}
+            
+            <Button variant="warning" type="submit" disabled = {!isEnabled}>
               Submit
             </Button>
           </Form.Group>
