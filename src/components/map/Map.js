@@ -4,6 +4,10 @@ import Sidebar from '../sidebar/Sidebar';
 import RoutingForm from './routingForm';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
+import { getVehicles } from "../../store/actions";
+import { withRouter } from 'react-router-dom';
+import { connect } from "react-redux";
+
 import "./Map.css"
 class MapPage extends Component {
   constructor() {
@@ -25,26 +29,8 @@ class MapPage extends Component {
     // console.log("local storage token", localStorage);
     this.setState({ sidebarOpen: !this.state.sidebarOpen })
     this.renderMap()
+    this.props.getVehicles()
   }
-  
-  // walmart = () => {
-  //   var coords = {
-  //     latitude: 41.839344,
-  //     longitude: -87.65784,
-  //     distance: 6
-  //   }
-  //   return axios.post("http://eb-flask-rv-dev.us-east-1.elasticbeanstalk.com/fetch_walmart", coords)
-  //     .then(res => {
-  //       let mart = {
-  //         lat: res.data[0].Latitude,
-  //         lng: res.data[0].Longitude
-  //       }
-  //       this.initMap(mart)
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     })
-  // }
 
   toggleSidebar = () => {
     this.setState({ sidebarOpen: !this.state.sidebarOpen })
@@ -55,38 +41,12 @@ class MapPage extends Component {
     window.initMap = this.initMap
   }
 
-  calculateAndDisplayRoute = () => {
-
-    // directionsS.route({
-    //   origin: this.state.start,
-    //   destination: this.state.end,
-    //   travelMode: 'DRIVING'
-    // }, function (response, status) {
-    //   if (status === 'OK') {
-    //     // directionsD.setDirections(response)
-    //     console.log('google directions response',response.routes[0].legs[0])
-
-    //   } else {
-    //     window.alert('Directions request failed due to' + status)
-    //   }
-    // })
-    // window.google.maps.geocoder
-    // return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=${process.env.REACT_APP_GOOGLEMAP}`)
-    // .then(res => {
-    //   console.log('res',res.data.results[0].geometry.location)
-    //   this.setState({startCoord: res.data.results[0].geometry.location})
-    // })
-    // .catch(err => {
-    //   console.log(err)
-    // })
-  }
-
   initMap = (mart) => {
     var directionsService = new window.google.maps.DirectionsService();
     var directionsDisplay = new window.google.maps.DirectionsRenderer();
    
     var map = new window.google.maps.Map(document.getElementById('map'), {
-      center: { lat: 34.0522, lng: -118.2437 },
+      center: { lat: 34.0522, lng: -118.2437},
       zoom: 8
     });
     
@@ -148,13 +108,17 @@ class MapPage extends Component {
     const config = {
       headers: { 'content-type': 'multipart/form-data' }
     }
+<<<<<<< HEAD
     //console.log('START COORD',this.state.startCoord.geometry.x.toFixed(4))
+=======
+    console.log('HEIGHT',this.props.vehicles[0].vehicles[0].height)
+>>>>>>> 78ec306c11ae67d4dda99726dc21d63401982b1b
     let bridgePost = { //sends low bridges a long a route
-      "height": 13,
+      "height": this.props.vehicles[0].vehicles[0].height,
       "start_lon": parseFloat(this.state.startCoord.geometry.x.toFixed(4)),
       "start_lat": parseFloat(this.state.startCoord.geometry.y.toFixed(4)),
-      "end_lon": -84.3880,
-      "end_lat": 33.7490
+      "end_lon": parseFloat(this.state.endCoord.geometry.x.toFixed(4)),
+      "end_lat": parseFloat(this.state.endCoord.geometry.y.toFixed(4))
     }
     let placesSend = { //send places of interest for a point
       "latitude": 35.2271,
@@ -163,8 +127,8 @@ class MapPage extends Component {
     }
     
     var map = new window.google.maps.Map(document.getElementById('map'), {
-      center: { lat: 34.0522, lng: -118.2437},
-      zoom: 8
+      center: {lat: parseFloat(this.state.startCoord.geometry.y.toFixed(4)), lng: parseFloat(this.state.startCoord.geometry.x.toFixed(4)) },
+      zoom: 5
     });
 
       let makePolygon = (latitude, longitude) => {
@@ -172,6 +136,7 @@ class MapPage extends Component {
       displayPoly[0] = {lat: latitude + .0002, lng: longitude};
       displayPoly[1] = {lat: latitude - .0002, lng: longitude};
       displayPoly[2] = {lat: latitude, lng: longitude + .0002};
+<<<<<<< HEAD
       
       
         // let polygon = [];
@@ -180,9 +145,10 @@ class MapPage extends Component {
         // exclusion.lng = longitude;
         // polygon[i] = exclusion;
   
+=======
+     
+>>>>>>> 78ec306c11ae67d4dda99726dc21d63401982b1b
         for(let i = 0; i < 3; i++){
-          // console.log(i, typeof polygon[i].lat);
-          // console.log("polgon pts", polygon[i]);
           new window.google.maps.Marker({
             map: map,
             label: 'a',
@@ -337,5 +303,11 @@ function loadScript(url) {
   script.defer = true
   index.parentNode.insertBefore(script, index)
 }
-export default MapPage;
+const mapStateToProps = state => ({
+  vehicles: state.vehicles
+})
+
+export default withRouter(connect(
+  mapStateToProps, { getVehicles }
+)(MapPage))
 
