@@ -108,13 +108,9 @@ class MapPage extends Component {
     const config = {
       headers: { 'content-type': 'multipart/form-data' }
     }
-<<<<<<< HEAD
-    //console.log('START COORD',this.state.startCoord.geometry.x.toFixed(4))
-=======
-    console.log('HEIGHT',this.props.vehicles[0].vehicles[0].height)
->>>>>>> 78ec306c11ae67d4dda99726dc21d63401982b1b
+    console.log('HEIGHT',this.props.vehicles.vehicles[0].height)
     let bridgePost = { //sends low bridges a long a route
-      "height": this.props.vehicles[0].vehicles[0].height,
+      "height": this.props.vehicles.vehicles[0].height,
       "start_lon": parseFloat(this.state.startCoord.geometry.x.toFixed(4)),
       "start_lat": parseFloat(this.state.startCoord.geometry.y.toFixed(4)),
       "end_lon": parseFloat(this.state.endCoord.geometry.x.toFixed(4)),
@@ -132,31 +128,28 @@ class MapPage extends Component {
     });
 
       let makePolygon = (latitude, longitude) => {
+      //create and display the point we are recieving from data low clearance api
+      let midPoint = {lat: latitude, lng: longitude}
+      new window.google.maps.Marker({
+        map: map,
+        label: 'm', //labeled m for midpoint
+        position: midPoint
+      })   
+
+      //create and display polygon we will block driver from passing through
       let displayPoly = [];
       displayPoly[0] = {lat: latitude + .0002, lng: longitude};
       displayPoly[1] = {lat: latitude - .0002, lng: longitude};
       displayPoly[2] = {lat: latitude, lng: longitude + .0002};
-<<<<<<< HEAD
-      
-      
-        // let polygon = [];
-        // let exclusion = { lat: null, lng: null }
-        // exclusion.lat = latitude;
-        // exclusion.lng = longitude;
-        // polygon[i] = exclusion;
-  
-=======
-     
->>>>>>> 78ec306c11ae67d4dda99726dc21d63401982b1b
         for(let i = 0; i < 3; i++){
           new window.google.maps.Marker({
             map: map,
-            label: 'a',
+            label: 'p', //labeled p for point
             position: displayPoly[i]
             
         })
-        
       }
+      //create polygon to send to routing API, is different from display poly due to formatting differences in google and ARc apis
       let polygon = []
       polygon[0] = [longitude, latitude + .0002]
       polygon[1] = [longitude,latitude - .0002];
