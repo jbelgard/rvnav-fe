@@ -22,7 +22,7 @@ class MapPage extends Component {
   }
   
   componentDidMount() {
-    console.log("local storage token", localStorage);
+    // console.log("local storage token", localStorage);
     this.setState({ sidebarOpen: !this.state.sidebarOpen })
     this.renderMap()
   }
@@ -148,7 +148,7 @@ class MapPage extends Component {
     const config = {
       headers: { 'content-type': 'multipart/form-data' }
     }
-    console.log('START COORD',this.state.startCoord.geometry.x.toFixed(4))
+    //console.log('START COORD',this.state.startCoord.geometry.x.toFixed(4))
     let bridgePost = { //sends low bridges a long a route
       "height": 13,
       "start_lon": parseFloat(this.state.startCoord.geometry.x.toFixed(4)),
@@ -185,7 +185,9 @@ class MapPage extends Component {
           // console.log("polgon pts", polygon[i]);
           new window.google.maps.Marker({
             map: map,
+            label: 'a',
             position: displayPoly[i]
+            
         })
         
       }
@@ -201,7 +203,7 @@ class MapPage extends Component {
         navigator.geolocation.getCurrentPosition( (position)  => {
           
          
-          console.log("res type", res.data[0])
+          console.log("res clearance", res.data)
          
           
           for(let j = 0; j < res.data.length; j++){
@@ -282,7 +284,7 @@ class MapPage extends Component {
     axios
     .get(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=${this.state.end}&outFields=Match_addr,Addr_type`)
     .then(res => {
-      console.log('RES',res)
+      console.log('RES GEOCODE END',res)
       this.state.endCoord = {
         "geometry": {
         "x": res.data.candidates[0].location.x,
