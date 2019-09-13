@@ -87,7 +87,6 @@ class RegisterForm extends Component {
     } else {
       console.error("Invalid Form");
     }
-    // console.log("creds", this.state.credentials);
     this.props
       .register({
         username: this.state.credentials.username,
@@ -98,7 +97,6 @@ class RegisterForm extends Component {
       })
       .then(res => {
         if (res) {
-          // console.log("res: ", res);
           this.props
             .login({
               username: this.state.credentials.username,

@@ -11,14 +11,14 @@ export const DUPLICATE_USER = "DUPLICATE_USER";
 export const DUPLICATE_EMAIL = "DUPLICATE_EMAIL";
 export const AUTH_ERROR = "AUTH_ERROR";
 export const INVALID_CREDENTIALS = "INVALID_CREDENTIALS";
-export const CLEAR_ERROR = "CLEAR_ERROR"
+export const CLEAR_ERROR = "CLEAR_ERROR";
 
 export function authError(error) {
   return { type: "AUTH_ERROR", payload: error };
 }
 
 export function clearError() {
-  return {type: CLEAR_ERROR}
+  return { type: CLEAR_ERROR };
 }
 
 export const register = creds => {
@@ -40,12 +40,18 @@ export const register = creds => {
           "users_username_unique"
         ) {
           dispatch({ type: DUPLICATE_USER });
-        } 
-          if (
+          setTimeout(() => {
+            dispatch({ type: CLEAR_ERROR });
+          }, 5000);
+        }
+        if (
           authError(err).payload.response.data.constraint ===
           "users_email_unique"
         ) {
           dispatch({ type: DUPLICATE_EMAIL });
+          setTimeout(() => {
+            dispatch({ type: CLEAR_ERROR });
+          }, 5000);
         }
         //   dispatch({
         //     type: ERROR_MESSAGE,
@@ -69,6 +75,9 @@ export const login = values => {
       .catch(err => {
         if (authError(err).payload.response.status === 401) {
           dispatch({ type: INVALID_CREDENTIALS });
+          setTimeout(() => {
+            dispatch({ type: CLEAR_ERROR });
+          }, 5000);
         }
         // dispatch({ type: ERROR_MESSAGE, errorMessage: "request failed" });
       });
