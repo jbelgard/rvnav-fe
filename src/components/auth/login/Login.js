@@ -1,89 +1,87 @@
-import React from 'react';
+import React from "react";
 
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { login } from '../../../store/actions';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import '../Auth.css';
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { login } from "../../../store/actions";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import "../Auth.css";
 
 class LoginForm extends React.Component {
   constructor() {
     super();
     this.state = {
+      error: null,
       credentials: {
-        username: '',
-        password: '',
+        username: "",
+        password: "",
         errors: {
-          username: '',
-          password: '',
+          username: "",
+          password: ""
         }
       }
     };
   }
 
   componentDidMount() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('id');
+    localStorage.removeItem("token");
+    localStorage.removeItem("id");
   }
 
-    handleChange = (event) => {
-      event.preventDefault();
-      const {
-        name,
-        value
-      } = event.target;
-      let errors = this.state.credentials.errors;
+  handleChange = event => {
+    event.preventDefault();
+    const { name, value } = event.target;
+    let errors = this.state.credentials.errors;
 
-      switch (name) {
-        case 'username':
-          errors.username =
-            value.length < 5 ?
-            'Username must be at least 5 characters long!' :
-            '';
-          break;
+    switch (name) {
+      case "username":
+        errors.username =
+          value.length < 5
+            ? "Username must be at least 5 characters long"
+            : "";
+        break;
 
-        case 'password':
-          errors.password =
-            value.length < 8 ?
-            'Password must be at least 8 characters long!' :
-            '';
-          break;
-        default:
-          break;
-      }
-
-      this.setState({
-        credentials: {
-          ...this.state.credentials,
-          errors,
-          [name]: value
-        }
-      });
+      case "password":
+        errors.password =
+          value.length < 8
+            ? "Password must be at least 8 characters long"
+            : "";
+        break;
+      default:
+        break;
     }
 
-  loginSubmit = (event) => {
+    this.setState({
+      credentials: {
+        ...this.state.credentials,
+        errors,
+        [name]: value
+      }
+    });
+  };
+
+  loginSubmit = event => {
     event.preventDefault();
     window.gtag("event", "login", {
       event_category: "access",
       event_label: "login"
     });
     return this.props
-    .login(this.state.credentials)
+      .login(this.state.credentials)
       .then(res => {
         this.setState({
-          username: '',
-          password: ''
+          username: "",
+          password: ""
         });
         if (res) {
-          this.props.history.push('/map');
+          this.props.history.push("/map");
         }
         // if (this.state.username.value == '') {
         //   window.alert('Please enter your username');
         //   this.state.username.focus();
         //   return false;
         // }
-      
+
         // if (this.state.password.value == '') {
         //   window.alert('Please enter a valid password');
         //   this.state.password.focus();
@@ -93,18 +91,19 @@ class LoginForm extends React.Component {
       .catch(err => {
         console.log(err);
       });
-
-
   };
-
-  
 
   render() {
     const { errors } = this.state.credentials;
-    const isEnabled = this.state.credentials.username.length >= 5 && this.state.credentials.password.length >= 8;
+    const isEnabled =
+      this.state.credentials.username.length >= 5 &&
+      this.state.credentials.password.length >= 8;
     return (
       <div>
         <Form onSubmit={this.loginSubmit}>
+          {this.props.error === "Invalid username or password" ? (
+            <p className="error">Invalid username or password</p>
+          ) : null}
           <Form.Group>
             <Form.Label>Username</Form.Label>
             <Form.Control
@@ -115,8 +114,9 @@ class LoginForm extends React.Component {
               onChange={this.handleChange}
               required
             ></Form.Control>
-            {errors.username.length > 0 &&
-                <p className = 'error'>{errors.username}</p>}
+            {errors.username.length > 0 && (
+              <p className="error">{errors.username}</p>
+            )}
 
             <Form.Label>Password</Form.Label>
             <Form.Control
@@ -127,10 +127,11 @@ class LoginForm extends React.Component {
               onChange={this.handleChange}
               required
             ></Form.Control>
-            {errors.password.length > 0 &&
-                <p className = 'error'>{errors.password}</p>}
-            
-            <Button variant="warning" type="submit" disabled = {!isEnabled}>
+            {errors.password.length > 0 && (
+              <p className="error">{errors.password}</p>
+            )}
+
+            <Button variant="warning" type="submit" disabled={!isEnabled}>
               Submit
             </Button>
           </Form.Group>
@@ -140,9 +141,9 @@ class LoginForm extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  //isLoggingIn:state.isLoggingIn
-});
+const mapStateToProps = state => {
+  return { error: state.error };
+};
 
 export default withRouter(
   connect(

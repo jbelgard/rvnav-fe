@@ -17,7 +17,7 @@ Sentry.init({
 
 require('dotenv').config()
 
-const store = createStore(reducer, applyMiddleware(thunk));
+export const store = createStore(reducer, applyMiddleware(thunk));
 
 ReactDOM.render(
   <Router>

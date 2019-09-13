@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { register, login } from "../../../store/actions";
+import { register, login, clearError } from "../../../store/actions";
 import { withRouter } from "react-router-dom";
 import "../Auth.css";
 import Button from "react-bootstrap/Button";
@@ -20,6 +20,7 @@ class RegisterForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      error: null,
       credentials: {
         username: "",
         email: "",
@@ -45,30 +46,26 @@ class RegisterForm extends Component {
     switch (name) {
       case "username":
         errors.username =
-          value.length < 5
-            ? "Username must be at least 5 characters long!"
-            : "";
+          value.length < 5 ? "Username must be at least 5 characters long" : "";
         break;
 
       case "email":
-        errors.email = validEmailRegex.test(value) ? "" : "Email is not valid!";
+        errors.email = validEmailRegex.test(value) ? "" : "Email is not valid";
         break;
 
       case "first_name":
         errors.first_name =
-          value.length < 0 ? "First name must be 2 characters long!" : "";
+          value.length < 0 ? "First name must be 2 characters long" : "";
         break;
 
       case "last_name":
         errors.last_name =
-          value.length < 0 ? "Last name must be 2 characters long!" : "";
+          value.length < 0 ? "Last name must be 2 characters long" : "";
         break;
 
       case "password":
         errors.password =
-          value.length < 8
-            ? "Password must be at least 8 characters long!"
-            : "";
+          value.length < 8 ? "Password must be at least 8 characters long" : "";
         break;
       default:
         break;
@@ -90,7 +87,7 @@ class RegisterForm extends Component {
     } else {
       console.error("Invalid Form");
     }
-    console.log("creds", this.state.credentials);
+    // console.log("creds", this.state.credentials);
     this.props
       .register({
         username: this.state.credentials.username,
@@ -101,6 +98,7 @@ class RegisterForm extends Component {
       })
       .then(res => {
         if (res) {
+          // console.log("res: ", res);
           this.props
             .login({
               username: this.state.credentials.username,
@@ -122,18 +120,9 @@ class RegisterForm extends Component {
         }
       })
       .catch(err => {
-        console.log("submit error ->", err);
+        setTimeout(function () { return this.props.clearError() }, 3000)
       });
   };
-
-  //   registerSubmit = e => {
-  //     e.preventDefault();
-  //     if (validateForm(this.state.credentials.errors)) {
-  //       console.info('Valid Form')
-  //     } else {
-  //       console.error('Invalid Form')
-  //     }
-  // }
 
   render() {
     const { errors } = this.state.credentials;
@@ -157,7 +146,9 @@ class RegisterForm extends Component {
             {errors.username.length > 0 && (
               <p className="error">{errors.username}</p>
             )}
-            <p>{this.props.error}</p>
+            {this.props.error === "Username already taken" ? 
+              <p className="error">Username already taken</p> : null
+            }
 
             <Form.Label>First Name (Optional)</Form.Label>
             <Form.Control
@@ -187,6 +178,9 @@ class RegisterForm extends Component {
               noValidate
             ></Form.Control>
             {errors.email.length > 0 && <p className="error">{errors.email}</p>}
+            {this.props.error === "Email already taken" && (
+              <p className="error">Email already taken</p>
+            )}
 
             <Form.Label>Password*</Form.Label>
             <Form.Control
@@ -221,13 +215,12 @@ class RegisterForm extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state)
-  return { error: state.error }
+  return { error: state.error };
 };
 
 export default withRouter(
   connect(
     mapStateToProps,
-    { register, login }
+    { register, login, clearError }
   )(RegisterForm)
 );
