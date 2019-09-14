@@ -13,9 +13,7 @@ export class Sidebar extends Component {
             vehicles: "off" 
     }
 
-    componentDidMount(){
-      
-    }
+
 
     buttonSelect = (event) => {
         console.log("event", event.target);
@@ -29,15 +27,14 @@ export class Sidebar extends Component {
    
     }
     render() {
-        console.log(this.props);
+        //console.log("sidebar props", this.props);
         return (
             <div id = 'overlayNav' className = {`overlay ${this.props.sidebarOpen ? 'open': 'close'}`}>
                 <div >
                     <i className="fas fa-arrow-circle-left" onClick = {this.props.toggleSidebar}></i>
                     </div>
                 
-                
-                <div className = 'overlay-content'>
+                    <div className = 'overlay-content'>
                     
                     <div >
 
@@ -59,16 +56,11 @@ export class Sidebar extends Component {
                         onClick={this.buttonSelect}>Vehicles</p>
 
                         </div>
-
-
-                        
-
                         
                         <div className={`${this.state.routing}`}>
                         <RoutingForm   
                         arcRoute={this.props.arcRoute}
                         onChangeHandler={this.props.onChangeHandler}
-                        initMap={this.props.initMap}
                         routeChangeHandler={this.props.routeChangeHandler}
                         start={this.props.start}
                         end={this.props.end}

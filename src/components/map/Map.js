@@ -15,19 +15,21 @@ class MapPage extends Component {
     this.state = {
       start: '',
       end: '',
-      sidebarOpen: false,
+      sidebarOpen: true,
       directionsService: {},
       directionsDisplay: {},
       Coordinates: [],
       polygonsArray: [],
       startCoord: null,
-      endCoord: null
+      endCoord: null,
+      map: null,
+      preBarrierCoordinates: []
     }
   }
   
   componentDidMount() {
     // console.log("local storage token", localStorage);
-    this.setState({ sidebarOpen: !this.state.sidebarOpen })
+    //this.setState({ sidebarOpen: !this.state.sidebarOpen })
     this.renderMap()
     this.props.getVehicles()
   }
@@ -41,7 +43,7 @@ class MapPage extends Component {
     window.initMap = this.initMap
   }
 
-  initMap = (mart) => {
+  initMap = () => {
     var directionsService = new window.google.maps.DirectionsService();
     var directionsDisplay = new window.google.maps.DirectionsRenderer();
    
@@ -76,10 +78,11 @@ class MapPage extends Component {
    
   }
 
-  initRoute = () => {
-    let barriersArray = this.state.polygonsArray
-    console.log('barriers array',barriersArray)
-    let formData = new FormData();
+  initRoute = (polyArray) => {  
+    this.setMapToState();
+
+    console.log("fn:3 in route with barriers")
+    var formData = new FormData();
     formData.append('f', 'json');
     formData.append('token', process.env.REACT_APP_ARC_KEY);
     formData.append('stops',
@@ -90,11 +93,14 @@ class MapPage extends Component {
           this.state.endCoord
         ]
       }));
+
+      console.log()
+   // let barriers = JSON.stringify(this.state.polygonsArray);
     formData.append("polygonBarriers", JSON.stringify(
       {
         "features": [{
           "geometry": {
-            "rings": barriersArray
+            "rings": this.state.polygonsArray
           },
           "attributes": {
             "Name": "Bridge",
@@ -104,95 +110,34 @@ class MapPage extends Component {
         ]
       }
     ))
-    formData.append('findBestSequence', true);
+    console.log("poly array in form 2", this.state.polygonsArray)
+    formData.append('findBestSequence', false);
     const config = {
       headers: { 'content-type': 'multipart/form-data' }
     }
-    console.log('HEIGHT',this.props.vehicles.vehicles[0].height)
-    let bridgePost = { //sends low bridges a long a route
-      "height": this.props.vehicles.vehicles[0].height,
-      "start_lon": parseFloat(this.state.startCoord.geometry.x.toFixed(4)),
-      "start_lat": parseFloat(this.state.startCoord.geometry.y.toFixed(4)),
-      "end_lon": parseFloat(this.state.endCoord.geometry.x.toFixed(4)),
-      "end_lat": parseFloat(this.state.endCoord.geometry.y.toFixed(4))
-    }
-    let placesSend = { //send places of interest for a point
-      "latitude": 35.2271,
-      "longitude": -80.8431,
-      "distance": 5 //miles
-    }
     
-    var map = new window.google.maps.Map(document.getElementById('map'), {
-      center: {lat: parseFloat(this.state.startCoord.geometry.y.toFixed(4)), lng: parseFloat(this.state.startCoord.geometry.x.toFixed(4)) },
-      zoom: 5
-    });
-
-      let makePolygon = (latitude, longitude) => {
-      //create and display the point we are recieving from data low clearance api
-      let midPoint = {lat: latitude, lng: longitude}
-      new window.google.maps.Marker({
-        map: map,
-        label: 'm', //labeled m for midpoint
-        position: midPoint
-      })   
-
-      //create and display polygon we will block driver from passing through
-      let displayPoly = [];
-      displayPoly[0] = {lat: latitude + .0002, lng: longitude};
-      displayPoly[1] = {lat: latitude - .0002, lng: longitude};
-      displayPoly[2] = {lat: latitude, lng: longitude + .0002};
-        for(let i = 0; i < 3; i++){
-          new window.google.maps.Marker({
-            map: map,
-            label: 'p', //labeled p for point
-            position: displayPoly[i]
-            
-        })
-      }
-      //create polygon to send to routing API, is different from display poly due to formatting differences in google and ARc apis
-      let polygon = []
-      polygon[0] = [longitude, latitude + .0002]
-      polygon[1] = [longitude,latitude - .0002];
-      polygon[2] = [longitude + .0002, latitude];
-      return polygon;
-    }
-
-    axios.post("https://rv-nav-clearance.com/fetch_low_clearance", bridgePost)
-      .then(res => {
-        navigator.geolocation.getCurrentPosition( (position)  => {
-          
-         
-          console.log("res clearance", res.data)
-         
-          
-          for(let j = 0; j < res.data.length; j++){
-            this.state.polygonsArray[j] = makePolygon(res.data[j].latitude, res.data[j].longitude);
-          }
-            console.log('POLY array',this.state.polygonsArray)
-         
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      })
     axios.post("https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve", formData, config)
       .then(res => {
-        console.log("arc res", res.data)
-        var hereCoord = "";  
+        console.log("arc res last", res.data)
+        this.setState({Coordinates: []})
         console.log('res data features',res.data.routes.features[0].geometry.paths[0][0][0])
-        for (let i = 0; i < res.data.routes.features[0].geometry.paths[0].length; i++) {
-          var lng = res.data.routes.features[0].geometry.paths[0][i][0];
-          var lat = res.data.routes.features[0].geometry.paths[0][i][1];
+        console.log("res length", res.data.routes.features[0].geometry.paths[0].length)
+       for (let i = 0; i < res.data.routes.features[0].geometry.paths[0].length; i++) {
+          let lng = res.data.routes.features[0].geometry.paths[0][i][0];
+          let lat = res.data.routes.features[0].geometry.paths[0][i][1];
           parseFloat(lat);
           parseFloat(lng);
           let Coordinate = { lat: null, lng: null }
           Coordinate.lat = lat;
           Coordinate.lng = lng;
-          this.state.Coordinates[i] = Coordinate;
+          this.setState({
+            Coordinates: [...this.state.Coordinates, Coordinate]
+          }) 
+          
+          //this.state.Coordinates[i] = Coordinate;
         }
-        console.log("coords array after loop", this.state.Coordinates);
-      
-       
+        console.log("coords array after loop (w/barriers)", this.state.Coordinates);
+    
         var polyPath = new window.google.maps.Polyline({
           path: this.state.Coordinates,
           geodesic: true,
@@ -200,13 +145,17 @@ class MapPage extends Component {
           strokeOpacity: 1.0,
           strokeWeight: 4
         });
-        polyPath.setMap(map);
+
+        polyPath.setMap(this.state.map);
+
+
+        //this.setState({polygonsArray: []})
       })
       .catch(err => {
-        console.log(err);
+        console.log("arc route err:", err);
       })
 
-
+      
   }
 
 
@@ -218,11 +167,17 @@ class MapPage extends Component {
 
   onChangeHandler = (e) => { 
     // e.preventDefault()
+    //this.setState({polygonsArray: []})
+    this.geocode(this.state.start, "startCoord");
+    this.geocode(this.state.end, "endCoord");
+  }
+
+  geocode = (address, coordinate) => {
     axios
-    .get(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=${this.state.start}&outFields=Match_addr,Addr_type`)
+    .get(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=${address}&outFields=Match_addr,Addr_type`)
     .then(res => {
       console.log('RES',res)
-      this.state.startCoord = {
+      this.setState({[coordinate]: {
         "geometry": {
         "x": res.data.candidates[0].location.x,
         "y": res.data.candidates[0].location.y,
@@ -234,37 +189,175 @@ class MapPage extends Component {
         "Name": res.data.candidates[0].address
       }
     }
-    this.initRoute()
+  })
+    if(coordinate === "endCoord"){
+      console.log("fn:1 going to prebarrier Route!")
+      this.routeBeforeBarriers();
+    }
     })
     .catch(err => {
-      console.log(err)
+      console.log("gecode err", err)
     })
 
-    axios
-    .get(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=${this.state.end}&outFields=Match_addr,Addr_type`)
-    .then(res => {
-      console.log('RES GEOCODE END',res)
-      this.state.endCoord = {
-        "geometry": {
-        "x": res.data.candidates[0].location.x,
-        "y": res.data.candidates[0].location.y,
-        "spatialReference": {
-          "wkid": res.data.spatialReference.wkid
-        }
-      },
-      "attributes": {
-        "Name": res.data.candidates[0].address
-      }
+  }
+
+  clearanceAPI = (start, end, polygonArray) => {
+    console.log("START CLEARNCE", start);
+    console.log("end CLEARNCE", end);
+    console.log('HEIGHT',this.props.vehicles.vehicles[0].height)
+    let bridgePost = { //sends low bridges a long a route
+      "height": this.props.vehicles.vehicles[0].height || 1,
+      "start_lon": parseFloat(start.lng.toFixed(4)),
+      "start_lat": parseFloat(start.lat.toFixed(4)),
+      "end_lon": parseFloat(end.lng.toFixed(4)),
+      "end_lat": parseFloat(end.lat.toFixed(4))
     }
-    this.initRoute()
+
+      let makePolygon = (latitude, longitude) => {
+      //create and display the point we are recieving from data low clearance api
+      let midPoint = {lat: latitude, lng: longitude}
+      new window.google.maps.Marker({
+        map: this.state.map,
+        label: 'm', //labeled m for midpoint, this point is displayed for our purposes only, it is used to generate a polygn to send to arc, is not sent to the arc api
+        position: midPoint
+      })   
+
+      //create and display polygon we will block driver from passing through
+      let displayPoly = [];
+      displayPoly[0] = {lat: latitude + .00007, lng: longitude};
+      displayPoly[1] = {lat: latitude - .0001, lng: longitude - .0001};
+      displayPoly[2] = {lat: latitude - .0001, lng: longitude + .0001};
+      for(let i = 0; i < 3; i++){
+          new window.google.maps.Marker({
+            map: this.state.map,
+            label: `${i}`,
+            position: displayPoly[i]
+            
+        })
+      }
+      //create polygon to send to routing API, is different from displayPoly due to formatting differences in google and ARC apis
+      let polygon = [];
+      polygon[0] = [longitude, latitude + .00007]
+      polygon[1] = [longitude - .0001 ,latitude - .0002];
+      polygon[2] = [longitude + .0001, latitude - .0001];
+      return polygon;
+    }
+
+    axios.post("https://rv-nav-clearance.com/fetch_low_clearance", bridgePost)
+      .then(res => {
+        //navigator.geolocation.getCurrentPosition( (position)  => {
+          
+         
+          console.log("res clearance", res.data)
+         
+          // 
+          
+          for(let j = 0; j < res.data.length; j++){
+            polygonArray.push(makePolygon(res.data[j].latitude, res.data[j].longitude));
+          }
+          console.log("clearance poly", polygonArray)
+         return polygonArray;
+        //});
+
+      })
+      .catch(err => {
+        console.log("clearance error:", err);
+      })
+  }
+
+  setMapToState = () => {
+    var map = new window.google.maps.Map(document.getElementById('map'), {
+      center: {lat: parseFloat(this.state.startCoord && this.state.startCoord.geometry.y.toFixed(4)), lng: parseFloat(this.state.startCoord && this.state.startCoord.geometry.x.toFixed(4)) },
+      zoom: 5
+    });
+    this.setState({
+      map: map
     })
-    .catch(err => {
-      console.log(err)
-    })
-   
-    // if (this.state.start.length > 0) {
-    //   this.calculateAndDisplayRoute(this.state.directionsService, this.state.directionsDisplay)
-    // }
+  }
+
+  routeBeforeBarriers= () => {
+    var formData = new FormData();
+    formData.append('f', 'json');
+    formData.append('token', process.env.REACT_APP_ARC_KEY);
+    formData.append('stops',
+      JSON.stringify({
+        "type": "features",
+        "features": [
+          this.state.startCoord,
+          this.state.endCoord
+        ]
+      }));
+    // formData.append("polygonBarriers", JSON.stringify(
+    //   {
+    //     "features": [{
+    //       "geometry": {
+    //         "rings": this.state.polygonsArray
+    //       },
+    //       "attributes": {
+    //         "Name": "Bridge",
+    //         "BarrierType": 0
+    //       }
+    //     }
+    //     ]
+    //   }
+    // ))
+    formData.append('findBestSequence', false);
+    const config = {
+      headers: { 'content-type': 'multipart/form-data' }
+    }
+    axios.post("https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve", formData, config)
+      .then(res => {
+        
+        console.log("arc UNOBSTRUCTED res", res.data)
+        //console.log('res data features',res.data.routes.features[0].geometry.paths[0][0][0])
+        this.setState({preBarrierCoordinates: []})
+        let length = res.data.routes.features[0].geometry.paths[0].length
+        let pbCoordinate = { lat: null, lng: null }
+        let pblng = null;
+        let pblat = null;
+        let endLat;
+        let endLng;
+        let increment = 100;
+        let polyArrayLocal = [];
+        for (let i = 0; i < length; i=i+increment) {
+          pblng = res.data.routes.features[0].geometry.paths[0][i][0];
+          pblat = res.data.routes.features[0].geometry.paths[0][i][1];
+          parseFloat(pblat);
+          parseFloat(pblng);
+          pbCoordinate = { lat: pblat, lng: pblng }
+          if(i === length - (length % increment)){
+            endLat = res.data.routes.features[0].geometry.paths[0][length-1][1]
+            endLng  = res.data.routes.features[0].geometry.paths[0][length-1][0]
+          } else {
+            endLat = res.data.routes.features[0].geometry.paths[0][i + increment][1]
+            endLng  = res.data.routes.features[0].geometry.paths[0][i + increment][0]
+          }
+          console.log("fn:2 going to clearance api")
+          this.clearanceAPI(pbCoordinate, {lat: endLat, lng: endLng}, polyArrayLocal);
+          // this.setState({
+          //   preBarrierCoordinates: [...this.state.preBarrierCoordinates, pbCoordinate]
+          // }) 
+          //his.state.Coordinates[i] = Coordinate;
+          console.log("i: ", i)
+        }
+        console.log("local poly array", polyArrayLocal.length);
+       
+        this.setState(
+          {polygonsArray: polyArrayLocal},
+          () => this.initRoute()
+        );
+        console.log("length poly arr", polyArrayLocal.slice().length)
+        // if(polyArrayLocal !== undefined){
+        //   this.initRoute(polyArrayLocal)
+        // }
+        
+        console.log('POLY array state',this.state.polygonsArray)
+        console.log("fn:3 going to route with barriers")
+      })
+      .catch(err => {
+        console.log("arc route err:", err);
+      })
+
   }
 
   render() {
@@ -278,16 +371,15 @@ class MapPage extends Component {
         <Sidebar
           routeChangeHandler={this.routeChangeHandler}
           onChangeHandler={this.onChangeHandler}
-          initMap={this.initMap}
           start={this.state.start}
           end={this.state.end}
-          initRoute={this.initRoute}
           toggleSidebar={this.toggleSidebar} sidebarOpen={this.state.sidebarOpen} />
         <div id="map" ></div>
       </div>
     );
   }
 }
+
 function loadScript(url) {
   var index = window.document.getElementsByTagName("script")[0]
   var script = window.document.createElement("script")
