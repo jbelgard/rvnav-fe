@@ -2,10 +2,16 @@
   color: white;
   background-color: grey;
   margin: 20px;
-  padding: 10px 0;
+  padding: 10px 6px;
   border-radius: 8px;
   display: flex;
   width: 260px;
+  flex-direction: column;
+}
+
+.vehicle-tabs > div > form{
+  background:lightgrey;
+  border-radius: 8px;
 }
 .vehicle-name{
   margin: 0 auto;

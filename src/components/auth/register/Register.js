@@ -122,7 +122,7 @@ class RegisterForm extends Component {
         }
       })
       .catch(err => {
-        console.log(err);
+        console.log("register err", err);
       });
   };
 

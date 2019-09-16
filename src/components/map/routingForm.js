@@ -10,10 +10,11 @@ const RoutingForm = (props) => {
         <form className="route-form" onSubmit={(event) => {
           event.preventDefault()
           props.onChangeHandler()
+         
           }}>
         <Form.Control autoFocus={true} className="route-input" id="start" required type="text"  placeholder="Start" name="start" value={props.start} onChange={props.routeChangeHandler}/> 
         <Form.Control className="route-input" id="end" required type="text"  placeholder="end" name="end" value={props.end} onChange={props.routeChangeHandler}/> 
-        <Button variant="warning" id="button" type="submit"> Plot Course</Button>
+        <Button variant="warning" id="route-button" type="submit"> Plot Course</Button>
         </form>
       </div>
     )

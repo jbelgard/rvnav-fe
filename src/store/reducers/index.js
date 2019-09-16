@@ -1,8 +1,9 @@
-import { LOADING, REGISTER, LOGIN, ADD_VEHICLE, GET_VEHICLE } from '../actions';
+import { LOADING, REGISTER, LOGIN, ADD_VEHICLE, GET_VEHICLE, DELETE_VEHICLE} from '../actions';
 
 const initialState = {
   data: [],
-  vehicles: []
+  vehicles: {},
+  here: {}
 };
 
 export const reducer = (state = initialState, action) => {
@@ -39,8 +40,16 @@ export const reducer = (state = initialState, action) => {
           ...state,
           error: 'error',
           loading: false,
-          vehicles: [...state.vehicles, { vehicles: action.payload }]        
+          vehicles: {...state.vehicles, vehicles: action.payload}        
         };
+        case DELETE_VEHICLE:
+          return {
+            ...state,
+            error: 'error',
+            loading: false,
+            vehicles: {...state.vehicles, vehicles: action.payload}        
+          };
+
     default:
       return state;
   }
