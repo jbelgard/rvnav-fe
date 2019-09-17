@@ -19,12 +19,7 @@ class Vehicles extends React.Component {
   componentDidMount(){
     this.props.getVehicles();
   }
-  // componentDidUpdate(prevprops){
-  //     if(prevprops !== this.props){
-  //       this.props.getVehicles();
-  //     }
-    
-  // }
+
   editVehicleToggle = (id) => {
     this.setState({
       id,
@@ -39,7 +34,7 @@ class Vehicles extends React.Component {
   }
 
   render() {
-    console.log("getVEHICLE", this.props.vehicles.vehicles && this.props.vehicles.vehicles[0])
+    // console.log("getVEHICLE", this.props.vehicles.vehicles && this.props.vehicles.vehicles[0])
     return(
       <div >
       {this.props.vehicles.vehicles && this.props.vehicles.vehicles.map( e => {
@@ -56,7 +51,7 @@ class Vehicles extends React.Component {
           }} variant="warning">update</Button>
         <p className="expand-vehicle-icon">+</p>
         </div>
-        {this.state.editing && this.state.id === e.id && <VehicleForm currentVehicle={e} id={this.state.id} clearForm={this.clearForm} editing={this.state.editing}/>}
+            {this.state.editing && this.state.id === e.id && <VehicleForm currentVehicle={e} id={this.state.id} clearForm={this.clearForm} editing={this.state.editing} editVehicleToggle={this.editVehicleToggle}/>}
         </div>
       )}
       )}

@@ -205,7 +205,6 @@ class RegisterForm extends Component {
               variant="warning"
               onClick={this.registerSubmit}
               type="submit"
-              disabled = {!isEnabled}
             >
               Submit
             </Button>

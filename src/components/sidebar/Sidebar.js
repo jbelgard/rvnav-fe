@@ -13,7 +13,7 @@ export class Sidebar extends Component {
             vehicles: "off" 
     }
 
-
+    closeVehicleForm = () => this.setState ({vehicleForm: "off", vehicles: "on"})
 
     buttonSelect = (event) => {
         console.log("event", event.target);
@@ -68,7 +68,7 @@ export class Sidebar extends Component {
                         </div>
 
                         {localStorage.token ? <div className={`${this.state.vehicleForm}`}>
-                        <VehicleForm/>
+                            <VehicleForm closeVehicleForm={this.closeVehicleForm}/>
                         </div> : 
                         <div className={`login-to-add ${this.state.vehicleForm}`}>
                         <NavLink to="/auth" style={{ marginRight: 10 }}>
