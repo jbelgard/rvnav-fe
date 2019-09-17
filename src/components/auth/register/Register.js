@@ -7,6 +7,7 @@ import "../Auth.css";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
+/* eslint-disable no-useless-escape */
 const validEmailRegex = RegExp(
   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
 );
@@ -124,10 +125,7 @@ class RegisterForm extends Component {
 
   render() {
     const { errors } = this.state.credentials;
-    const isEnabled =
-      this.state.credentials.username.length >= 5 &&
-      this.state.credentials.email.length > 2 &&
-      this.state.credentials.password.length >= 8;
+    // const isEnabled = this.state.credentials.username.length >= 5 && this.state.credentials.email.length > 2 && this.state.credentials.password.length >= 8;
     return (
       <div>
         <Form>

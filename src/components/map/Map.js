@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import Nav from '../nav/Nav';
 import Sidebar from '../sidebar/Sidebar';
-import RoutingForm from './routingForm';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
 import { getVehicles } from "../../store/actions";

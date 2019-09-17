@@ -6,8 +6,6 @@ import { getVehicles, deleteVehicles } from "../../store/actions";
 import { selectVehicle } from "../../store/actions/selectVehicle.js";
 import VehicleForm from "./VehicleForm";
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Nav from '../nav/Nav';
 import "./Vehicles.css"
 
 

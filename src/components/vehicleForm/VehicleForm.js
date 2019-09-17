@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { addVehicle, updateVehicle } from "../../store/actions";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Nav from '../nav/Nav';
 import "./VehicleForm.css"
 
 class VehicleForm extends React.Component {

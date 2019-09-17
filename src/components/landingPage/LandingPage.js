@@ -31,7 +31,7 @@ class LandingPage extends Component {
           </p>
         </div>
         <Link to="/" className="about">
-          <a>About the team</a>
+          About the team
         </Link>
       </div>
     );

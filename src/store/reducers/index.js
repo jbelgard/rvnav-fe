@@ -31,7 +31,11 @@ export const reducer = (state = initialState, action) => {
         loading: false,
         data: [...state.data, { value: action.payload }]
       };
-      case ADD_VEHICLE:
+case ADD_VEHICLE:
+  console.log("vehicles", state.vehicles.vehicles, action.payload)
+  let vehicles = state.vehicles.vehicles.slice();
+  vehicles.push(action.payload);
+  console.log("vehicles push",vehicles)
         return {
           ...state,
           // error: null,

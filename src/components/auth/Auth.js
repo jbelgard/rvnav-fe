@@ -4,8 +4,6 @@ import Register from "./register/Register";
 import "./Auth.css";
 import { Link } from "react-router-dom";
 import icon from "../../assets/img/rvnav.png"
-import Nav from "../nav/Nav";
-import Button from "react-bootstrap/Button";
 
 export default class Auth extends Component {
   state = {
@@ -50,7 +48,7 @@ export default class Auth extends Component {
             {this.state.login ? <Login /> : <Register />}
           </div>
           <Link to="/" className="about">
-            <a>About the team</a>
+            About the team
           </Link>
         </div>
       </>
