@@ -78,26 +78,8 @@ class MapPage extends Component {
 
   initRoute = () => {  
     this.setMapToState();
+    console.log("lenght for markers loop", this.state.polygonsArray.length);
 
-    for(let i = 0; i < this.state.polygonsArray.length; i++){
-      console.log("markers i", i);
-      
-      let displayPoly = [];
-    
-      for(let j = 0; j < 3; j++){
-        console.log("markers point j", j);
-        console.log("lat for markers", this.state.polygonsArray[i][j][1]);
-        console.log("lng for markers", this.state.polygonsArray[i][j][0]);
-        displayPoly[0] = {lat: this.state.polygonsArray[i][j][1] + .00007, lng: this.state.polygonsArray[i][j][0]};
-        displayPoly[1] = {lat: this.state.polygonsArray[i][j][1] - .0001, lng:  this.state.polygonsArray[i][j][0]- .0001};
-        displayPoly[2] = {lat: this.state.polygonsArray[i][j][1] - .0001, lng: this.state.polygonsArray[i][j][0] + .0001};
-          new window.google.maps.Marker({
-            map: this.state.map,
-            label: `${i}`,
-            position: displayPoly[j]      
-        })
-      }
-    }
 
     console.log("fn:3 in route with barriers")
     var formData = new FormData();
@@ -155,6 +137,34 @@ class MapPage extends Component {
           //this.state.Coordinates[i] = Coordinate;
         }
         console.log("coords array after loop (w/barriers)", this.state.Coordinates);
+
+        for(let i = 0; i < this.state.polygonsArray.length; i++){
+          console.log("markers i", i);
+          
+          let displayPoly = [];
+        //   let mid = displayPoly[0] = {lat: this.state.polygonsArray[i][j][1], lng: this.state.polygonsArray[i][j][0]};
+        //   new window.google.maps.Marker({
+        //     map: this.state.map,
+        //     label: `${j}`,
+        //     position: mid      
+        // })
+
+        
+          for(let j = 0; j < 3; j++){
+            console.log("markers point j", j);
+            console.log("lat for markers", this.state.polygonsArray[i][j][1]);
+            console.log("lng for markers", this.state.polygonsArray[i][j][0]);
+            displayPoly[0] = {lat: this.state.polygonsArray[i][j][1] , lng: this.state.polygonsArray[i][j][0]};
+            // displayPoly[1] = {lat: this.state.polygonsArray[i][j][1], lng:  this.state.polygonsArray[i][j][0]};
+            // displayPoly[2] = {lat: this.state.polygonsArray[i][j][1], lng: this.state.polygonsArray[i][j][0] };
+            console.log(`markers poly ${j}`, displayPoly);
+              new window.google.maps.Marker({
+                map: this.state.map,
+                label: `${j}`,
+                position: displayPoly[j]      
+            })
+          }
+        }
     
         var polyPath = new window.google.maps.Polyline({
           path: this.state.Coordinates,
@@ -232,13 +242,16 @@ class MapPage extends Component {
     }
 
       let makePolygon = (latitude, longitude) => {
-      //create and display the point we are recieving from data low clearance api
-      let midPoint = {lat: latitude, lng: longitude}
-      new window.google.maps.Marker({
-        map: this.state.map,
-        label: 'm', //labeled m for midpoint, this point is displayed for our purposes only, it is used to generate a polygn to send to arc, is not sent to the arc api
-        position: midPoint
-      })   
+      
+      //this code used to display the point sent from the datascience api, it stopped working for some reason and we don't necessarily need to see that point
+      //so it has been commented out for now, in the future if we put those midpoints in state and call this loop using state it will probably work, but for 
+      //now i am leaving it
+      // let midPoint = {lat: latitude, lng: longitude}
+      // new window.google.maps.Marker({
+      //   map: this.state.map,
+      //   label: 'm', //labeled m for midpoint, this point is displayed for our purposes only, it is used to generate a polygn to send to arc, is not sent to the arc api
+      //   position: midPoint
+      // })   
 
       //create and display polygon we will block driver from passing through
  
@@ -327,7 +340,7 @@ class MapPage extends Component {
         let pblat = null;
         let endLat;
         let endLng;
-        let increment = 100;
+        let increment = 500;
         let polyArrayLocal = [];
         let lastStartPoint = resLength - (resLength % increment);
         for (let i = 0; i < resLength; i=i+increment) {
