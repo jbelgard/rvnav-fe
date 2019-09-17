@@ -4,8 +4,8 @@ import Register from "./register/Register";
 import "./Auth.css";
 import { Link } from "react-router-dom";
 import icon from "../../assets/img/icon.png"
-import Nav from "../nav/Nav";
-import Button from "react-bootstrap/Button";
+// import Nav from "../nav/Nav";
+// import Button from "react-bootstrap/Button";
 
 export default class Auth extends Component {
   state = {

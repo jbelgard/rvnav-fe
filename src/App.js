@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import Auth from './components/auth/Auth';
 import Map from './components/map/Map';
 import LandingPage from './components/landingPage/LandingPage';
-import VehicleForm from './components/vehicleForm/VehicleForm';
+// import VehicleForm from './components/vehicleForm/VehicleForm';
 import Vehicles from './components/vehicleForm/Vehicles';
 
 const App = () => {
