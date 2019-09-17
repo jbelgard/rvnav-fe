@@ -1,4 +1,4 @@
-import { LOADING, REGISTER, LOGIN, ADD_VEHICLE, GET_VEHICLE, DELETE_VEHICLE} from '../actions';
+import { LOADING, REGISTER, LOGIN, ADD_VEHICLE, GET_VEHICLE, DELETE_VEHICLE, UPDATE_VEHICLE} from '../actions';
 
 const initialState = {
   data: [],
@@ -48,7 +48,26 @@ export const reducer = (state = initialState, action) => {
             error: 'error',
             loading: false,
             vehicles: {...state.vehicles, vehicles: action.payload}        
-          };
+      };
+    case UPDATE_VEHICLE:
+      console.log(state.vehicles)
+      console.log(state.vehicles.vehicles)
+      console.log("payload", action.payload)
+      let filteredVehicles = state.vehicles.vehicles.filter(currentVal => {
+        return currentVal.id !== action.payload.id;
+      })
+      let currentVehicles = state.vehicles.vehicles.filter(currentVal => {
+        return currentVal.id === action.payload.id;
+      })
+      let updates = { ...action.payload.value, id: action.payload.id}
+      currentVehicles = {...currentVehicles[0], ...updates}
+      console.log(filteredVehicles, currentVehicles, "Filters")
+      return {
+        ...state,
+        error: 'error',
+        loading: false,
+        vehicles: {vehicles: filteredVehicles.push(currentVehicles)}
+      };
 
     default:
       return state;

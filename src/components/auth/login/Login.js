@@ -130,7 +130,7 @@ class LoginForm extends React.Component {
             {errors.password.length > 0 &&
                 <p className = 'error'>{errors.password}</p>}
             
-            <Button variant="warning" type="submit" disabled = {!isEnabled}>
+            <Button variant="warning" type="submit">
               Submit
             </Button>
           </Form.Group>
