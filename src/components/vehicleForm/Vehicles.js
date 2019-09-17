@@ -19,12 +19,7 @@ class Vehicles extends React.Component {
   componentDidMount(){
     this.props.getVehicles();
   }
-  // componentDidUpdate(prevprops){
-  //     if(prevprops !== this.props){
-  //       this.props.getVehicles();
-  //     }
-    
-  // }
+
   editVehicleToggle = (id) => {
     this.setState({
       id,

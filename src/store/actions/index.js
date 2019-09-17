@@ -95,8 +95,21 @@ export const updateVehicle = (value, id) => {
         console.log("update res", res); // data was created successfully and logs to console
         
         // dispatch({ type: UPDATE_VEHICLE, payload: {value, id} });
-        getVehicles();
-        return true;
+        dispatch({ type: LOADING });
+        return axios
+          .get('https://labs-rv-life-staging-1.herokuapp.com/vehicle',
+            { headers: { Authorization: localStorage.getItem("token") }, 'Content-Type': 'application/json' })
+          .then(res => {
+            console.log("get vehicle res", res); // data was created successfully and logs to console
+
+            dispatch({ type: GET_VEHICLE, payload: res.data });
+            return true;
+          })
+          .catch(err => {
+            console.log("get vehicle err", err); // there was an error creating the data and logs to console
+            dispatch({ type: ERROR_MESSAGE, errorMessage: 'request failed' });
+          });
+        // return true;
       })
       .catch(err => {
         console.log("update vehicle err:", err); // there was an error creating the data and logs to console
@@ -113,7 +126,7 @@ export const deleteVehicles = (id) => {
       .then(res => {
         console.log("de;lete res", res); // data was created successfully and logs to console
         
-        //dispatch({ type: DELETE_VEHICLE, payload: res.data });
+        dispatch({ type: DELETE_VEHICLE, payload: id });
         return true;
       })
       .catch(err => {

@@ -32,12 +32,6 @@ class VehicleForm extends React.Component {
        dual_tires: false, //Bool, checkbox
        trailer: false,  //Bool, checkbox
       }
-      // messages: {
-      //   message: '',
-      //   distanceMessage: '',
-      //   widthMessage: '',
-      //   lengthMessage: '',
-      // }
     }
   }
   
@@ -132,14 +126,30 @@ class VehicleForm extends React.Component {
       dual_tires: this.state.specifications.dual_tires
     }
     console.log("sent", send);
-    console.log("id", this.props.id)
+    console.log("id", this.props.id);
     if(this.props.editing){
       this.props.updateVehicle(send, this.props.id);
-      this.props.editVehicleToggle(this.props.id)
+      this.props.editVehicleToggle(this.props.id);
     } else {
-      return this.props.addVehicle(send);
+      this.props.addVehicle(send);
+      this.props.closeVehicleForm();
     }
-    
+    this.setState({
+      specifications: {
+        name: '',
+        heightFeet: '',
+        heightInches: '',
+        widthFeet: '',
+        widthInches: '',
+        lengthFeet: '',
+        lengthInches: '',
+        weight: '',
+        axel_count: '',
+        class_name: '',
+        dual_tires: false,
+        trailer: false,
+      }
+    })
   }
 
 
