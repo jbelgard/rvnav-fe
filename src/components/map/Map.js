@@ -83,7 +83,8 @@ class MapPage extends Component {
     console.log("lenght for markers loop", this.state.polygonsArray.length);
 
 
-    console.log("fn:3 in route with barriers")
+    console.log("start COORD", this.state.startCoord);
+    console.log("end COORD", this.state.endCoord);
     var formData = new FormData();
     formData.append('f', 'json');
     formData.append('token', process.env.REACT_APP_ARC_KEY);
@@ -206,7 +207,7 @@ class MapPage extends Component {
     axios
     .get(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=${address}&outFields=Match_addr,Addr_type`)
     .then(res => {
-      console.log('RES',res)
+      console.log('gecode RES',res)
       this.setState({[coordinate]: {
         "geometry": {
         "x": res.data.candidates[0].location.x,

@@ -3,6 +3,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
 import { getVehicles, deleteVehicles } from "../../store/actions";
+import { selectVehicle } from "../../store/actions/selectVehicle.js";
 import VehicleForm from "./VehicleForm";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -17,7 +18,12 @@ class Vehicles extends React.Component {
   }
 
   componentDidMount(){
-    this.props.getVehicles();
+    this.props.getVehicles()
+      .then(res => {
+          this.props.selectVehicle(this.props.vehicles.vehicles[0].id);
+      })
+    
+    
   }
 
   editVehicleToggle = (id) => {
@@ -32,6 +38,9 @@ class Vehicles extends React.Component {
       editing: false
     })
   }
+  selected = (id) => {
+    this.props.selectVehicle(id);
+  }
 
   render() {
     // console.log("getVEHICLE", this.props.vehicles.vehicles && this.props.vehicles.vehicles[0])
@@ -40,9 +49,13 @@ class Vehicles extends React.Component {
       {this.props.vehicles.vehicles && this.props.vehicles.vehicles.map( e => {
         //console.log("vehicle e", e)
         return(
-        <div className="vehicle-tabs">
+        <div className={`vehicle-tabs ${e.id === this.props.selected_id && `highlight`}`}>
+        {e.id === this.props.selected_id ? <p className="highlighted">selected for routing</p> : <Button variant="warning" onClick={() => {this.selected(e.id)}}>select</Button>}
+        
+        
+        <p>Vehicle Information</p>
         <div>
-        <p className="vehicle-name">{e.name}</p>
+        <p className="vehicle-name">name: {e.name}</p>
         <p className="vehicle-name">height: {e.height}</p>
         <p className="vehicle-name">id: {e.id}</p>
         <Button onClick={() => {this.props.deleteVehicles(e.id)}} variant="warning">del</Button>
@@ -62,9 +75,10 @@ class Vehicles extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  vehicles: state.vehicles
+  vehicles: state.vehicles,
+  selected_id: state.selected_id
 })
 
 export default withRouter(connect(
-  mapStateToProps, { getVehicles, deleteVehicles }
+  mapStateToProps, { getVehicles, deleteVehicles, selectVehicle }
 )(Vehicles))

@@ -8,10 +8,15 @@ import {
   UPDATE_VEHICLE
 } from "../actions";
 
+import {
+  SELECTED
+} from "../actions/selectVehicle"
+
 const initialState = {
   data: [],
   vehicles: {},
-  here: {}
+  here: {},
+  selected_id: 99999,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -61,7 +66,7 @@ export const reducer = (state = initialState, action) => {
         loading: false,
         vehicles: { ...filteredVehicles }
       };
-    case UPDATE_VEHICLE:
+    //case UPDATE_VEHICLE:
     // Needs to do refactor the nested axios call
 
     // return {
@@ -70,7 +75,12 @@ export const reducer = (state = initialState, action) => {
     //   loading: false,
     //   vehicles: {vehicles: filteredVehicles.push(currentVehicles)}
     // };
-
+    case SELECTED:
+      console.log("reducer time")
+      return {
+        ...state,
+        selected_id: action.payload
+      }
     default:
       return state;
   }
