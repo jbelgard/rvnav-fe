@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import VehicleForm from '../vehicleForm/VehicleForm';
 import Vehicles from '../vehicleForm/Vehicles';
@@ -94,4 +93,6 @@ export class Sidebar extends Component {
     }
 }
 
-export default Sidebar
+
+
+export default Sidebar;

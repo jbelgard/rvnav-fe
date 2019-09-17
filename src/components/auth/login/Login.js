@@ -101,7 +101,7 @@ class LoginForm extends React.Component {
 
   render() {
     const { errors } = this.state.credentials;
-    const isEnabled = this.state.credentials.username.length >= 5 && this.state.credentials.password.length >= 8;
+    // const isEnabled = this.state.credentials.username.length >= 5 && this.state.credentials.password.length >= 8;
     return (
       <div>
         <Form onSubmit={this.loginSubmit}>

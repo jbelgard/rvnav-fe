@@ -5,8 +5,6 @@ import { connect } from "react-redux";
 import { getVehicles, deleteVehicles } from "../../store/actions";
 import VehicleForm from "./VehicleForm";
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Nav from '../nav/Nav';
 import "./Vehicles.css"
 
 
@@ -40,7 +38,7 @@ class Vehicles extends React.Component {
       {this.props.vehicles.vehicles && this.props.vehicles.vehicles.map( e => {
         //console.log("vehicle e", e)
         return(
-        <div className="vehicle-tabs">
+        <div className="vehicle-tabs" key={e.id}>
         <div>
         <p className="vehicle-name">{e.name}</p>
         <p className="vehicle-name">height: {e.height}</p>
