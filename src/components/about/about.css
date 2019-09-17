@@ -3,6 +3,21 @@ Fade content bs-carousel with hero headers
 Code snippet by maridlcrmn (Follow me on Twitter @maridlcrmn) for Bootsnipp.com
 */
 
+#header {
+    background-color: black;
+    padding: 5px 10px;
+    color: white;
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+    
+    top: 0;
+    width: 100%;
+    transition: 0.2s;
+}
+body {
+    background-color: black;
+}
 /********************************/
 /*       Fade Bs-carousel       */
 /********************************/
