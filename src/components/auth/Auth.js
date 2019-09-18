@@ -4,17 +4,16 @@ import Register from "./register/Register";
 import "./Auth.css";
 import { Link } from "react-router-dom";
 import icon from "../../assets/img/rvnav.png";
-import { connect } from "react-redux";
-import { logout } from "../../store/actions";
 
-class Auth extends Component {
+
+export default class Auth extends Component {
   state = {
     login: true
   };
 
 
   componentDidMount() {
-    this.props.logout();
+
   }
 
   toggleLogin = () => {
@@ -56,13 +55,4 @@ class Auth extends Component {
     );
   }
 }
-const mapStateToProps = state => {
-  console.log("state in route form", state)
-  return{
-  selected_id: state.selected_id,
-  vehicles: state.vehicles}
-}
 
-export default connect(
-  mapStateToProps, {logout}
-)(Auth)

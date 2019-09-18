@@ -47,7 +47,7 @@ class MapPage extends Component {
    
     var map = new window.google.maps.Map(document.getElementById('map'), {
       center: { lat: 34.0522, lng: -118.2437},
-      zoom: 8
+      zoom: 12
     });
     
  
@@ -312,7 +312,7 @@ class MapPage extends Component {
   setMapToState = () => {
     var map = new window.google.maps.Map(document.getElementById('map'), {
       center: {lat: parseFloat(this.state.startCoord && this.state.startCoord.geometry.y.toFixed(4)), lng: parseFloat(this.state.startCoord && this.state.startCoord.geometry.x.toFixed(4)) },
-      zoom: 5
+      zoom: 10
     });
     this.setState({
       map: map
