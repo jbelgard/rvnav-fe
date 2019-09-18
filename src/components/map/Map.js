@@ -237,7 +237,6 @@ class MapPage extends Component {
     console.log("START CLEARNCE", start);
     console.log("end CLEARNCE", end);
     //console.log('HEIGHT',this.props.vehicles.vehicles[0].height)
-<<<<<<< HEAD
     let heightOfSelectedVehicle = 0;
     if(this.props.vehicles.vehicles){
       this.props.vehicles.vehicles.map( e => {
@@ -245,15 +244,6 @@ class MapPage extends Component {
             heightOfSelectedVehicle = e.height;
         }
       })
-=======
-    let heightOfSelectedVehicle;
-    if(this.props.vehicles.vehicles){
-    this.props.vehicles.vehicles.map( e => {
-      if(e.id === this.props.selected_id){
-          heightOfSelectedVehicle = e.height;
-      }
-    })
->>>>>>> 0cfd87fcaed101fe78a521e45a353ea76be6e26b
     }
     let bridgePost = { //sends low bridges a long a route
       "height": heightOfSelectedVehicle,
@@ -350,10 +340,6 @@ class MapPage extends Component {
         if(res){
         console.log("arc UNOBSTRUCTED res", res.data)
         //console.log('res data features',res.data.routes.features[0].geometry.paths[0][0][0])
-<<<<<<< HEAD
-        //this.setState({preBarrierCoordinates: []})
-=======
->>>>>>> 0cfd87fcaed101fe78a521e45a353ea76be6e26b
         let resLength = res.data.routes.features[0].geometry.paths[0].length;
         let pbCoordinate = { lat: null, lng: null }
         let pblng = null;

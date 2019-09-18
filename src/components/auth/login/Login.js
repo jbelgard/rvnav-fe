@@ -92,6 +92,7 @@ class LoginForm extends React.Component {
         // }
       })
       .catch(err => {
+        this.setState({loading:false});
         console.log("login err", err);
       });
   };
