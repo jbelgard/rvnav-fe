@@ -66,6 +66,7 @@ class LoginForm extends React.Component {
       event_category: "access",
       event_label: "login"
     });
+    
     return this.props
       .login(this.state.credentials)
       .then(res => {
@@ -97,6 +98,7 @@ class LoginForm extends React.Component {
     const { errors } = this.state.credentials;
     // const isEnabled = this.state.credentials.username.length >= 5 && this.state.credentials.password.length >= 8;
     return (
+       
       <div>
         <Form onSubmit={this.loginSubmit}>
           {this.props.error === "Invalid username or password" ? (
