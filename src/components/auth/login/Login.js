@@ -19,7 +19,8 @@ class LoginForm extends React.Component {
           username: "",
           password: ""
         }
-      }
+      },
+      loading: false
     };
   }
 
@@ -66,10 +67,11 @@ class LoginForm extends React.Component {
       event_category: "access",
       event_label: "login"
     });
-    
+    this.setState({loading:true});
     return this.props
       .login(this.state.credentials)
       .then(res => {
+        this.setState({loading:false});
         this.setState({
           username: "",
           password: ""
@@ -100,6 +102,8 @@ class LoginForm extends React.Component {
     return (
        
       <div>
+  {this.state.loading === true ? <p className="auth-loading">Loading...</p> :
+
         <Form onSubmit={this.loginSubmit}>
           {this.props.error === "Invalid username or password" ? (
             <p className="error">Invalid username or password</p>
@@ -136,6 +140,8 @@ class LoginForm extends React.Component {
             </Button>
           </Form.Group>
         </Form>
+
+            }
       </div>
     );
   }
