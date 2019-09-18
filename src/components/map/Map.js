@@ -234,14 +234,16 @@ class MapPage extends Component {
     console.log("START CLEARNCE", start);
     console.log("end CLEARNCE", end);
     //console.log('HEIGHT',this.props.vehicles.vehicles[0].height)
-    let heightOfSelectedVehicle;
-    this.props.vehicles.vehicles.map( e => {
-      if(e.id === this.props.selected_id){
-          heightOfSelectedVehicle = e.height;
-      }
-    })
+    let heightOfSelectedVehicle = 0;
+    if(this.props.vehicles.vehicles){
+      this.props.vehicles.vehicles.map( e => {
+        if(e.id === this.props.selected_id){
+            heightOfSelectedVehicle = e.height;
+        }
+      })
+    }
     let bridgePost = { //sends low bridges a long a route
-      "height": heightOfSelectedVehicle || 1,
+      "height": heightOfSelectedVehicle,
       "start_lon": parseFloat(start.lng.toFixed(4)),
       "start_lat": parseFloat(start.lat.toFixed(4)),
       "end_lon": parseFloat(end.lng.toFixed(4)),
@@ -337,10 +339,10 @@ class MapPage extends Component {
     }
     axios.post("https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve", formData, config)
       .then(res => {
-        
+        if(res){
         console.log("arc UNOBSTRUCTED res", res.data)
         //console.log('res data features',res.data.routes.features[0].geometry.paths[0][0][0])
-        this.setState({preBarrierCoordinates: []})
+        //this.setState({preBarrierCoordinates: []})
         let resLength = res.data.routes.features[0].geometry.paths[0].length;
         let pbCoordinate = { lat: null, lng: null }
         let pblng = null;
@@ -370,6 +372,7 @@ class MapPage extends Component {
           // }) 
           //his.state.Coordinates[i] = Coordinate;
           console.log("i: ", i)
+          
         }
         // polyArrayLocal = arrPass;
         // console.log("poly lngth", this.state.polygonsArray.length)
@@ -388,6 +391,7 @@ class MapPage extends Component {
         
         console.log('POLY array state',this.state.polygonsArray)
         console.log("fn:3 going to route with barriers")
+      }
       })
       .catch(err => {
         console.log("arc route err:", err);
