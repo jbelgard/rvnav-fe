@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import icon from "../../assets/img/rvnav.png";
 import "./LandingPage.css";
+import { connect } from "react-redux";
+import { logout } from "../../store/actions";
 
 class LandingPage extends Component {
   componentDidMount() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("id");
+    this.props.logout();
   }
 
   render() {
@@ -37,5 +38,12 @@ class LandingPage extends Component {
     );
   }
 }
+const mapStateToProps = state => {
+return{
+selected_id: state.selected_id,
+vehicles: state.vehicles}
+}
 
-export default LandingPage;
+export default connect(
+mapStateToProps, {logout}
+)(LandingPage)

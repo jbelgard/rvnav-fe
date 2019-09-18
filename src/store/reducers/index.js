@@ -1,15 +1,16 @@
-import { LOADING, REGISTER, LOGIN, ADD_VEHICLE, GET_VEHICLE, 
+import { LOADING, REGISTER, LOGIN, LOGOUT, ADD_VEHICLE, GET_VEHICLE, 
   DELETE_VEHICLE,
-  UPDATE_VEHICLE,
   DUPLICATE_USER, DUPLICATE_EMAIL, AUTH_ERROR, INVALID_CREDENTIALS, CLEAR_ERROR} from '../actions';
 
 import {
   SELECTED
 } from "../actions/selectVehicle"
+
 const initialState = {
   data: [],
   vehicles: {},
-  error: null
+  error: null,
+  selected_id: null
 };
 
 export const reducer = (state = initialState, action) => {
@@ -34,6 +35,12 @@ export const reducer = (state = initialState, action) => {
         loading: false,
         data: [...state.data, { value: action.payload }]
           };
+    case LOGOUT:
+        localStorage.removeItem("token");
+        localStorage.removeItem("id");
+        return initialState
+
+
     case ADD_VEHICLE:
       console.log("vehicles", state.vehicles.vehicles, action.payload)
       let vehicles = state.vehicles.vehicles.slice();
