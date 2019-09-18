@@ -30,9 +30,9 @@ class LandingPage extends Component {
             our app today to get the best navigation for you and your vehicle.
           </p>
         </div>
-        <Link to="/" className="about">
+        <a href = "/aboutus.html" className="about" target = "_blank" rel = "noopener noreferrer nofollow">
           About the team
-        </Link>
+        </a>
       </div>
     );
   }
