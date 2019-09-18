@@ -12,7 +12,10 @@ const RoutingForm = (props) => {
     })
     return (
       <div>
-        <p>{`you are routing with ${name}`}</p>
+        <div className="routing-with">
+        <p>{`you are routing with `}</p>
+        <span>{`${name}`}</span>
+        </div>
         <form className="route-form" onSubmit={(event) => {
           event.preventDefault()
           props.onChangeHandler()

@@ -26,3 +26,14 @@
 #map{
   height: calc(100vh - 40px);
 }
+.routing-with{
+  display: flex;
+  justify-content: flex-start;
+}
+.routing-with > p{
+  margin:  6px 0 6px 16px;
+}
+.routing-with > span{
+  margin:  6px 4px;
+  color: #ffc107;
+}
