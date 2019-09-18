@@ -11,10 +11,11 @@ export default class Auth extends Component {
   };
 
 
-  componentDidMount(){
+  componentDidMount() {
     localStorage.removeItem('token');
     localStorage.removeItem('id');
   }
+
   toggleLogin = () => {
     this.setState({ login: true });
   };

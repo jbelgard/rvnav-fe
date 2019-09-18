@@ -21,7 +21,7 @@ class MapPage extends Component {
       startCoord: null,
       endCoord: null,
       map: null,
-      preBarrierCoordinates: []
+      loading: ""
     }
   }
   
@@ -78,10 +78,12 @@ class MapPage extends Component {
 
   initRoute = () => {  
     this.setMapToState();
+    this.setState({loading: "routing"})
     console.log("lenght for markers loop", this.state.polygonsArray.length);
 
 
-    console.log("fn:3 in route with barriers")
+    console.log("start COORD", this.state.startCoord);
+    console.log("end COORD", this.state.endCoord);
     var formData = new FormData();
     formData.append('f', 'json');
     formData.append('token', process.env.REACT_APP_ARC_KEY);
@@ -115,7 +117,6 @@ class MapPage extends Component {
     const config = {
       headers: { 'content-type': 'multipart/form-data' }
     }
-    
     axios.post("https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve", formData, config)
       .then(res => {
         console.log("arc res last", res.data)
@@ -176,7 +177,7 @@ class MapPage extends Component {
 
         polyPath.setMap(this.state.map);
 
-
+        this.setState({loading: false})
         //this.setState({polygonsArray: []})
       })
       .catch(err => {
@@ -194,6 +195,7 @@ class MapPage extends Component {
   }
 
   onChangeHandler = (e) => { 
+    this.setState({loading: "searching addresses"})
     // e.preventDefault()
     //this.setState({polygonsArray: []})
     this.geocode(this.state.start, "startCoord");
@@ -204,7 +206,7 @@ class MapPage extends Component {
     axios
     .get(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=${address}&outFields=Match_addr,Addr_type`)
     .then(res => {
-      console.log('RES',res)
+      if(res){
       this.setState({[coordinate]: {
         "geometry": {
         "x": res.data.candidates[0].location.x,
@@ -219,9 +221,11 @@ class MapPage extends Component {
     }
   })
     if(coordinate === "endCoord"){
+    this.setState({loading: "checking clearance"})
       console.log("fn:1 going to prebarrier Route!")
       this.routeBeforeBarriers();
     }
+  }
     })
     .catch(err => {
       console.log("gecode err", err)
@@ -233,8 +237,16 @@ class MapPage extends Component {
     console.log("START CLEARNCE", start);
     console.log("end CLEARNCE", end);
     //console.log('HEIGHT',this.props.vehicles.vehicles[0].height)
+    let heightOfSelectedVehicle;
+    if(this.props.vehicles.vehicles){
+    this.props.vehicles.vehicles.map( e => {
+      if(e.id === this.props.selected_id){
+          heightOfSelectedVehicle = e.height;
+      }
+    })
+    }
     let bridgePost = { //sends low bridges a long a route
-      "height": this.props.vehicles.vehicles[0].height || 1,
+      "height": heightOfSelectedVehicle || 1,
       "start_lon": parseFloat(start.lng.toFixed(4)),
       "start_lat": parseFloat(start.lat.toFixed(4)),
       "end_lon": parseFloat(end.lng.toFixed(4)),
@@ -269,12 +281,7 @@ class MapPage extends Component {
     // }
     axios.post("https://rv-nav-clearance.com/fetch_low_clearance", bridgePost)
       .then(res => {
-        //navigator.geolocation.getCurrentPosition( (position)  => {
-          
-         
-          console.log("res clearance", res.data)
-         
-          // 
+          if(res){
           
           for(let j = 0; j < res.data.length; j++){
            // makemarkers(res.data[j].latitude, res.data[j].longitude)
@@ -295,7 +302,7 @@ class MapPage extends Component {
 
          //return polygonArray;
         //});
-
+        }
       })
       .catch(err => {
         console.log("clearance error:", err);
@@ -330,10 +337,9 @@ class MapPage extends Component {
     }
     axios.post("https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve", formData, config)
       .then(res => {
-        
+        if(res){
         console.log("arc UNOBSTRUCTED res", res.data)
         //console.log('res data features',res.data.routes.features[0].geometry.paths[0][0][0])
-        this.setState({preBarrierCoordinates: []})
         let resLength = res.data.routes.features[0].geometry.paths[0].length;
         let pbCoordinate = { lat: null, lng: null }
         let pblng = null;
@@ -358,29 +364,12 @@ class MapPage extends Component {
           }
           console.log("fn:2 going to clearance api")
           this.clearanceAPI(pbCoordinate, {lat: endLat, lng: endLng}, polyArrayLocal, i, lastStartPoint);
-          // this.setState({
-          //   preBarrierCoordinates: [...this.state.preBarrierCoordinates, pbCoordinate]
-          // }) 
-          //his.state.Coordinates[i] = Coordinate;
           console.log("i: ", i)
         }
-        // polyArrayLocal = arrPass;
-        // console.log("poly lngth", this.state.polygonsArray.length)
-        // console.log("local poly array", polyArrayLocal);
-        
-        
-
-      
-        // if(this.state.polygonsArray.length){
-        //   this.initRoute();
-        // }
-        //console.log("length poly arr", polyArrayLocal.slice().length)
-        // if(polyArrayLocal !== undefined){
-        //   this.initRoute(polyArrayLocal)
-        // }
         
         console.log('POLY array state',this.state.polygonsArray)
         console.log("fn:3 going to route with barriers")
+      }
       })
       .catch(err => {
         console.log("arc route err:", err);
@@ -397,6 +386,7 @@ class MapPage extends Component {
           <NavLink className="logout-btn" to="/">{localStorage.token ? `Log Out` : `Login / Signup`}</NavLink>
         </div>
         <Sidebar
+          loading={this.state.loading}
           routeChangeHandler={this.routeChangeHandler}
           onChangeHandler={this.onChangeHandler}
           start={this.state.start}
@@ -417,7 +407,8 @@ function loadScript(url) {
   index.parentNode.insertBefore(script, index)
 }
 const mapStateToProps = state => ({
-  vehicles: state.vehicles
+  vehicles: state.vehicles,
+  selected_id: state.selected_id
 })
 
 export default withRouter(connect(

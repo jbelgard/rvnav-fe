@@ -118,3 +118,8 @@ form button {
     width: 100%;
   }
 }
+.auth-loading{
+  font-size: 4rem;
+  margin: 40px;
+  color: #ffc107
+}

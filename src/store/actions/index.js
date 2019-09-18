@@ -8,44 +8,80 @@ export const ADD_VEHICLE = 'ADD_VEHICLE';
 export const GET_VEHICLE = 'GET_VEHICLE';
 export const GET_WALMARTS = 'GET_WALMARTS';
 export const DELETE_VEHICLE = "DELETE_VEHICLE";
+export const AUTH_ERROR = "AUTH_ERROR";
+export const INVALID_CREDENTIALS = "INVALID_CREDENTIALS";
+export const CLEAR_ERROR = "CLEAR_ERROR";
+export const DUPLICATE_USER = "DUPLICATE_USER";
+export const DUPLICATE_EMAIL = "DUPLICATE_EMAIL";
+
+export function authError(error) {
+ return { type: "AUTH_ERROR", payload: error };
+}
+export function clearError() {
+ return { type: CLEAR_ERROR };
+}
+
 export const register = creds => {
   return dispatch => {
     dispatch({ type: LOADING });
     return axios
       .post(
-        'https://labs-rv-life-staging-1.herokuapp.com/users/register',
+        "https://labs-rv-life-staging-1.herokuapp.com/users/register",
         creds
       )
       .then(response => {
         dispatch({ type: REGISTER, payload: response.data });
+        console.log("response", response.data);
         return true;
       })
       .catch(err => {
-        dispatch({
-          type: ERROR_MESSAGE,
-          errorMessage: 'User was unable to be createed.'
-        });
+        if (
+          authError(err).payload.response.data.constraint ===
+          "users_username_unique"
+        ) {
+          dispatch({ type: DUPLICATE_USER });
+          setTimeout(() => {
+            dispatch({ type: CLEAR_ERROR });
+          }, 5000);
+        }
+        if (
+          authError(err).payload.response.data.constraint ===
+          "users_email_unique"
+        ) {
+          dispatch({ type: DUPLICATE_EMAIL });
+          setTimeout(() => {
+            dispatch({ type: CLEAR_ERROR });
+          }, 5000);
+        }
+        //   dispatch({
+        //     type: ERROR_MESSAGE,
+        //     errorMessage: "User was unable to be created."
+        //   });
       });
   };
-};
-
-export const login = values => {
+ };
+ export const login = values => {
   return dispatch => {
     dispatch({ type: LOADING });
     return axios
-      .post('https://labs-rv-life-staging-1.herokuapp.com/users/login', values)
+      .post("https://labs-rv-life-staging-1.herokuapp.com/users/login", values)
       .then(res => {
-        console.log("login res", res); // data was created successfully and logs to console
-        localStorage.setItem('token', res.data.token);
+        console.log(res); // data was created successfully and logs to console
+        localStorage.setItem("token", res.data.token);
         dispatch({ type: LOGIN, payload: res.data });
         return true;
       })
       .catch(err => {
-        console.log("login err", err); // there was an error creating the data and logs to console
-        dispatch({ type: ERROR_MESSAGE, errorMessage: 'request failed' });
+        if (authError(err).payload.response.status === 401) {
+          dispatch({ type: INVALID_CREDENTIALS });
+          setTimeout(() => {
+            dispatch({ type: CLEAR_ERROR });
+          }, 5000);
+        }
+        // dispatch({ type: ERROR_MESSAGE, errorMessage: "request failed" });
       });
   };
-};
+ };
 
 export const addVehicle = value => {
   return dispatch => {
@@ -84,6 +120,7 @@ export const getVehicles = () => {
       });
   };
 };
+
 export const updateVehicle = (value, id) => {
   return dispatch => {
     dispatch({ type: LOADING });

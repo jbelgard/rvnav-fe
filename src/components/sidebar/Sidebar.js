@@ -46,18 +46,19 @@ export class Sidebar extends Component {
                         
                         onClick={this.buttonSelect}>Route</p>
 
-                        <p className={`${this.state.vehicleForm === `on` ? `selected` : `sidebar-tab`}   `}
-                        id="vehicleForm"
-                        onClick={this.buttonSelect}>Add a Vehicle</p>
-
                         <p className={`${this.state.vehicles === `on` ? `selected` : `sidebar-tab`}   `}
                         id="vehicles"
                         onClick={this.buttonSelect}>Vehicles</p>
 
+                        <p className={`${this.state.vehicleForm === `on` ? `selected` : `sidebar-tab`}   `}
+                        id="vehicleForm"
+                        onClick={this.buttonSelect}>Add a Vehicle</p>
+
                         </div>
                         
                         <div className={`${this.state.routing}`}>
-                        <RoutingForm   
+                        <RoutingForm  
+                        loading={this.props.loading} 
                         arcRoute={this.props.arcRoute}
                         onChangeHandler={this.props.onChangeHandler}
                         routeChangeHandler={this.props.routeChangeHandler}
@@ -65,14 +66,6 @@ export class Sidebar extends Component {
                         end={this.props.end}
                         />
                         </div>
-
-                        {localStorage.token ? <div className={`${this.state.vehicleForm}`}>
-                            <VehicleForm closeVehicleForm={this.closeVehicleForm}/>
-                        </div> : 
-                        <div className={`login-to-add ${this.state.vehicleForm}`}>
-                        <NavLink to="/auth" style={{ marginRight: 10 }}>
-                        Login or create an account to add information about your vehicle.
-                        </NavLink></div>}
                         
                         {localStorage.token ? <div className={`${this.state.vehicles}`}>
                         <Vehicles/>
@@ -80,6 +73,14 @@ export class Sidebar extends Component {
                         <div className={`login-to-add ${this.state.vehicles}`}>
                         <NavLink to="/auth" style={{ marginRight: 10 }}>
                         Login or create an account to add and view vehicle information.
+                        </NavLink></div>}
+
+                        {localStorage.token ? <div className={`${this.state.vehicleForm}`}>
+                            <VehicleForm closeVehicleForm={this.closeVehicleForm}/>
+                        </div> : 
+                        <div className={`login-to-add ${this.state.vehicleForm}`}>
+                        <NavLink to="/auth" style={{ marginRight: 10 }}>
+                        Login or create an account to add information about your vehicle.
                         </NavLink></div>}
                         
                     </div>
