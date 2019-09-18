@@ -5,8 +5,6 @@ import { connect } from "react-redux";
 import { getVehicles, deleteVehicles } from "../../store/actions";
 import VehicleForm from "./VehicleForm";
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Nav from '../nav/Nav';
 import "./Vehicles.css"
 
 
@@ -19,12 +17,7 @@ class Vehicles extends React.Component {
   componentDidMount(){
     this.props.getVehicles();
   }
-  // componentDidUpdate(prevprops){
-  //     if(prevprops !== this.props){
-  //       this.props.getVehicles();
-  //     }
-    
-  // }
+
   editVehicleToggle = (id) => {
     this.setState({
       id,
@@ -39,13 +32,13 @@ class Vehicles extends React.Component {
   }
 
   render() {
-    console.log("getVEHICLE", this.props.vehicles.vehicles && this.props.vehicles.vehicles[0])
+    // console.log("getVEHICLE", this.props.vehicles.vehicles && this.props.vehicles.vehicles[0])
     return(
       <div >
       {this.props.vehicles.vehicles && this.props.vehicles.vehicles.map( e => {
         //console.log("vehicle e", e)
         return(
-        <div className="vehicle-tabs">
+        <div className="vehicle-tabs" key={e.id}>
         <div>
         <p className="vehicle-name">{e.name}</p>
         <p className="vehicle-name">height: {e.height}</p>
@@ -56,7 +49,7 @@ class Vehicles extends React.Component {
           }} variant="warning">update</Button>
         <p className="expand-vehicle-icon">+</p>
         </div>
-        {this.state.editing && this.state.id === e.id && <VehicleForm currentVehicle={e} id={this.state.id} clearForm={this.clearForm} editing={this.state.editing}/>}
+            {this.state.editing && this.state.id === e.id && <VehicleForm currentVehicle={e} id={this.state.id} clearForm={this.clearForm} editing={this.state.editing} editVehicleToggle={this.editVehicleToggle}/>}
         </div>
       )}
       )}

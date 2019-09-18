@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import VehicleForm from '../vehicleForm/VehicleForm';
 import Vehicles from '../vehicleForm/Vehicles';
@@ -13,7 +12,7 @@ export class Sidebar extends Component {
             vehicles: "off" 
     }
 
-
+    closeVehicleForm = () => this.setState ({vehicleForm: "off", vehicles: "on"})
 
     buttonSelect = (event) => {
         console.log("event", event.target);
@@ -68,7 +67,7 @@ export class Sidebar extends Component {
                         </div>
 
                         {localStorage.token ? <div className={`${this.state.vehicleForm}`}>
-                        <VehicleForm/>
+                            <VehicleForm closeVehicleForm={this.closeVehicleForm}/>
                         </div> : 
                         <div className={`login-to-add ${this.state.vehicleForm}`}>
                         <NavLink to="/auth" style={{ marginRight: 10 }}>
@@ -94,4 +93,6 @@ export class Sidebar extends Component {
     }
 }
 
-export default Sidebar
+
+
+export default Sidebar;

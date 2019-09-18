@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { addVehicle, updateVehicle } from "../../store/actions";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Nav from '../nav/Nav';
 import "./VehicleForm.css"
 
 class VehicleForm extends React.Component {
@@ -32,12 +31,6 @@ class VehicleForm extends React.Component {
        dual_tires: false, //Bool, checkbox
        trailer: false,  //Bool, checkbox
       }
-      // messages: {
-      //   message: '',
-      //   distanceMessage: '',
-      //   widthMessage: '',
-      //   lengthMessage: '',
-      // }
     }
   }
   
@@ -47,15 +40,14 @@ class VehicleForm extends React.Component {
       this.setState({
         specifications: {
           name: this.props.currentVehicle.name,
-          heightFeet: this.props.currentVehicle.height.toFixed(0),
+          heightFeet: Math.floor(this.props.currentVehicle.height),
           heightInches: Math.round((this.props.currentVehicle.height % 1) * 12),
-          widthFeet: this.props.currentVehicle.width.toFixed(0),
+          widthFeet: Math.floor(this.props.currentVehicle.width),
           widthInches: Math.round((this.props.currentVehicle.width % 1) * 12),
-          lengthFeet: this.props.currentVehicle.length.toFixed(0),
-          lengthinches: Math.round((this.props.currentVehicle.length % 1) * 12),
+          lengthFeet: Math.floor(this.props.currentVehicle.length),
+          lengthInches: Math.round((this.props.currentVehicle.length % 1) * 12),
           weight: this.props.currentVehicle.weight,
-        }
-   
+        } 
       })
     }
   }
@@ -125,7 +117,7 @@ class VehicleForm extends React.Component {
       name: this.state.specifications.name,
       height: height,
       width: width,
-      length: length,
+      // length: length,
       weight: weight,
       axel_count: axel_count,
       vehicle_class: vehicle_class,
@@ -133,12 +125,30 @@ class VehicleForm extends React.Component {
       dual_tires: this.state.specifications.dual_tires
     }
     console.log("sent", send);
+    console.log("id", this.props.id);
     if(this.props.editing){
-      return this.props.updateVehicle(send);
+      this.props.updateVehicle(send, this.props.id);
+      this.props.editVehicleToggle(this.props.id);
     } else {
-      return this.props.addVehicle(send);
+      this.props.addVehicle(send);
+      this.props.closeVehicleForm();
     }
-    
+    this.setState({
+      specifications: {
+        name: '',
+        heightFeet: '',
+        heightInches: '',
+        widthFeet: '',
+        widthInches: '',
+        lengthFeet: '',
+        lengthInches: '',
+        weight: '',
+        axel_count: '',
+        class_name: '',
+        dual_tires: false,
+        trailer: false,
+      }
+    })
   }
 
 
