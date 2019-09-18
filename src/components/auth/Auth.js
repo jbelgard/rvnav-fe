@@ -3,17 +3,18 @@ import Login from "./login/Login";
 import Register from "./register/Register";
 import "./Auth.css";
 import { Link } from "react-router-dom";
-import icon from "../../assets/img/rvnav.png"
+import icon from "../../assets/img/rvnav.png";
+import { connect } from "react-redux";
+import { logout } from "../../store/actions";
 
-export default class Auth extends Component {
+class Auth extends Component {
   state = {
     login: true
   };
 
 
   componentDidMount() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('id');
+    this.props.logout();
   }
 
   toggleLogin = () => {
@@ -55,3 +56,13 @@ export default class Auth extends Component {
     );
   }
 }
+const mapStateToProps = state => {
+  console.log("state in route form", state)
+  return{
+  selected_id: state.selected_id,
+  vehicles: state.vehicles}
+}
+
+export default connect(
+  mapStateToProps, {logout}
+)(Auth)

@@ -13,6 +13,7 @@ export const INVALID_CREDENTIALS = "INVALID_CREDENTIALS";
 export const CLEAR_ERROR = "CLEAR_ERROR";
 export const DUPLICATE_USER = "DUPLICATE_USER";
 export const DUPLICATE_EMAIL = "DUPLICATE_EMAIL";
+export const  LOGOUT = " LOGOUT";
 
 export function authError(error) {
  return { type: "AUTH_ERROR", payload: error };
@@ -82,6 +83,10 @@ export const register = creds => {
       });
   };
  };
+
+export const logout = () => {
+  return {type: LOGOUT}
+}
 
 export const addVehicle = value => {
   return dispatch => {
