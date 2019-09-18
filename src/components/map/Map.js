@@ -237,16 +237,16 @@ class MapPage extends Component {
     console.log("START CLEARNCE", start);
     console.log("end CLEARNCE", end);
     //console.log('HEIGHT',this.props.vehicles.vehicles[0].height)
-    let heightOfSelectedVehicle;
+    let heightOfSelectedVehicle = 0;
     if(this.props.vehicles.vehicles){
-    this.props.vehicles.vehicles.map( e => {
-      if(e.id === this.props.selected_id){
-          heightOfSelectedVehicle = e.height;
-      }
-    })
+      this.props.vehicles.vehicles.map( e => {
+        if(e.id === this.props.selected_id){
+            heightOfSelectedVehicle = e.height;
+        }
+      })
     }
     let bridgePost = { //sends low bridges a long a route
-      "height": heightOfSelectedVehicle || 1,
+      "height": heightOfSelectedVehicle,
       "start_lon": parseFloat(start.lng.toFixed(4)),
       "start_lat": parseFloat(start.lat.toFixed(4)),
       "end_lon": parseFloat(end.lng.toFixed(4)),
@@ -365,6 +365,7 @@ class MapPage extends Component {
           console.log("fn:2 going to clearance api")
           this.clearanceAPI(pbCoordinate, {lat: endLat, lng: endLng}, polyArrayLocal, i, lastStartPoint);
           console.log("i: ", i)
+          
         }
         
         console.log('POLY array state',this.state.polygonsArray)
