@@ -18,8 +18,8 @@ class MapPage extends Component {
       directionsDisplay: {},
       Coordinates: [],
       polygonsArray: [],
-      startCoord: null,
-      endCoord: null,
+      startCoord: "",
+      endCoord: "",
       map: null,
       loading: ""
     }
