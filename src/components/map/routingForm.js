@@ -29,7 +29,7 @@ const RoutingForm = (props) => {
         <Button variant="warning" id="route-button" type="submit"> Plot Course</Button>
         </form>
         </>
-        {props.loading === true ? <p className="route-loading">Loading...</p> : null }
+        <p className="route-loading">{props.loading}</p>
       </div>
     )
 }

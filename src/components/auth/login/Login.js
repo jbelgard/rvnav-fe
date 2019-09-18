@@ -68,7 +68,6 @@ class LoginForm extends React.Component {
       event_label: "login"
     });
     this.setState({loading:true});
-    debugger;
     return this.props
       .login(this.state.credentials)
       .then(res => {
