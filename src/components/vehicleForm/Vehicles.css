@@ -2,7 +2,7 @@
   color: white;
   background-color: grey;
   margin: 20px;
-  padding: 10px 6px;
+  padding: 12px;
   border-radius: 8px;
   display: flex;
   width: 260px;
@@ -12,10 +12,11 @@
 .vehicle-tabs > div > form{
   background:lightgrey;
   border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
-.vehicle-name{
-  margin: 0 auto;
-}
+
 .expand-vehicle-icon{
   color: darkgrey;
   margin: 0 20px;
@@ -24,11 +25,36 @@
   border: 5px solid #ffc107;
   position: relative;
 }
-.hide-select-text{
- display: none;
-}
-.view-select-text{
-  display: block;
+.select-text{
   color: #ffc107;
 }
-
+p{
+  color: white;
+}
+.select-btn{
+  width: 100px;
+  align-self: center;
+  padding: 0;
+  margin-bottom: 10px;
+}
+.vehicle-btn{
+  margin: 4px;
+  width:  100px;
+}
+.vehicle-txt{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.vehicle-name{
+  margin: 0 0 0 20px;
+  align-self: start;
+}
+.edit-delete{
+  display: flex;
+  flex-direction: row;
+  margin: 20px 0;
+}
+.vehicle-information{
+  font-size: 1.2rem;
+}

@@ -47,6 +47,9 @@ class VehicleForm extends React.Component {
           lengthFeet: Math.floor(this.props.currentVehicle.length),
           lengthInches: Math.round((this.props.currentVehicle.length % 1) * 12),
           weight: this.props.currentVehicle.weight,
+          vehicle_class: this.props.currentVehicle.vehicle_class,
+          axel_count: this.props.currentVehicle.axel_count,         
+          dual_tires: this.props.currentVehicle.dual_tires          
         } 
       })
     }

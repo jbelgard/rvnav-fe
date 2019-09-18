@@ -234,8 +234,14 @@ class MapPage extends Component {
     console.log("START CLEARNCE", start);
     console.log("end CLEARNCE", end);
     //console.log('HEIGHT',this.props.vehicles.vehicles[0].height)
+    let heightOfSelectedVehicle;
+    this.props.vehicles.vehicles.map( e => {
+      if(e.id === this.props.selected_id){
+          heightOfSelectedVehicle = e.height;
+      }
+    })
     let bridgePost = { //sends low bridges a long a route
-      "height": this.props.vehicles.vehicles[0].height || 1,
+      "height": heightOfSelectedVehicle || 1,
       "start_lon": parseFloat(start.lng.toFixed(4)),
       "start_lat": parseFloat(start.lat.toFixed(4)),
       "end_lon": parseFloat(end.lng.toFixed(4)),
@@ -418,7 +424,8 @@ function loadScript(url) {
   index.parentNode.insertBefore(script, index)
 }
 const mapStateToProps = state => ({
-  vehicles: state.vehicles
+  vehicles: state.vehicles,
+  selected_id: state.selected_id
 })
 
 export default withRouter(connect(

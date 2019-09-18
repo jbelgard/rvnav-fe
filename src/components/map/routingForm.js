@@ -1,11 +1,18 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { connect } from "react-redux";
 
 const RoutingForm = (props) => {
-
+    let name = "no vehicle";
+    props.vehicles.vehicles && props.vehicles.vehicles.map( e => {
+      if(e.id === props.selected_id){
+         name = e.name;
+      }
+    })
     return (
       <div>
+        <p>{`you are routing with ${name}`}</p>
         <form className="route-form" onSubmit={(event) => {
           event.preventDefault()
           props.onChangeHandler()
@@ -19,7 +26,12 @@ const RoutingForm = (props) => {
     )
 }
 
+const mapStateToProps = state => {
+  console.log("state in route form", state)
+  return{selected_id: state.selected_id,
+  vehicles: state.vehicles}
+}
 
-
-
-export default RoutingForm;
+export default connect(
+  mapStateToProps
+)(RoutingForm)

@@ -60,6 +60,7 @@
     flex-direction: row;
     cursor: pointer;
     margin: -30px 0 10px 0;
+    flex-wrap: wrap;
 }
 .selected{
     color: white;
