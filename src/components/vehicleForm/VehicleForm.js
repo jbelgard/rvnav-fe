@@ -120,7 +120,7 @@ class VehicleForm extends React.Component {
       name: this.state.specifications.name,
       height: height,
       width: width,
-      // length: length,
+      length: length,
       weight: weight,
       axel_count: axel_count,
       vehicle_class: vehicle_class,

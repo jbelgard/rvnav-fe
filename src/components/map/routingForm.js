@@ -12,6 +12,9 @@ const RoutingForm = (props) => {
     })
     return (
       <div>
+        
+
+        <>
         <div className="routing-with">
         <p>{`you are routing with `}</p>
         <span>{`${name}`}</span>
@@ -25,6 +28,8 @@ const RoutingForm = (props) => {
         <Form.Control className="route-input" id="end" required type="text"  placeholder="end" name="end" value={props.end} onChange={props.routeChangeHandler}/> 
         <Button variant="warning" id="route-button" type="submit"> Plot Course</Button>
         </form>
+        </>
+        {props.loading === true ? <p className="route-loading">Loading...</p> : null }
       </div>
     )
 }

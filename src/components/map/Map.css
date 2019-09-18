@@ -37,3 +37,8 @@
   margin:  6px 4px;
   color: #ffc107;
 }
+.route-loading{
+  font-size: 2rem;
+  margin: 40px;
+  color: #ffc107
+}

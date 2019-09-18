@@ -21,7 +21,7 @@ class MapPage extends Component {
       startCoord: null,
       endCoord: null,
       map: null,
-      preBarrierCoordinates: []
+      loading: false
     }
   }
   
@@ -116,7 +116,7 @@ class MapPage extends Component {
     const config = {
       headers: { 'content-type': 'multipart/form-data' }
     }
-    
+    this.setState({loading: true})
     axios.post("https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve", formData, config)
       .then(res => {
         console.log("arc res last", res.data)
@@ -177,7 +177,7 @@ class MapPage extends Component {
 
         polyPath.setMap(this.state.map);
 
-
+        this.setState({loading: false})
         //this.setState({polygonsArray: []})
       })
       .catch(err => {
@@ -340,7 +340,6 @@ class MapPage extends Component {
         
         console.log("arc UNOBSTRUCTED res", res.data)
         //console.log('res data features',res.data.routes.features[0].geometry.paths[0][0][0])
-        this.setState({preBarrierCoordinates: []})
         let resLength = res.data.routes.features[0].geometry.paths[0].length;
         let pbCoordinate = { lat: null, lng: null }
         let pblng = null;
@@ -365,26 +364,8 @@ class MapPage extends Component {
           }
           console.log("fn:2 going to clearance api")
           this.clearanceAPI(pbCoordinate, {lat: endLat, lng: endLng}, polyArrayLocal, i, lastStartPoint);
-          // this.setState({
-          //   preBarrierCoordinates: [...this.state.preBarrierCoordinates, pbCoordinate]
-          // }) 
-          //his.state.Coordinates[i] = Coordinate;
           console.log("i: ", i)
         }
-        // polyArrayLocal = arrPass;
-        // console.log("poly lngth", this.state.polygonsArray.length)
-        // console.log("local poly array", polyArrayLocal);
-        
-        
-
-      
-        // if(this.state.polygonsArray.length){
-        //   this.initRoute();
-        // }
-        //console.log("length poly arr", polyArrayLocal.slice().length)
-        // if(polyArrayLocal !== undefined){
-        //   this.initRoute(polyArrayLocal)
-        // }
         
         console.log('POLY array state',this.state.polygonsArray)
         console.log("fn:3 going to route with barriers")
@@ -404,6 +385,7 @@ class MapPage extends Component {
           <NavLink className="logout-btn" to="/">{localStorage.token ? `Log Out` : `Login / Signup`}</NavLink>
         </div>
         <Sidebar
+          loading={this.state.loading}
           routeChangeHandler={this.routeChangeHandler}
           onChangeHandler={this.onChangeHandler}
           start={this.state.start}
