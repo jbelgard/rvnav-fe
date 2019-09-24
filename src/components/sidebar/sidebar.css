@@ -98,6 +98,8 @@
     margin-left: 12px;
 }
 
+
+
 @media (max-width: 900px){
     .open{
         width: 320px;
@@ -114,3 +116,4 @@
         margin-left: 180px; 
      }
 }
+

@@ -21,7 +21,10 @@ class MapPage extends Component {
       startCoord: "",
       endCoord: "",
       map: null,
-      loading: ""
+      loading: "", 
+      walmartSelected: false,
+      campsiteSelected: false, 
+      pointOfInterestDistance: 5
     }
   }
   
@@ -139,34 +142,27 @@ class MapPage extends Component {
         }
         console.log("coords array after loop (w/barriers)", this.state.Coordinates);
 
-        for(let i = 0; i < this.state.polygonsArray.length; i++){
-          console.log("markers i", i);
-          
-          let displayPoly = [];
-        //   let mid = displayPoly[0] = {lat: this.state.polygonsArray[i][j][1], lng: this.state.polygonsArray[i][j][0]};
-        //   new window.google.maps.Marker({
-        //     map: this.state.map,
-        //     label: `${j}`,
-        //     position: mid      
-        // })
 
-        
-          for(let j = 0; j < 3; j++){
-            console.log("markers point j", j);
-            console.log("lat for markers", this.state.polygonsArray[i][j][1]);
-            console.log("lng for markers", this.state.polygonsArray[i][j][0]);
-            displayPoly[0] = {lat: this.state.polygonsArray[i][j][1] , lng: this.state.polygonsArray[i][j][0]};
-            // displayPoly[1] = {lat: this.state.polygonsArray[i][j][1], lng:  this.state.polygonsArray[i][j][0]};
-            // displayPoly[2] = {lat: this.state.polygonsArray[i][j][1], lng: this.state.polygonsArray[i][j][0] };
-            console.log(`markers poly ${j}`, displayPoly);
-              new window.google.maps.Marker({
-                map: this.state.map,
-                label: `${j}`,
-                position: displayPoly[j]      
-            })
-          }
-        }
+        //NOTE: the following loop will display markes for all the low clearance trianges on the map
+        //it is commented out as it makes the UI cluttered for the user, but it probably SHOULD NOT BE DELETED unless another dev tool has been made to replace it
+        // for(let i = 0; i < this.state.polygonsArray.length; i++){
+        //   console.log("markers i", i);
+        //   let displayPoly = [];     
+        //   for(let j = 0; j < 3; j++){
+        //     displayPoly[0] = {lat: this.state.polygonsArray[i][j][1] , lng: this.state.polygonsArray[i][j][0]};
+        //     displayPoly[1] = {lat: this.state.polygonsArray[i][j][1], lng:  this.state.polygonsArray[i][j][0]};
+        //     displayPoly[2] = {lat: this.state.polygonsArray[i][j][1], lng: this.state.polygonsArray[i][j][0] };
+        //     console.log(`markers poly ${j}`, displayPoly);
+        //       new window.google.maps.Marker({
+        //         map: this.state.map,
+        //         label: `${j}`,
+        //         position: displayPoly[j]      
+        //     }) 
+        //   }
+        // }
     
+        this.pointsOfInterest();
+
         var polyPath = new window.google.maps.Polyline({
           path: this.state.Coordinates,
           geodesic: true,
@@ -209,8 +205,8 @@ class MapPage extends Component {
       if(res){
       this.setState({[coordinate]: {
         "geometry": {
-        "x": res.data.candidates[0].location.x,
-        "y": res.data.candidates[0].location.y,
+        "x": res.data.candidates[0].location.x, //longitude
+        "y": res.data.candidates[0].location.y, //latitude
         "spatialReference": {
           "wkid": res.data.spatialReference.wkid
         }
@@ -219,12 +215,16 @@ class MapPage extends Component {
         "Name": res.data.candidates[0].address
       }
     }
-  })
+  }, 
+   () => {
     if(coordinate === "endCoord"){
-    this.setState({loading: "checking clearance"})
-      console.log("fn:1 going to prebarrier Route!")
-      this.routeBeforeBarriers();
-    }
+      this.setState({loading: "checking clearance"})
+        console.log("fn:1 going to prebarrier Route!")
+        this.routeBeforeBarriers();
+      }
+   }
+  )
+
   }
     })
     .catch(err => {
@@ -378,6 +378,59 @@ class MapPage extends Component {
 
   }
 
+  pointsOfInterest = () => {
+    console.log("POI STATE ENDPOINT", this.state.endCoord);
+    if(this.state.walmartSelected === true){
+      this.pointOfInterestAPI("walmart", "blue");
+    }
+    if(this.state.campsiteSelected === true){
+      this.pointOfInterestAPI("campsite", "green");
+    }
+  }
+
+  pointOfInterestAPI = (type, color) => {
+    var bar = {
+//      path: 'M 125,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90 z',
+      path: 'M -30 -10, 30 -10, 30 10, 5 10, 0 20, -5 10, -30 10 z',
+      fillColor: `${color}`,
+      fillOpacity: 0.6,
+      scale: 1,
+      strokeColor: `${color}`,
+      strokeWeight:2
+    };
+
+    let post = {
+      "latitude": this.state.endCoord.geometry.y,
+      "longitude": this.state.endCoord.geometry.x,
+      "distance": parseInt(this.state.pointOfInterestDistance)
+    }
+  
+    axios.post(`https://rv-nav-clearance.com/fetch_${type}`, post)
+      .then(res => {
+        if(res){
+          res.data.map(e => {
+            new window.google.maps.Marker({
+              map: this.state.map,
+              icon: bar,
+              label: `${type}`,
+              position: {lat: e.latitude, lng: e.longitude}      
+            })
+          })
+        }
+      })
+      .catch(err => {
+        console.log("POI walmart error:", err);
+      })
+  }
+
+  toggle = (stateKey) => {
+    console.log(stateKey)
+    this.setState({
+      [stateKey]: !this.state[stateKey]
+    })
+    console.log(this.state[stateKey])
+  }
+
   render() {
     return (
       <div>
@@ -387,6 +440,10 @@ class MapPage extends Component {
           <NavLink className="logout-btn" to="/">{localStorage.token ? `Log Out` : `Login / Signup`}</NavLink>
         </div>
         <Sidebar
+          toggle={this.toggle}
+          walmartSelected={this.state.walmartSelected}
+          campsiteSelected={this.state.campsiteSelected}
+          pointOfInterestDistance={this.state.pointOfInterestDistance}
           loading={this.state.loading}
           routeChangeHandler={this.routeChangeHandler}
           onChangeHandler={this.onChangeHandler}

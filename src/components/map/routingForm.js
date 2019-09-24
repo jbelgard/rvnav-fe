@@ -1,6 +1,8 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Accordion from 'react-bootstrap/Accordion';
+import Card from 'react-bootstrap/Card';
 import { connect } from "react-redux";
 
 const RoutingForm = (props) => {
@@ -10,26 +12,68 @@ const RoutingForm = (props) => {
          name = e.name;
       }
     })
+
     return (
       <div>
         
 
         <>
         <div className="routing-with">
-        <p>{`you are routing with `}</p>
+        <p>{`you are routing with`}</p>
         <span>{`${name}`}</span>
         </div>
         <form className="route-form" onSubmit={(event) => {
           event.preventDefault()
-          props.onChangeHandler()
-         
+          props.onChangeHandler()      
           }}>
         <Form.Control autoFocus={true} className="route-input" id="start" required type="text"  placeholder="Start" name="start" value={props.start} onChange={props.routeChangeHandler}/> 
-        <Form.Control className="route-input" id="end" required type="text"  placeholder="end" name="end" value={props.end} onChange={props.routeChangeHandler}/> 
-        <Button variant="warning" id="route-button" type="submit"> Plot Course</Button>
-        </form>
-        </>
-        <p className="route-loading">{props.loading}</p>
+        <Form.Control className="route-input" id="end" required type="text"  placeholder="end" name="end" value={props.end} onChange={props.routeChangeHandler}/>
+        <Accordion className="POI-accordion">
+          <Accordion.Toggle className="POI-dropdown" as={Card.Header} eventKey="2">
+            <p>Search points of interest for destination</p>
+          </Accordion.Toggle>
+          <Accordion.Collapse eventKey="2">
+          {/* <Form>
+          <Form.Group>
+            <Form.Label>ok</Form.Label>
+
+          </Form.Group>
+          </Form> */}
+            <div className="point-of-interest-options">
+            <Form.Group className="search-distance-input">
+              <Form.Label className="search-distance-label">distance, miles</Form.Label>
+              <Form.Control 
+              className="point-interest-input"       
+              type="number"
+              name='pointOfInterestDistance'
+              placeholder="0"
+              value={props.pointOfInterestDistance}
+              onChange={props.routeChangeHandler}
+              >
+
+              </Form.Control>
+            </Form.Group>
+              <Button variant="secondary" 
+                className={props.walmartSelected === true ? "highlight point-interest-btn" : "point-interest-btn"}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    props.toggle("walmartSelected")
+                  }}>Walmarts
+              </Button>
+              <Button variant="secondary" 
+                className={props.campsiteSelected === true ? "highlight point-interest-btn" : "point-interest-btn"}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    props.toggle("campsiteSelected")
+                }}>Campsites
+              </Button>
+            </div>
+          </Accordion.Collapse>
+      </Accordion>
+      <Button variant="warning" id="route-button" type="submit"> Plot Course</Button>
+      </form>
+      </>
+      <p className="route-loading">{props.loading}</p>
       </div>
     )
 }

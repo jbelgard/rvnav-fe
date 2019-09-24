@@ -42,3 +42,45 @@
   margin: 40px;
   color: #ffc107
 }
+.point-of-interest-options{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap; 
+  border-top: 1px solid grey;
+  margin-top: 12px;
+}
+.point-interest-input{
+ margin: 0 3px 0 0;
+ font-size: .8rem;
+ width: 75px;
+ height: 25px;
+ padding: 0;
+}
+.point-interest-btn{
+  margin: 20px 3px 0 0;
+  font-size: .8rem;
+  width: 75px;
+  height: 25px;
+  padding: 0;
+ }
+.POI-dropdown{
+  margin: -20px 0 3px 0;
+  align-content: center;
+  height: 25px;
+}
+.POI-accordion{
+  margin: -16px 0 0 0;
+  padding: 8px;
+  border: 2px solid grey;
+  border-radius: 16px;
+}
+/* .search-distance-input{
+  display: flex;
+  flex-direction: column;
+} */
+.search-distance-label{
+  font-size: .8rem;
+  margin: 0;
+  padding: 0;
+}
