@@ -177,20 +177,20 @@ export const deleteVehicles = (id) => {
   };
 };
 
-export const getWalmarts = () => {
-  return dispatch => {
-    dispatch({ type: LOADING });
-    return axios
-      .get('http://eb-flask-rv-dev.us-east-1.elasticbeanstalk.com/fetch_walmart')
-      .then(res => {
-        console.log("get mart res", res); // data was created successfully and logs to console
+// export const getWalmarts = () => {
+//   return dispatch => {
+//     dispatch({ type: LOADING });
+//     return axios
+//       .get('http://eb-flask-rv-dev.us-east-1.elasticbeanstalk.com/fetch_walmart')
+//       .then(res => {
+//         console.log("get mart res", res); // data was created successfully and logs to console
         
-        dispatch({ type: GET_WALMARTS, payload: res.data });
-        return true;
-      })
-      .catch(err => {
-        console.log("get mart err",err); // there was an error creating the data and logs to console
-        dispatch({ type: ERROR_MESSAGE, errorMessage: 'request failed' });
-      });
-  };
-};
+//         dispatch({ type: GET_WALMARTS, payload: res.data });
+//         return true;
+//       })
+//       .catch(err => {
+//         console.log("get mart err",err); // there was an error creating the data and logs to console
+//         dispatch({ type: ERROR_MESSAGE, errorMessage: 'request failed' });
+//       });
+//   };
+// };

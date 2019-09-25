@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { getVehicles } from "../../store/actions";
 import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
+import Button from 'react-bootstrap/Button';
 
 import "./Map.css"
 class MapPage extends Component {
@@ -24,7 +25,8 @@ class MapPage extends Component {
       loading: "", 
       walmartSelected: false,
       campsiteSelected: false, 
-      pointOfInterestDistance: 5
+      pointOfInterestDistance: 5, 
+      textDirections: []
     }
   }
   
@@ -141,7 +143,14 @@ class MapPage extends Component {
           //this.state.Coordinates[i] = Coordinate;
         }
         console.log("coords array after loop (w/barriers)", this.state.Coordinates);
-
+        let directionsResArr = res.data.directions[0].features;
+        console.log("directions res arr", directionsResArr)
+        let newDirectionsArray = [];
+        for(let i = 0; i < directionsResArr.length; i++){
+           newDirectionsArray.push (directionsResArr[i].attributes.text);
+        }
+        console.log('directions array', newDirectionsArray);
+        this.setState({textDirections: newDirectionsArray})
 
         //NOTE: the following loop will display markes for all the low clearance trianges on the map
         //it is commented out as it makes the UI cluttered for the user, but it probably SHOULD NOT BE DELETED unless another dev tool has been made to replace it
@@ -279,7 +288,7 @@ class MapPage extends Component {
       
 
     // }
-    axios.post("https://rv-nav-clearance.com/fetch_low_clearance", bridgePost)
+    axios.post("https://dr7ajalnlvq7c.cloudfront.net/fetch_low_clearance", bridgePost)
       .then(res => {
           if(res){
           
@@ -381,10 +390,10 @@ class MapPage extends Component {
   pointsOfInterest = () => {
     console.log("POI STATE ENDPOINT", this.state.endCoord);
     if(this.state.walmartSelected === true){
-      this.pointOfInterestAPI("walmart", "blue");
+      this.pointOfInterestAPI("walmart", "lightblue");
     }
     if(this.state.campsiteSelected === true){
-      this.pointOfInterestAPI("campsite", "green");
+      this.pointOfInterestAPI("campsite", "tan");
     }
   }
 
@@ -393,10 +402,10 @@ class MapPage extends Component {
 //      path: 'M 125,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90 z',
       path: 'M -30 -10, 30 -10, 30 10, 5 10, 0 20, -5 10, -30 10 z',
       fillColor: `${color}`,
-      fillOpacity: 0.6,
+      fillOpacity: 1,
       scale: 1,
       strokeColor: `${color}`,
-      strokeWeight:2
+      strokeWeight:1
     };
 
     let post = {
@@ -405,7 +414,7 @@ class MapPage extends Component {
       "distance": parseInt(this.state.pointOfInterestDistance)
     }
   
-    axios.post(`https://rv-nav-clearance.com/fetch_${type}`, post)
+    axios.post(`https://dr7ajalnlvq7c.cloudfront.net/fetch_${type}`, post)
       .then(res => {
         if(res){
           res.data.map(e => {
@@ -437,9 +446,14 @@ class MapPage extends Component {
         {/* <Nav /> */}
         <div className="open-button-wrap">
           <i className="fas fa-arrow-circle-right" onClick={this.toggleSidebar}   ></i>
-          <NavLink className="logout-btn" to="/">{localStorage.token ? `Log Out` : `Login / Signup`}</NavLink>
+          
+          <NavLink  to="/">
+          <Button className="logout-btn"variant="warning">{localStorage.token ? `Log Out` : `Login / Signup`}</Button>
+          </NavLink>
+          
         </div>
         <Sidebar
+          textDirections={this.state.textDirections}
           toggle={this.toggle}
           walmartSelected={this.state.walmartSelected}
           campsiteSelected={this.state.campsiteSelected}
