@@ -57,7 +57,11 @@ export class Sidebar extends Component {
                         </div>
                         
                         <div className={`${this.state.routing}`}>
-                        <RoutingForm  
+                        <RoutingForm
+                        toggle={this.props.toggle}
+                        walmartSelected={this.props.walmartSelected}  
+                        campsiteSelected={this.props.campsiteSelected}  
+                        pointOfInterestDistance={this.props.pointOfInterestDistance}  
                         loading={this.props.loading} 
                         arcRoute={this.props.arcRoute}
                         onChangeHandler={this.props.onChangeHandler}
