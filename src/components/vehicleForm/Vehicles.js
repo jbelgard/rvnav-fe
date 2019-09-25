@@ -56,7 +56,7 @@ class Vehicles extends React.Component {
         //console.log("vehicle e", e)
         return(
         <div className={`vehicle-tabs ${e.id === this.props.selected_id && `highlight`}`}>
-        {e.id === this.props.selected_id ? <> <p className="select-text">selected for routing</p> <Button className="select-btn" variant="warning" onClick={() => {this.deselect(e.id)}}>deselect</Button> </>: <Button className="select-btn" variant="warning" onClick={() => {this.selected(e.id)}}>select</Button>}
+        {e.id === this.props.selected_id ? <> <p className="select-text">selected for routing</p> <Button className="select-btn" variant="warning" onClick={() => {this.deselect(e.id)}}>Deselect</Button> </>: <Button className="select-btn" variant="warning" onClick={() => {this.selected(e.id)}}>Select</Button>}
         
         
         

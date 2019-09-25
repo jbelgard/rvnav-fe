@@ -11,7 +11,7 @@
 }
 
 .open{
-    width: 391px;
+    width: 360px;
 }
 .overlay-content {
     position: relative;
@@ -38,10 +38,10 @@
 }
 
 .fa-arrow-circle-left{
-    margin: 15px 0 10px 70%;
-    background-color: black;
+    margin: 8px 0 8px 85%;
+    background-color: #0f0f0f;
     color: white;
-    font-size: 2.6rem;
+    font-size: 2.1rem;
 }
 .fa-arrow-circle-left:hover{
     cursor:pointer;
@@ -49,10 +49,15 @@
 
 .sidebar-tab{
     color: white;
-    background-color: grey;
+    background-color: #6C757D;
     margin: 1px;
     padding: 8px;
     white-space: nowrap;
+}
+@media(max-width: 500px){
+    .sidebar-tab{
+        padding: 8px 3px;
+    }
 }
 .sidebar-tabs{
     display: flex;
@@ -64,7 +69,7 @@
 }
 .selected{
     color: white;
-    background-color: grey;
+    background-color: #6C757D;
     border-bottom: 3px solid #ffc107;
     margin: 1px;
     padding: 8px 8px 5px 8px;
@@ -100,20 +105,20 @@
 
 
 
-@media (max-width: 900px){
+/* @media (max-width: 900px){
     .open{
         width: 320px;
     }
     #route-button{
        margin-left: 60px; 
     }
-}
-@media (max-width: 600px){
+} */
+@media (max-width: 500px){
     .open{
-        width: 400px;
+        width: 265px;
     }
     #route-button{
-        margin-left: 180px; 
+        margin-left: 100px; 
      }
 }
 

@@ -1,26 +1,22 @@
 .vehicle-tabs{
   color: white;
-  background-color: grey;
+  background-color: #6C757D;
   margin: 20px;
-  padding: 12px;
+  padding: 8px;
   border-radius: 8px;
   display: flex;
-  width: 80%;
+  width: 90%;
   flex-direction: column;
 }
 
 .vehicle-tabs > div > form{
-  background:lightgrey;
+  background-color: #0f0f0f;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 }
 
-.expand-vehicle-icon{
-  color: darkgrey;
-  margin: 0 20px;
-}
 .highlight{
   border: 3px solid #ffc107;
   position: relative;
@@ -33,9 +29,11 @@ p{
 }
 .select-btn{
   width: 100px;
-  align-self: center;
+  align-self: start;
   padding: 0;
   margin-bottom: 10px;
+  margin-left: 4px;
+  margin-top: 6px;
 }
 .vehicle-btn{
   margin: 4px;
@@ -57,4 +55,6 @@ p{
 }
 .vehicle-information{
   font-size: 1.2rem;
+  align-self: start;
+  margin-left: 4px;
 }

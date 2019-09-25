@@ -19,7 +19,7 @@ const RoutingForm = (props) => {
 
         <>
         <div className="routing-with">
-        <p>{`you are routing with`}</p>
+        <p>You are routing with</p>
         <span>{`${name}`}</span>
         </div>
         <form className="route-form" onSubmit={(event) => {
@@ -30,7 +30,7 @@ const RoutingForm = (props) => {
         <Form.Control className="route-input" id="end" required type="text"  placeholder="end" name="end" value={props.end} onChange={props.routeChangeHandler}/>
         <Accordion className="POI-accordion">
           <Accordion.Toggle className="POI-dropdown" as={Card.Header} eventKey="2">
-            <p>Search points of interest for destination</p>
+            <p>Search destination points of interest</p>
           </Accordion.Toggle>
           <Accordion.Collapse eventKey="2">
           {/* <Form>

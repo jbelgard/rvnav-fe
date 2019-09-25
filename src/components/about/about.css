@@ -4,7 +4,7 @@ Code snippet by maridlcrmn (Follow me on Twitter @maridlcrmn) for Bootsnipp.com
 */
 
 #header {
-    background-color: black;
+    background-color: #0f0f0f;
     padding: 5px 10px;
     color: white;
     text-align: center;
@@ -16,7 +16,7 @@ Code snippet by maridlcrmn (Follow me on Twitter @maridlcrmn) for Bootsnipp.com
     transition: 0.2s;
 }
 body {
-    background-color: black;
+    background-color: #0f0f0f;
 }
 /********************************/
 /*       Fade Bs-carousel       */
@@ -31,8 +31,8 @@ body {
 }
 .fade-carousel .carousel-indicators > li {
     margin: 0 2px;
-    background-color: #f39c12;
-    border-color: #f39c12;
+    background-color: #ffc107;
+    border-color: #ffc107;
     opacity: .7;
 }
 .fade-carousel .carousel-indicators > li.active {
