@@ -74,6 +74,15 @@ const RoutingForm = (props) => {
       </form>
       </>
       <p className="route-loading">{props.loading}</p>
+      <div className="directions">
+        <p>Directions</p>
+        {props.textDirections.map(e => {
+            return(
+            <p className="instruction">- {e}</p>
+            )
+          })
+        }
+      </div>
       </div>
     )
 }

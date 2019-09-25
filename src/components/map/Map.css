@@ -84,3 +84,15 @@
   margin: 0;
   padding: 0;
 }
+.directions{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: start;
+  padding-left: 20px;
+}
+.instruction{
+  align-self: start;
+  align-content: start;
+  align-items: start;
+}

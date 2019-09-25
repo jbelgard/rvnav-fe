@@ -24,7 +24,8 @@ class MapPage extends Component {
       loading: "", 
       walmartSelected: false,
       campsiteSelected: false, 
-      pointOfInterestDistance: 5
+      pointOfInterestDistance: 5, 
+      textDirections: []
     }
   }
   
@@ -141,7 +142,14 @@ class MapPage extends Component {
           //this.state.Coordinates[i] = Coordinate;
         }
         console.log("coords array after loop (w/barriers)", this.state.Coordinates);
-
+        let directionsResArr = res.data.directions[0].features;
+        console.log("directions res arr", directionsResArr)
+        let newDirectionsArray = [];
+        for(let i = 0; i < directionsResArr.length; i++){
+           newDirectionsArray.push (directionsResArr[i].attributes.text);
+        }
+        console.log('directions array', newDirectionsArray);
+        this.setState({textDirections: newDirectionsArray})
 
         //NOTE: the following loop will display markes for all the low clearance trianges on the map
         //it is commented out as it makes the UI cluttered for the user, but it probably SHOULD NOT BE DELETED unless another dev tool has been made to replace it
@@ -440,6 +448,7 @@ class MapPage extends Component {
           <NavLink className="logout-btn" to="/">{localStorage.token ? `Log Out` : `Login / Signup`}</NavLink>
         </div>
         <Sidebar
+          textDirections={this.state.textDirections}
           toggle={this.toggle}
           walmartSelected={this.state.walmartSelected}
           campsiteSelected={this.state.campsiteSelected}
