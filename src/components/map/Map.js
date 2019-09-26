@@ -252,6 +252,7 @@ class MapPage extends Component {
         if(e.id === this.props.selected_id){
             heightOfSelectedVehicle = e.height;
         }
+        return heightOfSelectedVehicle;
       })
     }
     let bridgePost = { //sends low bridges a long a route
@@ -478,6 +479,7 @@ function loadScript(url) {
   script.defer = true
   index.parentNode.insertBefore(script, index)
 }
+
 const mapStateToProps = state => ({
   vehicles: state.vehicles,
   selected_id: state.selected_id
