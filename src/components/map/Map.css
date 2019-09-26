@@ -79,10 +79,9 @@
   border: 2px solid #6C757D;
   border-radius: 16px;
 }
-/* .search-distance-input{
-  display: flex;
-  flex-direction: column;
-} */
+.POI-accordion:hover{
+  cursor: pointer;
+}
 .search-distance-label{
   font-size: .8rem;
   margin: 0;

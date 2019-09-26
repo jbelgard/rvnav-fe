@@ -361,7 +361,7 @@ class MapPage extends Component {
 
         polyPath.setMap(this.state.map);
 
-        this.setState({loading: "success"})
+        this.setState({loading: "routing successful"})
       })
       .catch(err => {
         this.setState({loading: "problem making final route, please try again"})
