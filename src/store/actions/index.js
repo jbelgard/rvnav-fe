@@ -127,6 +127,10 @@ export const getVehicles = () => {
 };
 
 export const updateVehicle = (value, id) => {
+  window.gtag("event", "update vehicle", {
+    event_category: "update",
+    event_label: "update vehicle"
+  });
   return dispatch => {
     dispatch({ type: LOADING });
     return axios
@@ -159,6 +163,10 @@ export const updateVehicle = (value, id) => {
   };
 };
 export const deleteVehicles = (id) => {
+  window.gtag("event", "delete vehicle", {
+    event_category: "delete",
+    event_label: "delete vehicle"
+  });
   return dispatch => {
     dispatch({ type: LOADING });
     return axios
