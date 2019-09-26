@@ -70,7 +70,6 @@ Using several available data sources integrated into a map thats designed for RV
 - Easy to setup
 - Easy to manage
 
-🚫 List the rest of the back end end features and libraries in the same format as the framework above
 
 # APIs
 
@@ -82,31 +81,12 @@ Used to plot polyline routing, includes avoidance points.
 
 Used for the Map rendered to the screen, as well as the users Geolocation.
 
-# 3️⃣ Environment Variables
+# Environment Variables
 
 In order for the app to function correctly, the user must set up their own environment variables. There should be a .env file containing the following:
 
-🚫These are just examples, replace them with the specifics for your app
-
-    *  REACT_APP_apiKey - this is your Google API key, which can be generated in the Google Cloud Console
-    *  REACT_APP_authDomain - when you set up your Firebase project, this information will be in the dashboard
-    *  REACT_APP_databaseURL - in the Firebase dashboard
-    *  REACT_APP_projectID - in the Firebase dashboard
-    *  REACT_APP_storageBucket - in the Firebase dashboard
-    *  REACT_APP_messagingSenderId - in the Firebase dashboard
-    *  REACT_APP_stripe_API - this is your public Stripe API key, generated in the Stripe dashboard
-    *  REACT_APP_backendURL - optional for your local development server
-    *  REACT_APP_clientid - this is the Stripe_connect clientID, generated in Stripe_connect settings
-    *  REACT_APP_stripe_plan - this is the ID for a second Stripe subscription plan, generated under Stripe products
-
-# Content Licenses
-
-🚫For all content - images, icons, etc, use this table to document permission of use. Remove the two placeholders and add you content to this table
-
-| Image Filename | Source / Creator | License                                                                      |
-| -------------- | ---------------- | ---------------------------------------------------------------------------- |
-| doodles.png    | Nicole Bennett   | [Creative Commons](https://www.toptal.com/designers/subtlepatterns/doodles/) |
-| rings.svg      | Sam Herbert      | [MIT](https://github.com/SamHerbert/SVG-Loaders)                             |
+    *  REACT_APP_GOOGLEMAP - this ket enables the use of Google maps api
+    *  REACT_APP_ARC_KEY - this key enables the use of the Arcgis Api
 
 # Testing
 
@@ -124,7 +104,6 @@ Sign in using RV Nav gmail credentials. Global site tag is located in index.html
 
 ## Other Scripts
 
-🚫replace these examples with your own
 
     * build - creates a build of the application
     * start - starts the production server after a build is created
