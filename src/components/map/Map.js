@@ -36,6 +36,11 @@ class MapPage extends Component {
   }
 
   toggleSidebar = () => {
+    //Google analytics tracking
+    window.gtag("event", "sidebar toggle", {
+      event_category: "sidebar",
+      event_label: "sidebar toggle"
+    });
     this.setState({ sidebarOpen: !this.state.sidebarOpen })
   }
 
@@ -421,6 +426,11 @@ class MapPage extends Component {
 
   //toggles a value when point of interest button is clicked
   toggle = (stateKey) => {
+    //Google analytics tracking
+    window.gtag("event", "checking points of interest", {
+      event_category: "points of interest",
+      event_label: "checking points of interest"
+    });
     console.log(stateKey)
     this.setState({
       [stateKey]: !this.state[stateKey]

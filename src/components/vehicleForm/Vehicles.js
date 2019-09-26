@@ -35,9 +35,19 @@ class Vehicles extends React.Component {
   }
 
   selected = (id) => {
+    //Google analytics tracking
+    window.gtag("event", "select vehicle", {
+      event_category: "select",
+      event_label: "select vehicle"
+    });
     this.props.selectVehicle(id);
   }
   deselect = () => {
+    //Google analytics tracking
+    window.gtag("event", "deselect vehicle", {
+      event_category: "select",
+      event_label: "deselect vehicle"
+    });
     this.props.selectVehicle(null);
   }
 

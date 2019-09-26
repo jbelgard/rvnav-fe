@@ -11,24 +11,21 @@
 }
 
 .image-link {
-  width: 100%;
+  width: 80px;
   position: fixed;
-  display: flex;
-  justify-content: flex-start;
+  left: 20px;
   padding-top: 20px;
-  padding-left: 20px;
 }
 
 .logo-image {
   width: 80px;
-  /* justify-content: flex-start; */
 }
+
 .form-wrapper {
   width: 400px;
   display: flex;
   flex-direction: column;
   margin-top: 7.5%;
-  /* align-content: center; */
 }
 .top-buttons {
   display: flex;
@@ -92,6 +89,7 @@ form button {
 @media (max-width: 600px) {
 
   .image-link {
+    width: 100%;
     position: static;
   }
 

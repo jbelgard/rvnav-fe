@@ -5,18 +5,12 @@ import "./Auth.css";
 import { Link } from "react-router-dom";
 import icon from "../../assets/img/rvnav.png";
 
-
 export default class Auth extends Component {
   state = {
     login: true
   };
 
-  //these 2 functions toggle the login and register forms based on which is clicked
   toggleLogin = () => {
-    this.setState({ login: true });
-  };
-  toggleRegister = () => {
-    this.setState({ login: false });
   };
   render() {
     return (
@@ -24,7 +18,7 @@ export default class Auth extends Component {
         {/* <Nav /> */}
         <div className="auth-wrapper">
           <Link to="/" className="image-link">
-              <img className="logo-image" src={icon} alt="logo" />
+            <img className="logo-image" src={icon} alt="logo" />
           </Link>
           <div className="form-wrapper">
             <div className="top-buttons">
@@ -43,12 +37,16 @@ export default class Auth extends Component {
             </div>
             {this.state.login ? <Login /> : <Register />}
           </div>
-          <Link to="/" className="about">
+          <a
+            href="/aboutus.html"
+            className="about"
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+          >
             About the team
-          </Link>
+          </a>
         </div>
       </>
     );
   }
 }
-

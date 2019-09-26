@@ -3,6 +3,11 @@
   color: white;
   margin: 2px 0;
 }
+
+.fa-arrow-circle-right:hover {
+  cursor: pointer;
+}
+
 .open-button-wrap{
   background-color: #0f0f0f;
   display: flex;
@@ -74,6 +79,7 @@
   }
 }
 .POI-accordion{
+  border: 1px solid blue;
   margin: -16px 0 0 0;
   padding: 8px;
   border: 2px solid #6C757D;

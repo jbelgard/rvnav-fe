@@ -24,6 +24,7 @@ export function clearError() {
 }
 
 export const register = creds => {
+  
   return dispatch => {
     dispatch({ type: LOADING });
     return axios
@@ -82,6 +83,11 @@ export const register = creds => {
  };
 
 export const logout = () => {
+  //Google analytics tracking
+  window.gtag("event", "logout", {
+    event_category: "access",
+    event_label: "logout"
+  });
   return {type: LOGOUT}
 }
 
@@ -124,6 +130,11 @@ export const getVehicles = () => {
 };
 
 export const updateVehicle = (value, id) => {
+  //Google analytics tracking
+  window.gtag("event", "update vehicle", {
+    event_category: "update",
+    event_label: "update vehicle"
+  });
   return dispatch => {
     dispatch({ type: LOADING });
     return axios
@@ -156,6 +167,11 @@ export const updateVehicle = (value, id) => {
   };
 };
 export const deleteVehicles = (id) => {
+  //Google analytics tracking
+  window.gtag("event", "delete vehicle", {
+    event_category: "delete",
+    event_label: "delete vehicle"
+  });
   return dispatch => {
     dispatch({ type: LOADING });
     return axios

@@ -58,6 +58,7 @@ class LoginForm extends React.Component {
 
   loginSubmit = event => {
     event.preventDefault();
+    //Google analytics tracking
     window.gtag("event", "login", {
       event_category: "access",
       event_label: "login"
