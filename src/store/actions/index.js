@@ -85,6 +85,10 @@ export const register = creds => {
  };
 
 export const logout = () => {
+  window.gtag("event", "logout", {
+    event_category: "access",
+    event_label: "logout"
+  });
   return {type: LOGOUT}
 }
 

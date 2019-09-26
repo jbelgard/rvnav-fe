@@ -38,6 +38,10 @@ class MapPage extends Component {
   }
 
   toggleSidebar = () => {
+    window.gtag("event", "sidebar toggle", {
+      event_category: "sidebar",
+      event_label: "sidebar toggle"
+    });
     this.setState({ sidebarOpen: !this.state.sidebarOpen })
   }
 
@@ -81,7 +85,7 @@ class MapPage extends Component {
    
   }
 
-  initRoute = () => {  
+  initRoute = () => {
     this.setMapToState();
     this.setState({loading: "routing"})
     console.log("lenght for markers loop", this.state.polygonsArray.length);
@@ -433,6 +437,10 @@ class MapPage extends Component {
   }
 
   toggle = (stateKey) => {
+    window.gtag("event", "checking points of interest", {
+      event_category: "points of interest",
+      event_label: "checking points of interest"
+    });
     console.log(stateKey)
     this.setState({
       [stateKey]: !this.state[stateKey]
