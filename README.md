@@ -96,6 +96,12 @@ Cypress.io, very easy way to test app functionality.
 
 Run yarn install or NPM install to download all of the needed dependencies.
 
+# Google Analytics tracking
+
+https://analytics.google.com/analytics/web/#/report-home/a146265608w208349968p200888715
+
+Sign in using RV Nav gmail credentials. Global site tag is located in index.html on lines 44-56.
+
 ## Other Scripts
 
 

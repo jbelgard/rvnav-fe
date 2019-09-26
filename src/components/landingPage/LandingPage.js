@@ -15,7 +15,7 @@ class LandingPage extends Component {
     return (
       <div className="landing-page-wrapper">
         <div className="button-container">
-          <Link to="/map">
+          <Link to="/map" >
             <Button variant="light">Use as guest</Button>
           </Link>
           <Link to="/auth">
