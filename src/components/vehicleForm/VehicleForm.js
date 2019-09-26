@@ -35,8 +35,9 @@ class VehicleForm extends React.Component {
   }
   
   componentDidMount(){
+    //checks if we are coming from the vehicles tab and therefore if we are editing
     if(this.props.editing){
-  
+      //assigns prefill values of previous entry for the form if we are editing
       this.setState({
         specifications: {
           name: this.props.currentVehicle.name,
@@ -55,6 +56,7 @@ class VehicleForm extends React.Component {
     }
   }
 
+  //handles input of numbers and converts into the right data type of int
   handleChange = (event) => {
     this.setState({
         specifications: {
@@ -63,6 +65,8 @@ class VehicleForm extends React.Component {
         }
     })
   }
+
+  //handles text only input
   handleText = (event) => {
     this.setState({
         specifications: {
@@ -71,6 +75,8 @@ class VehicleForm extends React.Component {
         }
     })
   }
+
+  //assigns state to a value based on whether a box is checked
   handleCheck = (event) => {
     //const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
     this.setState({
@@ -80,6 +86,8 @@ class VehicleForm extends React.Component {
      }
     }) 
   }
+
+  //assigns state to a value based on which radio button has been clicked
   handleRadio = (event) => {
     //const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
     this.setState({
@@ -89,6 +97,9 @@ class VehicleForm extends React.Component {
      }
     }) 
   }
+
+  //occurs when the submit button is clicked
+  //converts inputs from user to correct values to send to the backend, then send them
   vehicleSubmit = (event) => {
     
     event.preventDefault();
@@ -110,12 +121,15 @@ class VehicleForm extends React.Component {
     if(axel_count === ""){
       axel_count = 0;
     } 
+    //make sure all values entered are sent as the correct data type to the back end
     parseFloat(height);
     parseFloat(length);
     parseFloat(width);
     parseFloat(weight);
     parseInt(axel_count);
     
+    //send is the object that is sent to the web backend to be stored
+    //it is made using values from the form, some of which are processed and converted before being assigned to the keys here
     let send = {
       name: this.state.specifications.name,
       height: height,
@@ -155,7 +169,7 @@ class VehicleForm extends React.Component {
   }
 
 
-
+  //combines feet and inch units into feet only, to be sent to the backend
   combineDistanceUnits = (inchesIn, feetIn) => {
     let inches = inchesIn;
     let feet = feetIn;

@@ -11,11 +11,7 @@ export default class Auth extends Component {
     login: true
   };
 
-
-  componentDidMount() {
-
-  }
-
+  //these 2 functions toggle the login and register forms based on which is clicked
   toggleLogin = () => {
     this.setState({ login: true });
   };

@@ -14,6 +14,7 @@ export class Sidebar extends Component {
 
     closeVehicleForm = () => this.setState ({vehicleForm: "off", vehicles: "on"})
 
+    //selects the tab when it is clicked on, deselects all others
     buttonSelect = (event) => {
         console.log("event", event.target);
         this.setState({

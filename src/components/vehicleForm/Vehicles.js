@@ -16,31 +16,24 @@ class Vehicles extends React.Component {
   }
 
   componentDidMount(){
-    this.props.getVehicles()
-      // .then(res => {    
-      //   if(res && this.props.vehicles.vehicles ){
-          
-      //    }  
-      // })
+    this.props.getVehicles();
   }
-  // componentDidUpdate(prevProps){
-  //   if(prevProps.vehicles.vehicles && prevProps.vehicles.vehicles.length != this.props.vehicles.vehicles.length){
-  //     this.props.selectVehicle(this.props.vehicles.vehicles[0].id);   
-  //   }
-  // }
 
+  //checks if the edit button on a vehicle has been clicked
   editVehicleToggle = (id) => {
     this.setState({
       id,
       editing: !this.state.editing
     })
   }
+
   clearForm = () => {
     this.setState({
       id: null, 
       editing: false
     })
   }
+
   selected = (id) => {
     this.props.selectVehicle(id);
   }
@@ -57,9 +50,7 @@ class Vehicles extends React.Component {
         return(
         <div className={`vehicle-tabs ${e.id === this.props.selected_id && `highlight`}`}>
         {e.id === this.props.selected_id ? <> <p className="select-text">selected for routing</p> <Button className="select-btn" variant="warning" onClick={() => {this.deselect(e.id)}}>Deselect</Button> </>: <Button className="select-btn" variant="warning" onClick={() => {this.selected(e.id)}}>Select</Button>}
-        
-        
-        
+
         <div className="vehicle-txt">
         <p className="vehicle-information">Vehicle Information</p>
         <p className="vehicle-name">name - {e.name}</p>
