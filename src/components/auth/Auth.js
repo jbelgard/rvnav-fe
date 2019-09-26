@@ -10,13 +10,7 @@ export default class Auth extends Component {
     login: true
   };
 
-  componentDidMount() {}
-
   toggleLogin = () => {
-    this.setState({ login: true });
-  };
-  toggleRegister = () => {
-    this.setState({ login: false });
   };
   render() {
     return (

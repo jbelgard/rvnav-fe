@@ -24,11 +24,6 @@ class LoginForm extends React.Component {
     };
   }
 
-  componentDidMount() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("id");
-  }
-
   handleChange = event => {
     event.preventDefault();
     const { name, value } = event.target;

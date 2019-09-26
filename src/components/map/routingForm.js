@@ -6,17 +6,17 @@ import Card from 'react-bootstrap/Card';
 import { connect } from "react-redux";
 
 const RoutingForm = (props) => {
+    //changes "you are routing with" message at the top of the routing form
     let name = "no vehicle";
     props.vehicles.vehicles && props.vehicles.vehicles.map( e => {
       if(e.id === props.selected_id){
          name = e.name;
       }
+      return name;
     })
 
     return (
       <div>
-        
-
         <>
         <div className="routing-with">
         <p>You are routing with</p>
@@ -33,12 +33,6 @@ const RoutingForm = (props) => {
             <p>Search destination points of interest</p>
           </Accordion.Toggle>
           <Accordion.Collapse eventKey="2">
-          {/* <Form>
-          <Form.Group>
-            <Form.Label>ok</Form.Label>
-
-          </Form.Group>
-          </Form> */}
             <div className="point-of-interest-options">
             <Form.Group className="search-distance-input">
               <Form.Label className="search-distance-label">distance, miles</Form.Label>
@@ -48,9 +42,7 @@ const RoutingForm = (props) => {
               name='pointOfInterestDistance'
               placeholder="0"
               value={props.pointOfInterestDistance}
-              onChange={props.routeChangeHandler}
-              >
-
+              onChange={props.routeChangeHandler}>
               </Form.Control>
             </Form.Group>
               <Button variant="secondary" 

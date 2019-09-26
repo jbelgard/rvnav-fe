@@ -8,7 +8,7 @@ import { logout } from "../../store/actions";
 
 class LandingPage extends Component {
   componentDidMount() {
-    this.props.logout();
+    this.props.logout(); //destroys user creds when this page is loaded, this is where the logout button links to
   }
 
   render() {
