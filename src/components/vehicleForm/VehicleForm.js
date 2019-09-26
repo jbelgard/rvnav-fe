@@ -92,6 +92,7 @@ class VehicleForm extends React.Component {
   vehicleSubmit = (event) => {
     
     event.preventDefault();
+    //Google analytics tracking
     window.gtag("event", "create vehicle", {
       event_category: "submit",
       event_label: "create vehicle"
