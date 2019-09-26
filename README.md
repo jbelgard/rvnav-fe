@@ -1,10 +1,9 @@
-# 1️⃣ RV Navigator
+# RV Navigator
 
-1️⃣ You can find the deployed project at https://www.rvnav.com/ .
+You can find the deployed project at https://www.rvnav.com/ .
 
-## 4️⃣ Contributors
+## Contributors
 
-🚫Add contributor info below, make sure add images and edit the social links for each member. Add to or delete these place-holders as needed
 
 |                                                      [Sean Pheneger](https://github.com/wcolts2000)                                                       |                                                       [Latwan Wesley](https://github.com/lwesley92)                                                        |                                                      [Blake Mitchell](https://github.com/BlakeAnd)                                                       |                                                       [Jason Belgard](https://github.com/jbelgard)                                                        |                                                      [Kevin Sims](https://github.com/kevinsims1) 
 | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
@@ -25,7 +24,6 @@
 <br>
 <br>
 
-🚫 4️⃣ Optional examples of using images with links for your tech stack, make sure to change these to fit your project
 
 ![MIT](https://img.shields.io/packagist/l/doctrine/orm.svg)
 ![React](https://img.shields.io/badge/react-v16.7.0--alpha.2-blue.svg)
@@ -33,86 +31,56 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/b5c4db1c-b10d-42c3-b157-3746edd9e81d/deploy-status)](netlify link goes in these parenthesis)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-🚫 more info on using badges [here](https://github.com/badges/shields)
 
 ## Project Overview
 
-1️⃣ [Trello Board](https://trello.com/b/uPEi1KSU/labs-15-rv-life)
+[Trello Board](https://trello.com/b/uPEi1KSU/labs-15-rv-life)
 
-1️⃣ [Product Canvas](https://www.notion.so/RV-Road-Life-e8e617ec8a144c19b9fd635b330b7f49)
+[Product Canvas](https://www.notion.so/RV-Road-Life-e8e617ec8a144c19b9fd635b330b7f49)
 
-1️⃣ [UX Design files](https://www.figma.com/file/KGiH4omkur2KgDrckWclF9/%F0%9F%9A%8D-RV-Life?node-id=0%3A1)
+[UX Design files](https://www.figma.com/file/KGiH4omkur2KgDrckWclF9/%F0%9F%9A%8D-RV-Life?node-id=0%3A1)
 
 Traveling safely for RVers is difficult. RV Life will get you to where you need to go safely and with no hassle.
 
 Using several available data sources integrated into a map thats designed for RV travel, we supply you with the route you need. Trust RV Life to safely get you there.
 
-### 4️⃣ Key Features
+### Key Features
 
-- feature one
-- feature two
-- feature three
-- feature four
-- feature five
+- Avoid Low/Dangerous areas
+- Routes specific to your RV
+- Points of interest
 
-## 1️⃣ Tech Stack
+
+## Tech Stack
 
 ### Front end built using:
 
-#### _Front end framework goes here_
+#### React.js
 
-🚫 Why did you choose this framework?
+- most flexible javascript framework
 
-- point one
-- point two
-- point three
-- point four
 
-🚫List the rest of the front end features and libraries in the same format as the framework above.
+#### Front end deployed to Heroku
 
-#### Front end deployed to `🚫insert service here`
+#### [Back end](https://github.com/labs15-rv-life/backend) built using:
 
-#### [Back end](🚫link to back end repo here) built using:
+#### Node.js
 
-#### 🚫 back end framework goes here
-
-- point one
-- point two
-- point three
+- Universal
+- Easy to setup
+- Easy to manage
 
 🚫 List the rest of the back end end features and libraries in the same format as the framework above
 
 # APIs
 
-## 2️⃣ Authentication API here
+## Arcgis Api
 
-🚫Replace text below with a description of the API
+Used to plot polyline routing, includes avoidance points.
 
-Water's like me. It's laaazy ... Boy, it always looks for the easiest way to do things A little happy sunlight shining through there. Let all these little things happen. Don't fight them. Learn to use them. Even the worst thing we can do here is good.
+## Google Maps Api
 
-## 2️⃣ Payment API here
-
-🚫Replace text below with a description of the API
-
-This is the way you take out your flustrations. Get away from those little Christmas tree things we used to make in school. Isn't it fantastic that you can change your mind and create all these happy things? Everything's not great in life, but we can still find beauty in it.
-
-## 3️⃣ Misc API here
-
-🚫Replace text below with a description of the API
-
-Using google analytics for analytics tracking. Dashboard for google analytics account - https://analytics.google.com/analytics/web/#/a146265608w208349968p200888715/admin. Script tag for site tracking is located in index.html on line 41-53. Different events are tracked using window.gtag(...).
-
-## 3️⃣ Misc API here
-
-🚫Replace text below with a description of the API
-
-When you do it your way you can go anywhere you choose. Let your heart take you to wherever you want to be. If I paint something, I don't want to have to explain what it is. A tree needs to be your friend if you're going to paint him. That's a son of a gun of a cloud. Even the worst thing we can do here is good.
-
-## 3️⃣ Misc API here
-
-🚫Replace text below with a description of the API
-
-Volunteering your time; it pays you and your whole community fantastic dividends. Maybe there's a happy little waterfall happening over here. You can spend all day playing with mountains. We don't have to be committed. We are just playing here. You have freedom here. The only guide is your heart. It's cold, but it's beautiful.
+Used for the Map rendered to the screen, as well as the users Geolocation.
 
 # 3️⃣ Environment Variables
 
@@ -131,7 +99,7 @@ In order for the app to function correctly, the user must set up their own envir
     *  REACT_APP_clientid - this is the Stripe_connect clientID, generated in Stripe_connect settings
     *  REACT_APP_stripe_plan - this is the ID for a second Stripe subscription plan, generated under Stripe products
 
-# 5️⃣ Content Licenses
+# Content Licenses
 
 🚫For all content - images, icons, etc, use this table to document permission of use. Remove the two placeholders and add you content to this table
 
@@ -140,22 +108,22 @@ In order for the app to function correctly, the user must set up their own envir
 | doodles.png    | Nicole Bennett   | [Creative Commons](https://www.toptal.com/designers/subtlepatterns/doodles/) |
 | rings.svg      | Sam Herbert      | [MIT](https://github.com/SamHerbert/SVG-Loaders)                             |
 
-# 4️⃣ Testing
+# Testing
 
-🚫Document what you used for testing and why
+Cypress.io, very easy way to test app functionality.
 
-# 4️⃣ Installation Instructions
+# Installation Instructions
 
-🚫explain how to install the required dependencies to get this project up and running with yarn and NPM
+Run yarn install or NPM install to download all of the needed dependencies.
 
 ## Other Scripts
 
 🚫replace these examples with your own
 
-    * typecheck - runs the TypeScript compiler
     * build - creates a build of the application
     * start - starts the production server after a build is created
     * test - runs tests in **tests** directory \* eject - copy the configuration files and dependencies into the project so you have full control over them
+    *cypress - opens cypress gui and begins testing
 
 # Contributing
 
@@ -196,4 +164,4 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 ## Documentation
 
-See [Backend Documentation](🚫*link to your backend readme here*) for details on the backend of our project.
+See [Backend Documentation](https://github.com/labs15-rv-life/backend/blob/master/README.md) for details on the backend of our project.
