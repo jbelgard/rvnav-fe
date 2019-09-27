@@ -1,16 +1,60 @@
 .vehicle-tabs{
   color: white;
-  background-color: grey;
+  background-color: #6C757D;
   margin: 20px;
-  padding: 10px 0;
+  padding: 8px;
   border-radius: 8px;
   display: flex;
-  width: 260px;
+  width: 90%;
+  flex-direction: column;
+}
+
+.vehicle-tabs > div > form{
+  background-color: #0f0f0f;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.highlight{
+  border: 3px solid #ffc107;
+  position: relative;
+}
+.select-text{
+  color: #ffc107;
+}
+p{
+  color: white;
+}
+.select-btn{
+  width: 100px;
+  align-self: start;
+  padding: 0;
+  margin-bottom: 10px;
+  margin-left: 4px;
+  margin-top: 6px;
+}
+.vehicle-btn{
+  margin: 4px;
+  width:  100px;
+}
+.vehicle-txt{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 .vehicle-name{
-  margin: 0 auto;
+  margin: 0 0 0 20px;
+  align-self: start;
 }
-.expand-vehicle-icon{
-  color: darkgrey;
-  margin: 0 20px;
+.edit-delete{
+  display: flex;
+  flex-direction: row;
+  margin: 20px 0;
+}
+.vehicle-information{
+  font-size: 1.2rem;
+  align-self: start;
+  margin-left: 4px;
 }

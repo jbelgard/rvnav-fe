@@ -1,9 +1,16 @@
-import { LOADING, REGISTER, LOGIN, ADD_VEHICLE, GET_VEHICLE, DUPLICATE_USER, DUPLICATE_EMAIL, AUTH_ERROR, INVALID_CREDENTIALS, CLEAR_ERROR } from '../actions';
+import { LOADING, REGISTER, LOGIN, LOGOUT, ADD_VEHICLE, GET_VEHICLE, 
+  DELETE_VEHICLE,
+  DUPLICATE_USER, DUPLICATE_EMAIL, AUTH_ERROR, INVALID_CREDENTIALS, CLEAR_ERROR} from '../actions';
+
+import {
+  SELECTED
+} from "../actions/selectVehicle"
 
 const initialState = {
   data: [],
-  vehicles: [],
-  error: null
+  vehicles: {},
+  error: null,
+  selected_id: null
 };
 
 export const reducer = (state = initialState, action) => {
@@ -27,21 +34,42 @@ export const reducer = (state = initialState, action) => {
         // error: null,
         loading: false,
         data: [...state.data, { value: action.payload }]
-      };
-      case ADD_VEHICLE:
-        return {
+          };
+    case LOGOUT:
+        localStorage.removeItem("token");
+        localStorage.removeItem("id");
+        return initialState
+
+
+    case ADD_VEHICLE:
+      console.log("vehicles", state.vehicles.vehicles, action.payload)
+      let vehicles = state.vehicles.vehicles.slice();
+      vehicles.push(action.payload);
+      console.log("vehicles push",vehicles)
+            return {
           ...state,
           // error: null,
           loading: false,
-          data: [...state.data, { value: action.payload }]
+          vehicles: {vehicles: vehicles}
         };
       case GET_VEHICLE:
         return {
           ...state,
           // error: null,
           loading: false,
-          vehicles: [...state.vehicles, { vehicles: action.payload }]        
+          vehicles: {...state.vehicles, vehicles: action.payload}      
       };
+      case DELETE_VEHICLE:
+        let filteredVehicles = state.vehicles.vehicles.filter(vehicle => {
+          console.log("vehicle info", vehicle.id, action.payload)
+          return vehicle.id !== action.payload;
+        });
+        return {
+          ...state,
+          error: "error",
+          loading: false,
+          vehicles: {vehicles: filteredVehicles}
+        };
     case AUTH_ERROR:
       return {
         ...state,
@@ -71,6 +99,12 @@ export const reducer = (state = initialState, action) => {
         ...state,
         error: null
       }
+    case SELECTED:
+        console.log("reducer time")
+        return {
+          ...state,
+          selected_id: action.payload
+        }
     default:
       return state;
   }

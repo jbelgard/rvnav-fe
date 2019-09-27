@@ -3,18 +3,19 @@ import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import icon from "../../assets/img/rvnav.png";
 import "./LandingPage.css";
+import { connect } from "react-redux";
+import { logout } from "../../store/actions";
 
 class LandingPage extends Component {
   componentDidMount() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("id");
+    this.props.logout(); //destroys user creds when this page is loaded, this is where the logout button links to
   }
 
   render() {
     return (
       <div className="landing-page-wrapper">
         <div className="button-container">
-          <Link to="/map">
+          <Link to="/map" >
             <Button variant="light">Use as guest</Button>
           </Link>
           <Link to="/auth">
@@ -30,12 +31,19 @@ class LandingPage extends Component {
             our app today to get the best navigation for you and your vehicle.
           </p>
         </div>
-        <Link to="/" className="about">
-          <a>About the team</a>
-        </Link>
+        <a href = "/aboutus.html" className="about" target = "_blank" rel = "noopener noreferrer nofollow">
+          About the team
+        </a>
       </div>
     );
   }
 }
+const mapStateToProps = state => {
+return{
+selected_id: state.selected_id,
+vehicles: state.vehicles}
+}
 
-export default LandingPage;
+export default connect(
+mapStateToProps, {logout}
+)(LandingPage)

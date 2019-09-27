@@ -11,24 +11,21 @@
 }
 
 .image-link {
-  width: 100%;
+  width: 80px;
   position: fixed;
-  display: flex;
-  justify-content: flex-start;
+  left: 20px;
   padding-top: 20px;
-  padding-left: 20px;
 }
 
 .logo-image {
   width: 80px;
-  /* justify-content: flex-start; */
 }
+
 .form-wrapper {
   width: 400px;
   display: flex;
   flex-direction: column;
   margin-top: 7.5%;
-  /* align-content: center; */
 }
 .top-buttons {
   display: flex;
@@ -48,7 +45,7 @@ label {
 }
 
 form {
-  background: rgb(10, 10, 10, 0.6);
+  background-color: rgb(15, 15, 15, 0.6);
   text-align: left;
   padding: 16px;
   border-top: 0;
@@ -67,16 +64,16 @@ form button {
   letter-spacing: 1.25px;
   cursor: pointer;
   width: 50%;
-  background-color: rgb(10, 10, 10, 0.6);
+  background-color: rgb(15, 15, 15, 0.6);
   color: #ffc107;
   margin: 0;
   padding: 20px 0 17.5px;
-  border-bottom: 0.5px grey solid;
+  border-bottom: 0.5px #6C757D solid;
 }
 
 .active-tab {
   border-bottom: 2px solid #ffc107;
-  background: rgb(10, 10, 10, 0.6);
+  background-color: rgb(15, 15, 15, 0.6);
   padding: 20px 0;
 }
 
@@ -92,6 +89,7 @@ form button {
 @media (max-width: 600px) {
 
   .image-link {
+    width: 100%;
     position: static;
   }
 
@@ -117,4 +115,9 @@ form button {
   .top-buttons p {
     width: 100%;
   }
+}
+.auth-loading{
+  font-size: 4rem;
+  margin: 40px;
+  color: #ffc107
 }

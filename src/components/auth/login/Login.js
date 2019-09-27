@@ -19,13 +19,9 @@ class LoginForm extends React.Component {
           username: "",
           password: ""
         }
-      }
+      },
+      loading: false
     };
-  }
-
-  componentDidMount() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("id");
   }
 
   handleChange = event => {
@@ -62,13 +58,16 @@ class LoginForm extends React.Component {
 
   loginSubmit = event => {
     event.preventDefault();
+    //Google analytics tracking
     window.gtag("event", "login", {
       event_category: "access",
       event_label: "login"
     });
+    this.setState({loading:true});
     return this.props
       .login(this.state.credentials)
       .then(res => {
+        this.setState({loading:false});
         this.setState({
           username: "",
           password: ""
@@ -89,17 +88,19 @@ class LoginForm extends React.Component {
         // }
       })
       .catch(err => {
-        console.log(err);
+        this.setState({loading:false});
+        console.log("login err", err);
       });
   };
 
   render() {
     const { errors } = this.state.credentials;
-    const isEnabled =
-      this.state.credentials.username.length >= 5 &&
-      this.state.credentials.password.length >= 8;
+    // const isEnabled = this.state.credentials.username.length >= 5 && this.state.credentials.password.length >= 8;
     return (
+       
       <div>
+  {this.state.loading === true ? <p className="auth-loading">Loading...</p> :
+
         <Form onSubmit={this.loginSubmit}>
           {this.props.error === "Invalid username or password" ? (
             <p className="error">Invalid username or password</p>
@@ -131,11 +132,13 @@ class LoginForm extends React.Component {
               <p className="error">{errors.password}</p>
             )}
 
-            <Button variant="warning" type="submit" disabled={!isEnabled}>
+            <Button variant="warning" type="submit" >
               Submit
             </Button>
           </Form.Group>
         </Form>
+
+            }
       </div>
     );
   }
