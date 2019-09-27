@@ -3,7 +3,7 @@ import Login from "./login/Login";
 import Register from "./register/Register";
 import "./Auth.css";
 import { Link } from "react-router-dom";
-import icon from "../../assets/img/rvnav.png"
+import icon from "../../assets/img/rvnav.png";
 import Nav from "../nav/Nav";
 import Button from "react-bootstrap/Button";
 
@@ -12,10 +12,9 @@ export default class Auth extends Component {
     login: true
   };
 
-
   componentDidMount() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('id');
+    localStorage.removeItem("token");
+    localStorage.removeItem("id");
   }
 
   toggleLogin = () => {
@@ -30,7 +29,7 @@ export default class Auth extends Component {
         {/* <Nav /> */}
         <div className="auth-wrapper">
           <Link to="/" className="image-link">
-              <img className="logo-image" src={icon} alt="logo" />
+            <img className="logo-image" src={icon} alt="logo" />
           </Link>
           <div className="form-wrapper">
             <div className="top-buttons">
